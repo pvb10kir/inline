@@ -357,7 +357,7 @@ bot.changeChatMemberStatus(chat, user, "Kicked")
   end
 	if type == "mute" then
     if is_muted(msg.chat_id_,user) then else
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '>کاربر ['..user..'] به دلیل به حداقل رسیدن دریافت اخطار به حالت سکوت انتقال داده شد.,'md')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '>کاربر ['..user..'] به دلیل به حداقل رسیدن دریافت اخطار به حالت سکوت انتقال داده شد.','md')
       end
   db:sadd(SUDO..'mutes'..msg.chat_id_,user)
 	end
