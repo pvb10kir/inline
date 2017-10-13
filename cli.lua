@@ -158,6 +158,13 @@ function kick(msg,chat,user)
     end
   end
   ------------------------------------------------------------
+local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
+	local jdat = json:decode(url)
+if text:match('[!/#](.*)') and jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
+ print('Not valid: Channel not found')
+return false
+else
 function ban(msg,chat,user)
   if tonumber(user) == tonumber(bot_id) then
     return false
@@ -1111,13 +1118,7 @@ end
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>از لیست ادمین های ربات حذف گردید.</code>', 1, 'html')
       end	 
         end
-local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
-	local jdat = json:decode(url)
-if text:match('[!/#](.*)') and jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
-bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
- print('Not valid: Channel not found')
-return false
-else
+
 
 --bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
  -- print('Not valid: Channel not found')
@@ -2057,7 +2058,7 @@ help = [[متن راهنمای مالک ربات ثبت نشده است.]]
   end
   end
   
-  
+  end
   ----end check gp ----------
   end
   end
