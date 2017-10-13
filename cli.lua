@@ -876,6 +876,7 @@ if text and text:match('^info') then
 	if not name then 
     name = '----'
 	end 
+	end
 	local lastname = db:hget('mehti:info'..user, 'lname') 
 	if not lastname then 
 	lastname = '----'
