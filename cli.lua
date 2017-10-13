@@ -458,12 +458,19 @@ else
 if chat_type == 'super' then
 --------------------------gp add -------------------------
 if text == 'install' and is_sudoers(msg) then
+if db:get('bot:gps', msg.chat_id_) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group is Already In Added! | قبلا اضافه شده است!</code>\nربات از قبل در این گروه فعال است.\n> @SpheroNews', 1, 'html')
+else
 db:sadd('bot:gps', msg.chat_id_)
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group Added! | انجام شد</code>\nربات با موفقیت در گروه نصب شد.\nلذا برای فعال شدن ربات در گروه باید لینک گروه را ارسال کنید\nنمونه:\n/glink https://t.me/joinchat/DzfXhkKXqCI2KiGTRhhfAw\n> @SpheroNews', 1, 'html')
-end 
+end
 	end
+end
 --------------------------rem add -------------------------
 if text == 'uninstall' and is_sudoers(msg) then
+if not db:get('bot:gps', msg.chat_id_) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group is Not Added! | از قبل ادد نشده است.!</code>\nربات قبلا در این گروه ادد نشده است.\n> @SpheroNews', 1, 'html')
+else			
 db:srem('bot:gps', msg.chat_id_)
 db:del(SUDO..'mods:'..msg.chat_id_)
 db:del(SUDO..'owners:'..msg.chat_id_)
@@ -471,6 +478,7 @@ db:del(SUDO..'banned'..msg.chat_id_)
 db:del('bot:rules'..msg.chat_id_)
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> RemoVed! | انجام شد</code>\nربات به دستور ادمین غیرفعال شده و گروه خارج میشود.\n> @SpheroNews', 1, 'html')
 end
+	end
 --------------------------set link -----------------------
 if text and text:match('^glink (.*)') and is_owner(msg) then
 local link = text:match('glink (.*)')
