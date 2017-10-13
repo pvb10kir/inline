@@ -50,7 +50,7 @@ end
 -----------------------------------------------------------
 function is_master(msg) 
   local hash = db:sismember(SUDO..'masters:',msg.sender_user_id_)
-if hash or is_sudo(msg) or is_sudoers(msg) then
+if hash or is_sudo(msg) then
 return true
 else
 return false
@@ -67,7 +67,7 @@ function is_bot(msg)
   ------------------------------------------------------------
 function is_owner(msg) 
  local hash = db:sismember(SUDO..'owners:'..msg.chat_id_,msg.sender_user_id_)
-if hash or is_sudo(msg) or is_sudoers(msg) then
+if hash or is_sudo(msg) or is_sudoers(msg) or master(msg) then
 return true
 else
 return false
@@ -76,7 +76,7 @@ end
 ------------------------------------------------------------
 function is_mod(msg) 
 local hash = db:sismember(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
-if hash or is_sudo(msg) or is_owner(msg) or is_sudoers(msg) then
+if hash or is_sudo(msg) or is_owner(msg) or is_sudoers(msg) or master(msg) then
 return true
 else
 return false
@@ -258,49 +258,51 @@ end
 function settings(msg,value,lock) 
 local hash = SUDO..'settings:'..msg.chat_id_..':'..value
   if value == 'file' then
-      text = '--> File Has Been'
+      text = '> File Has Been'
    elseif value == 'keyboard' then
-    text = '--> Inline Keyboard Has Been'
+    text = '> Inline Keyboard Has Been'
+   elseif value == 'all' then
+    text = '> All Items Has Been'
   elseif value == 'link' then
-    text = '--> Links Has Been'
+    text = '> Links Has Been'
   elseif value == 'game' then
-    text = '--> Game Has Been'
+    text = '> Game Has Been'
     elseif value == 'username' then
-    text = '--> UserName Has Been'
+    text = '> UserName Has Been'
    elseif value == 'pin' then
-    text = '--> Pin Has Been'
+    text = '> Pin Has Been'
     elseif value == 'photo' then
-    text = '--> Photos Has Been'
+    text = '> Photos Has Been'
     elseif value == 'gif' then
-    text = '--> Gifs Has Been'
+    text = '> Gifs Has Been'
     elseif value == 'video' then
-    text = '--> Videos Has Been'
+    text = '> Videos Has Been'
     elseif value == 'audio' then
-    text = '--> Audio & Voice Has Been'
+    text = '> Audio & Voice Has Been'
     elseif value == 'music' then
-    text = '--> Music Has Been'
+    text = '> Music Has Been'
     elseif value == 'text' then
-    text = '--> Text Has Been'
+    text = '> Text Has Been'
     elseif value == 'sticker' then
-    text = '--> Stickers Has Been'
+    text = '> Stickers Has Been'
     elseif value == 'contact' then
-    text = '--> Contacts Has Been'
+    text = '> Contacts Has Been'
     elseif value == 'forward' then
-    text = '--> Forward Has Been'
+    text = '> Forward Has Been'
     elseif value == 'persian' then
-    text = '--> Persian Has Been'
+    text = '> Persian Has Been'
     elseif value == 'english' then
-    text = '--> English Has Been'
+    text = '> English Has Been'
     elseif value == 'bot' then
-    text = '--> Bots Has Been'
+    text = '> Bots Has Been'
     elseif value == 'tgservice' then
-    text = '--> TGService Has Been'
+    text = '> TGService Has Been'
     else return false
     end
   if lock then
 db:set(hash,true)
 local id = msg.sender_user_id_
-           local lmsg = ' '..text..' LoCkeD! <--\n👉 @SphroNeWs'
+           local lmsg = ' '..text..' LoCkeD! <\n👉 @SphroNeWs'
             tdcli_function ({
 			ID="SendMessage",
 			chat_id_=msg.chat_id_,
@@ -315,7 +317,7 @@ local id = msg.sender_user_id_
 			 parse_mode_ = md,
 			entities_={[0] = {ID="MessageEntityMentionName",
 			offset_=0,
-			length_=20,
+			length_=50,
 			user_id_=id
 			}}}}, dl_cb, nil)
     else
@@ -335,7 +337,7 @@ local id = msg.sender_user_id_
 			clear_draft_=0,
 			entities_={[0] = {ID="MessageEntityMentionName",
 			offset_=0,
-			length_=36,
+			length_=50,
 			user_id_=id
 			}}}}, dl_cb, nil)
 end
@@ -486,7 +488,7 @@ db:set(SUDO..'grouplink'..msg.chat_id_, link)
 bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>> لینک جدید با موفقیت ذخیر شد.</code>\nربات در گروه شما فعال شد!\n > @SpheroNews', 1, 'html')
 end
 ----------------------start prozhect ----------------------
-if chackgp(msg) and not text:match('^install') then 
+if chackgp(msg) and not text:match('install') then 
 local chcklink = db:get(SUDO..'grouplink'..msg.chat_id_) 
 if not chcklink and is_owner(msg) then 
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> صاحب گرامی گروه!</code>\nاز شما تقاضا میشود که لینک گروه خود را با دستور زیر ثبت کنید تا ربات در گروه شما فعال شود.\n/glink [لینک گروه]\n> @SpheroNews', 1, 'html')
@@ -753,7 +755,7 @@ end
       end
     if msg.content_ and msg.content_.members_ and msg.content_.members_[0] and msg.content_.members_[0].id_ and is_banall(msg.chat_id_,msg.content_.members_[0].id_) then
       kick(msg,msg.chat_id_,msg.content_.members_[0].id_)
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>کاربرا مورد نظر گلوبال بن میباشد</code>',1, 'html')
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>کاربر مورد نظر گلوبال بن میباشد</code>',1, 'html')
       end	    
 -- welcome
     local status_welcome = (db:get(SUDO..'status:welcome:'..msg.chat_id_) or 'disable') 
@@ -764,7 +766,7 @@ end
         if db:get(SUDO..'welcome:'..msg.chat_id_) then
         t = db:get(SUDO..'welcome:'..msg.chat_id_)
         else
-        t = 'سلام {name}\nخوش آمدید!'
+        t = 'سلام {name}\nخوش اومدی!\n> @SpheroNews'
         end
       local t = t:gsub('{name}',result.first_name_)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, t,0)
@@ -779,7 +781,7 @@ end
       if db:get(SUDO..'welcome:'..msg.chat_id_) then
         t = db:get(SUDO..'welcome:'..msg.chat_id_)
         else
-        t = 'سلام {name}\nخوش آمدید!'
+        t = 'سلام {name}\nخوش اومدی!\n> @SpheroNews'
         end
       local t = t:gsub('{name}',msg.content_.members_[0].first_name_)
          bot.sendMessage(msg.chat_id_, msg.id_, 1, t,0)
@@ -821,12 +823,6 @@ end
 
 
 ------------------------------------------------
-if text:match('^edite (lock)$') then
-local locking = text:match('^edite (lock)$') 
-db:set('edit:Lock:'..msg.chat_id_,'lock')
-textedit = "ok"
-bot.sendMessage(msg.chat_id_, msg.id_, 1,textedit, 1, 'md')
-end
  ----------------Lock By #MehTi-----------------
 if text:match('^unlock (.*)$') then
 local unlock = text:match('^unlock (.*)$')   
@@ -852,7 +848,7 @@ end
       local pin = text:match('^lock pin$') or text:match('^unlock pin$')
       if pin and is_owner(msg) then
         elseif pin and not is_owner(msg) then
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>انجام این دستور برای شما مجاز نمیباشد!</code>',1, 'html') 
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>شما دسترسی کافی برای استفاده از این قسمت را ندارید!</code>',1, 'html') 
         end
         end
     
@@ -861,16 +857,16 @@ end
 	   local ch = msg.chat_id_
       if text == 'flood kick' then
       db:hset("flooding:settings:"..ch ,"flood",'kick') 
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل ارسال پیام مکرر فعال گردید!</code> \n<code>وضعیت</code> > <i>اخراج(کاربر)</i>',1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل پیام مکرر فعال شد.!</code> \n<code>وضعیت</code> > <i>وضعیت : اخراج کاربر)</i>',1, 'html')
       elseif text == 'flood ban' then
         db:hset("flooding:settings:"..ch ,"flood",'ban') 
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل ارسال پیام مکرر فعال گردید!</code> \n<code>وضعیت</code> > <i>مسدود-سازی(کاربر)</i>',1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل پیام مکرر فعال شد.!</code> \n<code>وضعیت</code> > <i>وضعیت : مسدود کردن کاربر</i>',1, 'html')
         elseif text == 'flood mute' then
         db:hset("flooding:settings:"..ch ,"flood",'mute') 
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل ارسال پیام مکرر فعال گردید!</code> \n<code>وضعیت</code> > <i>سکوت(کاربر)</i>',1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل پیام مکرر فعال شد.!</code> \n<code>وضعیت</code> > <i>وضعیت : سکوت کاربر</i>',1, 'html')
         elseif text == 'unlock flood' then
         db:hdel("flooding:settings:"..ch ,"flood") 
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, ' <code>قفل ارسال پیام مکرر غیرفعال گردید!</code> ',1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, ' <code>قفل پیام مکرر فعال شد.!</code> ',1, 'html')
             end
           end
        
@@ -944,15 +940,15 @@ if text and text:match('^info') then
 local function getpro(extra, result, success)
 local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
  if is_sudo(msg) then
-	  t = 'FullSudo'
+	  t = 'Creator[⭐️⭐️⭐️⭐️⭐️'
       elseif is_sudoers(msg) then
-	  t = 'HelpSudo'
+	  t = 'Sudo'
       elseif is_owner(msg) then
-	  t = 'Group Owner'
+	  t = 'Owner'
       elseif is_mod(msg) then
-	  t = 'Moderator'
+	  rk = 'Mod'
       else
-	  t = 'Member'
+	  rk = 'Member'
 	  end
 ch = '@BanG_TeaM'
    if result.photos_[0] then
