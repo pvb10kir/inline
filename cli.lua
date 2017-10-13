@@ -452,7 +452,7 @@ function run(msg,data)
       end
     end
  ------------------------------------------------------------
-if not is_join(msg) and text:match('^/') or text:match('^#') or text:match('^!') then
+if not is_join(msg) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\n@SpheroNews', 1, 'html')
 else
 if chat_type == 'super' then
