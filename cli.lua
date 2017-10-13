@@ -951,7 +951,6 @@ ch = '@BanG_TeaM'
    else
       bot.sendMessage(msg.chat_id_, msg.id_, 1, "You Have'nt Profile Photo!!\n\n👥 *Supergroup ID:* `"..msg.chat_id_.."`\n*👤 Your ID:* `"..msg.sender_user_id_.."`\n*🗣 Number of your Msgs: *`"..msgs.."`", 1, 'md')
    end
-   end
 	end
    tdcli_function ({
     ID = "GetUserProfilePhotos",
