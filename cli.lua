@@ -1111,9 +1111,9 @@ end
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>از لیست ادمین های ربات حذف گردید.</code>', 1, 'html')
       end	 
         end
-if text:match('(.*)') and jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
+	local jdat = json:decode(url)
 local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
-local jdat = json:decode(url)
+if text:match('(.*)') and jdat.result.user.status == "left" or jdat.result.user.status == "kicked" or not jdat.ok then
   bot.sendMessage(msg.chat.id, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
   print('\27[36mNot valid: Channel not found\27[39m')
 
