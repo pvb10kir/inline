@@ -458,7 +458,7 @@ else
 if chat_type == 'super' then
 --------------------------gp add -------------------------
 if text == 'install' and is_sudoers(msg) then
-if db:hget('bot:gps', msg.chat_id_) then
+if db:sismember('bot:gps', msg.chat_id_) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group is Already In Added! | قبلا اضافه شده است!</code>\nربات از قبل در این گروه فعال است.\n> @SpheroNews', 1, 'html')
 else
 db:sadd('bot:gps', msg.chat_id_)
@@ -468,7 +468,7 @@ end
 end
 --------------------------rem add -------------------------
 if text == 'uninstall' and is_sudoers(msg) then
-if not db:hget('bot:gps', msg.chat_id_) then
+if not db:sismember('bot:gps', msg.chat_id_) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group is Not Added! | از قبل ادد نشده است.!</code>\nربات قبلا در این گروه ادد نشده است.\n> @SpheroNews', 1, 'html')
 else			
 db:srem('bot:gps', msg.chat_id_)
