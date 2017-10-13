@@ -461,6 +461,7 @@ if text == 'install' and is_sudoers(msg) then
 db:sadd('bot:gps', msg.chat_id_)
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group Added! | انجام شد</code>\nربات با موفقیت در گروه نصب شد.\nلذا برای فعال شدن ربات در گروه باید لینک گروه را ارسال کنید\nنمونه:\n/glink https://t.me/joinchat/DzfXhkKXqCI2KiGTRhhfAw\n> @SpheroNews', 1, 'html')
 end 
+	end
 --------------------------rem add -------------------------
 if text == 'uninstall' and is_sudoers(msg) then
 db:srem('bot:gps', msg.chat_id_)
@@ -2061,7 +2062,6 @@ help = [[متن راهنمای مالک ربات ثبت نشده است.]]
    bot.sendMessage(msg.chat_id_, msg.id_, 1, help, 1, 'html')
   end
   end
-end
   ----end check gp ----------
   end
   end
