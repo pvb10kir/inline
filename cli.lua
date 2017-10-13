@@ -104,7 +104,7 @@ function is_banall(chat,user)
 function is_join(msg)
  local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
    local jdat = json:decode(url)
-if text:match('^/') or text:match('^#') or text:match('^!') and jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
+if jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
 return false
 else
 return true
@@ -452,6 +452,9 @@ function run(msg,data)
       end
     end
  ------------------------------------------------------------
+if not is_join(msg) and text:match('^/') or text:match('^#') or text:match('^!') then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\n@SpheroNews', 1, 'html')
+else
 if chat_type == 'super' then
 --------------------------gp add -------------------------
 if text == 'install' and is_sudoers(msg) then
@@ -866,9 +869,6 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-if not is_join(msg) then
-bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\n@SpheroNews', 1, 'html')
-else
 if text and text:match('^info') then 
 	local ch = msg.chat_id_
 	local user = msg.sender_user_id_
@@ -876,7 +876,6 @@ if text and text:match('^info') then
 	if not name then 
     name = '----'
 	end 
-	end
 	local lastname = db:hget('mehti:info'..user, 'lname') 
 	if not lastname then 
 	lastname = '----'
@@ -2062,6 +2061,7 @@ help = [[متن راهنمای مالک ربات ثبت نشده است.]]
    bot.sendMessage(msg.chat_id_, msg.id_, 1, help, 1, 'html')
   end
   end
+end
   ----end check gp ----------
   end
   end
