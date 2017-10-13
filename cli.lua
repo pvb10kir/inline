@@ -446,7 +446,7 @@ if chat_type == 'super' then
 --------------------------gp add -------------------------
 if text == 'install' and is_sudoers(msg) then
 db:sadd('bot:gps', msg.chat_id_)
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group Added! | انجام شد</code>\nربات با موفقیت در گروه نصب شد./nلذا برای فعال شدن ربات در گروه باید لینک گروه را ارسال کنید\nنمونه:\n/glink https://t.me/joinchat/DzfXhkKXqCI2KiGTRhhfAw\n> @SpheroNews', 1, 'html')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group Added! | انجام شد</code>\nربات با موفقیت در گروه نصب شد.\nلذا برای فعال شدن ربات در گروه باید لینک گروه را ارسال کنید\nنمونه:\n/glink https://t.me/joinchat/DzfXhkKXqCI2KiGTRhhfAw\n> @SpheroNews', 1, 'html')
 end 
 --------------------------rem add -------------------------
 if text == 'uninstall' and is_sudoers(msg) then
@@ -464,7 +464,7 @@ db:set(SUDO..'grouplink'..msg.chat_id_, link)
 bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>> لینک جدید با موفقیت ذخیر شد.</code>\nربات در گروه شما فعال شد!\n > @SpheroNews', 1, 'html')
 end
 ----------------------start prozhect ----------------------
-if chackgp(msg) then 
+if chackgp(msg) and not text:match('^install') then 
 local chcklink = db:get(SUDO..'grouplink'..msg.chat_id_) 
 if not chcklink and is_owner(msg) then 
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> صاحب گرامی گروه!</code>\nاز شما تقاضا میشود که لینک گروه خود را با دستور زیر ثبت کنید تا ربات در گروه شما فعال شود.\n/glink [لینک گروه]\n> @SpheroNews', 1, 'html')
@@ -1111,10 +1111,9 @@ end
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>از لیست ادمین های ربات حذف گردید.</code>', 1, 'html')
       end	 
         end
-
-local url , res = https.request('https://api.telegram.org/bot406975381:AAFPCe756NYODvvlb9801mXr1UU4gMVfqtM/getchatmember?chat_id=-1001134110205&user_id='..msg.sender_user_id_..' ')
-local jdat = json:decode(url)
 if text:match('(.*)') and jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
+local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
+local jdat = json:decode(url)
   bot.sendMessage(msg.chat.id, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
   print('\27[36mNot valid: Channel not found\27[39m')
 
