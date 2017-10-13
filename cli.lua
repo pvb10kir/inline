@@ -1116,8 +1116,9 @@ end
  if text:match('(.*)') and jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html') 
 print('Not valid: Channel not found')
- 
-   return nil
+return nil
+else
+print('valid: Channel found')
 end
 --bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
  -- print('Not valid: Channel not found')
