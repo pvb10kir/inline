@@ -101,6 +101,16 @@ function is_banall(chat,user)
     end
   end
   ------------------------------------------------------------
+function is_join(msg)
+ local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
+   local jdat = json:decode(url)
+if jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
+return false
+else
+return true
+end
+end
+  ------------------------------------------------------------
   function is_filter(msg, value)
   local hash = db:smembers(SUDO..'filters:'..msg.chat_id_)
   if hash then
@@ -856,6 +866,9 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
+if not is_join(msg) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\n@SpheroNews', 1, 'html')
+else
 if text and text:match('^info') then 
 	local ch = msg.chat_id_
 	local user = msg.sender_user_id_
@@ -917,7 +930,11 @@ if text and text:match('^info') then
      bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
 	end 
 	end 
+	end
   -------------------id+pro------------------------#MehTi
+	if not is_join(msg) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\n@SpheroNews', 1, 'html')
+else
   		 if text == 'id' then  
 local function getpro(extra, result, success)
 local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
@@ -939,6 +956,7 @@ ch = '@BanG_TeaM'
       bot.sendMessage(msg.chat_id_, msg.id_, 1, "You Have'nt Profile Photo!!\n\n👥 *Supergroup ID:* `"..msg.chat_id_.."`\n*👤 Your ID:* `"..msg.sender_user_id_.."`\n*🗣 Number of your Msgs: *`"..msgs.."`", 1, 'md')
    end
    end
+	end
    tdcli_function ({
     ID = "GetUserProfilePhotos",
     user_id_ = msg.sender_user_id_,
@@ -1111,15 +1129,6 @@ end
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>از لیست ادمین های ربات حذف گردید.</code>', 1, 'html')
       end	 
         end
- local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
- 	local jdat = json:decode(url)
- if text:match('/(.*)') or text:match('#(.*)') or text:match('!(.*)') and jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
-bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html') 
-print('Not valid: Channel not found')
-return nil
-else
-print('valid: Channel found')
-end
 --bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
  -- print('Not valid: Channel not found')
 --end
