@@ -930,11 +930,7 @@ if text and text:match('^info') then
      bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
 	end 
 	end 
-	end
   -------------------id+pro------------------------#MehTi
-	if not is_join(msg) then
-bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\n@SpheroNews', 1, 'html')
-else
   		 if text == 'id' then  
 local function getpro(extra, result, success)
 local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
