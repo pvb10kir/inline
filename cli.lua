@@ -1009,7 +1009,6 @@ end
          db:srem(SUDO..'helpsudo:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
       end
-function setrank(msg,user,value)
 if text == 'setrank (%d+) (.*)' then 
 local matches = {string.match(text, "^(setrank) (%d+) (.*)$")}
 local value = matches[3]
