@@ -1016,7 +1016,7 @@ local user = matches[2]
   db:hset('bot:setrank', user, value)
 bot.sendMessage(msg.chat_id_, msg.id_, 1, "*User Rank Updated To* ['..matches[3]..']", 1, 'md')
   end
-end
+
 --------------- text -----------------------------------  
 	        if is_sudoers(msg) then
 -----------ban all ------------------
