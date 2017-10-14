@@ -1009,13 +1009,12 @@ end
          db:srem(SUDO..'helpsudo:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
       end
-function setrank(msg, user, value)
-if text:match('^setrank (.*)$') then 
-local matches = {string.match(text, "^(setrank) (.*)$")}
-local value = matches[2]
-    hash = db:hset('bot:setrank', msg.sender_user_id_, value)
-bot.sendMessage(msg.chat_id_, msg.id_, 1, "> *User Rank Updated to* [`'..matches[2]..'`]", 1, 'md')
-return hash
+function setrank(msg,user,value)
+if text:match('^setrank (%d+) (.*)$') then 
+local matches = {string.match(text, "^(setrank) (%d+) (.*)$")}
+local value = matches[3]
+local user = matches[2]
+  db:hset('bot:setrank', user, value)
   end
 end
 --------------- text -----------------------------------  
