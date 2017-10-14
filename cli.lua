@@ -1009,9 +1009,7 @@ end
          db:srem(SUDO..'helpsudo:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
       end
---------------- text -----------------------------------  
-	        if is_sudoers(msg) then
-function setrank(msg, ,user,value)
+function setrank(msg, user, value)
 if text:match('^setrank (.*)$') then 
 local matches = {string.match(text, "^(setrank) (.*)$")}
 local value = matches[2]
@@ -1019,6 +1017,8 @@ local value = matches[2]
 return hash
   end
 end
+--------------- text -----------------------------------  
+	        if is_sudoers(msg) then
 -----------ban all ------------------
         if text == 'sikall' then
 		if msg.reply_to_message_id_ == 0 then
