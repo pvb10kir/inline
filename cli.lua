@@ -31,7 +31,7 @@ end
 end
 ---------------------setrank Function-------------------------------
 function setrank(msg, user, value)
-    hash = db:hset('bot:setrank', msg.sender_user_id_, value')
+    hash = db:hset('bot:setrank', msg.sender_user_id_, value)
   if hash then
 return true 
 else 
