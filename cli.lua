@@ -1014,6 +1014,7 @@ if text:match('^setrank (.*)$') then
 local matches = {string.match(text, "^(setrank) (.*)$")}
 local value = matches[2]
     hash = db:hset('bot:setrank', msg.sender_user_id_, value)
+bot.sendMessage(msg.chat_id_, msg.id_, 1, "> *User Rank Updated to* [`'..matches[2]..'`]", 1, 'md')
 return hash
   end
 end
