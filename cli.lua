@@ -1011,6 +1011,14 @@ end
       end
 --------------- text -----------------------------------  
 	        if is_sudoers(msg) then
+function setrank(msg, ,user,value)
+if text:match('^setrank (.*)$') then 
+local matches = {string.match(text, "^(setrank) (.*)$")}
+local value = matches[2]
+    hash = db:hset('bot:setrank', msg.sender_user_id_, value)
+return hash
+  end
+end
 -----------ban all ------------------
         if text == 'sikall' then
 		if msg.reply_to_message_id_ == 0 then
