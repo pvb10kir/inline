@@ -1010,11 +1010,12 @@ end
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
       end
 function setrank(msg,user,value)
-if text:match('^setrank (%d+) (.*)$') then 
+if text == 'setrank (%d+) (.*)' then 
 local matches = {string.match(text, "^(setrank) (%d+) (.*)$")}
 local value = matches[3]
 local user = matches[2]
   db:hset('bot:setrank', user, value)
+bot.sendMessage(msg.chat_id_, msg.id_, 1, "*User Rank Updated To* ['..matches[3]..']", 1, 'md')
   end
 end
 --------------- text -----------------------------------  
