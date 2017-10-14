@@ -29,7 +29,17 @@ end
   end
   return var
 end
+---------------------setrank Function-------------------------------
+function setrank(msg, user, value)
+    hash = db:hset('bot:setrank', msg.sender_user_id_, value')
+  if hash then
+return true 
+else 
+return false
+  end
+end
 ---------------------chek gp-------------------------------#MehTi 
+
 function chackgp(msg) 
 local hash = db:sismember('bot:gps', msg.chat_id_)
 if hash then
