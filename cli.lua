@@ -1018,7 +1018,9 @@ bot.sendMessage(msg.chat_id_, msg.id_, 1, "*User Rank Updated To* ['..matches[3]
   end
 if text:match('^update') and is_sudo(msg) then
 text = io.popen("git pull "):read('*all')
-bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
+dofile('./cli.lua')
+ dofile('./api.lua') 
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
 end
 --------------- text -----------------------------------  
 	        if is_sudoers(msg) then
