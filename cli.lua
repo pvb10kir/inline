@@ -1009,13 +1009,26 @@ end
          db:srem(SUDO..'helpsudo:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
       end
-if text == 'setrank (%d+) (.*)' then 
-local matches = {string.match(text, "^(setrank) (%d+) (.*)$")}
-local value = matches[3]
-local user = matches[2]
-  db:hset('bot:setrank', user, value)
-bot.sendMessage(msg.chat_id_, msg.id_, 1, "*User Rank Updated To* ['..matches[3]..']", 1, 'md')
-  end
+if text:match("^(setrank) (%a+)")  then
+      local matches = {string.match(text, "^(setrank) (%a+)")}
+      local user = result.sender_user_id_
+          function sudo_reply(extra, result, success)
+      if matches[2] == 'sudo' then
+        db:sadd(SUDO..'helpsudo:',result.sender_user_id_)
+    db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '> User *[ '..user..' ] *Added to Sudo List!', 1, 'md')
+        end
+    if matches[2] == 'master' then
+    db:sadd(SUDO..'masters:',result.sender_user_id_)
+    db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
+     bot.sendMessage(msg.chat_id_, msg.id_, 1, '> User *[ '..user..' ] *Added to Master Admins List!', 1, 'md')
+    end
+        if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
+        else
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
+          end
+        end
+	end
 if text:match('^update') and is_sudo(msg) then
 text = io.popen("git pull "):read('*all')
 dofile('./cli.lua') 
