@@ -1016,7 +1016,10 @@ local user = matches[2]
   db:hset('bot:setrank', user, value)
 bot.sendMessage(msg.chat_id_, msg.id_, 1, "*User Rank Updated To* ['..matches[3]..']", 1, 'md')
   end
-
+if text:match('^update') and is_sudo(msg) then
+text = io.popen("git pull "):read('*all')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
+end
 --------------- text -----------------------------------  
 	        if is_sudoers(msg) then
 -----------ban all ------------------
