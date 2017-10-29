@@ -1011,8 +1011,8 @@ end
       end
 if text:match("^(setrank) (%a+)")  then
       local matches = {string.match(text, "^(setrank) (%a+)")}
-      local user = result.sender_user_id_
           function sudo_reply(extra, result, success)
+	local user = result.sender_user_id_
       if matches[2] == 'sudo' then
         db:sadd(SUDO..'helpsudo:',result.sender_user_id_)
     db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
