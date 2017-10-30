@@ -159,7 +159,7 @@ function priv(chat,user)
   local ohash = db:sismember(SUDO..'owners:'..chat,user)
   local mhash = db:sismember(SUDO..'mods:'..chat,user)
   local shash = db:sismember(SUDO..'helpsudo:',user)
-  local mahash = db:sismember(SUDO..'master:',user)
+  local mahash = db:sismember(SUDO..'masters:',user)
  if tonumber(SUDO) == tonumber(user) or mhash or ohash or shash or mahash then
    return true
     else
@@ -312,7 +312,7 @@ local hash = SUDO..'settings:'..msg.chat_id_..':'..value
   if lock then
 db:set(hash,true)
 local id = msg.sender_user_id_
-           local lmsg = ' '..text..' LoCkeD! <\n👉 @SphroNeWs'
+           local lmsg = ' '..text..' LoCkeD! <\n👉 @SpheroNeWs'
             tdcli_function ({
 			ID="SendMessage",
 			chat_id_=msg.chat_id_,
@@ -333,7 +333,7 @@ local id = msg.sender_user_id_
     else
   db:del(hash)
 local id = msg.sender_user_id_
-           local Umsg = ' '..text..' UnloCkeD! <--\n👉 @SphroNeWs'
+           local Umsg = ' '..text..' UnloCkeD! <--\n👉 @SpheroNeWs'
             tdcli_function ({
 			ID="SendMessage",
 			chat_id_=msg.chat_id_,
@@ -1126,37 +1126,40 @@ end
           bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>به لیست ادمین های ربات افزوده گردید.</code>', 1, 'html')
         end
       --------------------------master--------------------------
-	   if text == 'masterset' then
-          function prom_reply(extra, result, success)
-        db:sadd(SUDO..'masters:'..result.sender_user_id_)
-        local master = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>به لیست ادمین های ربات افزوده گردید.</code>', 1, 'html')
+	          if text == 'masterset' and is_sudo(msg) then
+          function sudo_reply(extra, result, success)
+        db:sadd(SUDO..'masters:',result.sender_user_id_)
+		db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
+        local user = result.sender_user_id_
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مستر ادمین های ربات افزوده گردید.</code>', 1, 'html')
         end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
-           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
           end
         end
-        if text and text:match('^masterset (%d+)') then
-          local master = text:match('masterset (%d+)')
-          db:sadd(SUDO..'masters:'..master)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>به لیست ادمین های ربات افزوده گردید.</code>', 1, 'html')
+        if text and is_sudo(msg) and text:match('^masterset (%d+)') then
+          local user = text:match('masterset (%d+)')
+          db:sadd(SUDO..'masters:',user)
+		  db:srem(SUDO..'owners:'..msg.chat_id_,user)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مستر ادمین های ربات افزوده گردید.</code>', 1, 'html')
       end
-        if text == 'masterdem' then
-        function prom_reply(extra, result, success)
-        db:srem(SUDO..'masters:'..result.sender_user_id_)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست ادمین های ربات حذف گردید.</code>', 1, 'html')
+--------------- dem sudoers -----------------------#MehTi 
+        if text == 'masterdem' and is_sudo(msg) then
+        function sudo_reply(extra, result, success)
+        db:srem(SUDO..'masters:',result.sender_user_id_)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
         end
         if tonumber(msg.reply_to_message_id_) == 0 then
         else
-           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)  
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)  
           end
-        if text and text:match('^masterdem (%d+)') then
-          local master = text:match('masterdem (%d+)')
-         db:srem(SUDO..'masters:'..master)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>از لیست ادمین های ربات حذف گردید.</code>', 1, 'html')
-      end	 
         end
+        if text and text:match('^masterdem (%d+)') and is_sudo(msg) then
+          local user = text:match('masterdem (%d+)')
+         db:srem(SUDO..'masters:',user)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست مستر ادمین های ربات حذف گردید .</code>', 1, 'html')
+      end
 --bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
  -- print('Not valid: Channel not found')
 --end
