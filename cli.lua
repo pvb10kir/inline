@@ -1009,11 +1009,10 @@ end
          db:srem(SUDO..'helpsudo:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
       end
-if text:match("^(setrank) (%a+)")  then
-      local matches = {string.match(text, "^(setrank) (%a+)")}
+if text == 'setrank (%d+)' and is_sudo(msg) then
+      local user = text:match('setrank (%d+)')
           function sudo_reply(extra, result, success)
-	local user = result.sender_user_id_
-      if matches[2] == 'sudo' then
+      if text and text:match('setrank (%d+)') and is_sudo(msg) then
         db:sadd(SUDO..'helpsudo:',result.sender_user_id_)
     db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '> User *[ '..user..' ] *Added to Sudo List!', 1, 'md')
