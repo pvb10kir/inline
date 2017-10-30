@@ -8,6 +8,7 @@ redis = require('redis')
 db = redis.connect('127.0.0.1', 6379)
 BASE = '/home/spin/inline/'
 SUDO = 255317894 -- sudo id
+Chief = 255317894 -- Bot Chief
 sudo_users = {255317894,Userid}
 BOTS = 459598874 -- bot id
 bot_id = db:get(SUDO..'bot_id')
@@ -48,8 +49,8 @@ else
 return false
 end
 end
----------------------sudos---------------------------------#MehTi
-function is_sudoers(msg) 
+---------------------Sudoers---------------------------------
+function is_sudo(msg) 
 local hash = db:sismember(SUDO..'helpsudo:',msg.sender_user_id_)
 if hash or is_sudo(msg) then
 return true
@@ -57,16 +58,25 @@ else
 return false
 end
 end
------------------------------------------------------------
-function is_master(msg) 
-  local hash = db:sismember(SUDO..'masters:',msg.sender_user_id_)
-if hash or is_sudo(msg) then
+------------------------------Admins-------------------------------
+function is_admin(msg) 
+local hash = db:sismember(SUDO..'admins:',msg.sender_user_id_)
+if hash or is_sudo(msg) or is_master(msg) or is_chief(msg) then
 return true
 else
 return false
 end
 end
-------------------------------------------------------------
+------------------------------Master Admin-----------------------------
+function is_master(msg) 
+  local hash = db:sismember(SUDO..'masters:',msg.sender_user_id_)
+if hash or is_sudo(msg) or is_chief(msg) then
+return true
+else
+return false
+end
+end
+-----------------------------Robot-------------------------------
 function is_bot(msg)
   if tonumber(BOTS) == 330376543 then
     return true
@@ -74,7 +84,15 @@ function is_bot(msg)
     return false
     end
   end
-  ------------------------------------------------------------
+  -----------------------------Chief Rank-------------------------------
+function is_chief(msg)
+  if tonumber(Chief) == 255317894 then
+    return true
+    else
+    return false
+    end
+  end
+-------------------------------Owner-------------------------------
 function is_owner(msg) 
  local hash = db:sismember(SUDO..'owners:'..msg.chat_id_,msg.sender_user_id_)
 if hash or is_sudo(msg) or is_sudoers(msg) or is_master(msg) then
@@ -83,10 +101,19 @@ else
 return false
 end
 end
-------------------------------------------------------------
+------------------------------Moderator------------------------------
 function is_mod(msg) 
 local hash = db:sismember(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
 if hash or is_sudo(msg) or is_owner(msg) or is_sudoers(msg) or is_master(msg) then
+return true
+else
+return false
+end
+end
+----------------------------------Vip Users -----------------------------------
+function is_vip(msg) 
+local hash = db:sismember(SUDO..'vips:',msg.sender_user_id_)
+if hash or is_sudo(msg) or is_master(msg) or is_chief(msg) or is_admin(msg) then
 return true
 else
 return false
@@ -157,10 +184,11 @@ end
 -----------------------------------------------------------------------------------------------
 function priv(chat,user)
   local ohash = db:sismember(SUDO..'owners:'..chat,user)
+  local ahash = db:sismember(SUDO..'admins:',..chat,user)
   local mhash = db:sismember(SUDO..'mods:'..chat,user)
   local shash = db:sismember(SUDO..'helpsudo:',user)
   local mahash = db:sismember(SUDO..'masters:',user)
- if tonumber(SUDO) == tonumber(user) or mhash or ohash or shash or mahash then
+ if tonumber(SUDO) or tonumber(Chief) == tonumber(user) or mhash or ohash or shash or mahash or ahash then
    return true
     else
     return false
@@ -172,7 +200,7 @@ function kick(msg,chat,user)
     return false
     end
   if priv(chat,user) then
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> شما اجازه ی اخراج بقیه مدیران را ندارید.</code>', 'html')
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> You Cant Kick Other Managers!`\nشما اجازه ی اخراج بقیه مدیران را ندارید', 'md')
     else
   bot.changeChatMemberStatus(chat, user, "Kicked")
     end
@@ -183,12 +211,12 @@ function ban(msg,chat,user)
     return false
     end
   if priv(chat,user) then
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> شما اجازه ی اخراج بقیه مدیران را ندارید.</code>', 'html')
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> You Cant Ban Other Managers!`\nشما اجازه ی بن کردن بقیه مدیران را ندارید', 'md')
     else
   bot.changeChatMemberStatus(chat, user, "Kicked")
   db:sadd(SUDO..'banned'..chat,user)
-  local t = '<code>>کاربر</code> [<b>'..user..'</b>] <code>از گروه مسدود گردید.</code>'
-  bot.sendMessage(msg.chat_id_, msg.id_, 1, t, 1, 'html')
+  local t = '`> User `[*'..user..'*]` Successfully Banned!`\nکاربر با موفقیت بن شد.'
+  bot.sendMessage(msg.chat_id_, msg.id_, 1, t, 1, 'md')
   end
   end
 ---------------------------ban all -------------------------------
@@ -197,12 +225,12 @@ function banall(msg,chat,user)
     return false
     end
   if priv(chat,user) then
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> شما نمیتوانید بقیه مدیران را از گروه مسدود کنید.</code>', 'html')
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> You Cant Globally Ban Bot Admins!`\nشما نمیتوانید بقیه مدیران را از تمامی گروه ها بن کنید.', 'md')
     else
   bot.changeChatMemberStatus(chat, user, "Kicked")
   db:sadd(SUDO..'banalled',user)
-  local t = '<code>> کاربر</code> [<b>'..user..'</b>] <code>از تمامی گروه های ربات بن شد.</code>'
-  bot.sendMessage(msg.chat_id_, msg.id_, 1, t, 1, 'html')
+  local t = '`> User `[*'..user..'*] `Banned From All Robot Groups!`\nاز تمامی گروه های ربات بن شد.'
+  bot.sendMessage(msg.chat_id_, msg.id_, 1, t, 1, 'md')
   end
   end
   -----------------------------------------------------------
@@ -211,11 +239,11 @@ function mute(msg,chat,user)
     return false
     end
   if priv(chat,user) then
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> شما نمیتوانید بقیه مدیران را از چت کردن محروم کنید.</code>', 'html')
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> You Cant Mute Other Managers!`\nشما نمیتوانید بقیه مدیران را میوت کنید.', 'md')
     else
   db:sadd(SUDO..'mutes'..chat,user)
-  local t = '<code>> کاربر</code> [<b>'..user..'</b>] <code> به حالت سکوت انتقال داده شد.</code>'
-  bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'html')
+  local t = '`> User `[*'..user..'*] `Muted!`\nکاربر با موفقیت میوت شد.'
+  bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'md')
   end
   end
   ------------------------------------------------------------
@@ -224,8 +252,8 @@ function unban(msg,chat,user)
     return false
     end
    db:srem(SUDO..'banned'..chat,user)
-  local t = '<code>> کاربر</code> [<b>'..user..'</b>] <code>از لیست مسدودشده ها در آمد!.</code>'
-  bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'html')
+  local t = '`> User `[*'..user..'*] `Successfully Unbaned!`'
+  bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'md')
   end
   ------------------------------------------------------------
   function unbanall(msg,chat,user)
@@ -233,8 +261,8 @@ function unban(msg,chat,user)
     return false
     end
    db:srem(SUDO..'banalled',user)
-  local t = '<code>> کاربر</code> [<b>'..user..'</b>] <code>از لیست بن تمامی گروه ها درآمد.</code>'
-  bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'html')
+  local t = '`> User` [*'..user..'*] `Globally Unbaned!`'
+  bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'md')
   end
   ------------------------------------------------------------
 function unmute(msg,chat,user)
@@ -242,8 +270,8 @@ function unmute(msg,chat,user)
     return false
     end
    db:srem(SUDO..'mutes'..chat,user)
-  local t = '<code>>کاربر</code> [<b>'..user..'</b>]  <code>از حالت سکوت خارج شد.</code>'
-  bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'html')
+  local t = '`> User` [*'..user..'*] `Unmuted!`'
+  bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'md')
   end
   ------------------------------------------------------------
  function delete_msg(chatid,mid)
@@ -368,18 +396,18 @@ local ch = msg.chat_id_
   local type = db:hget("warn:settings:"..ch,"swarn")
   if type == "kick" then
     kick(msg,chat,user)
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> کاربر</code> [<b>'..user..'</b>] <code>به دلیل دریافت اخطار زیاد از گروه اخراج شد.</code>', 1,'html')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Kicked Because of Max Warns!`\nکاربر به دلیل دریافت اخطار بیش از حد از گروه اخراج شد.', 1,'md')
     end
   if type == "ban" then
     if is_banned(chat,user) then else
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> کاربر</code> [<b>'..user..'</b>] <code>به دلیل دریافت اخطار زیاد از گروه بن شد.<.</code>', 1,'html')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Banned Because of Max Warns!`\nکاربر به دلیل دریافت اخطار بیش از حد از گروه بن شد.', 1,'md')
       end
 bot.changeChatMemberStatus(chat, user, "Kicked")
   db:sadd(SUDO..'banned'..msg.chat_id_,user)
   end
 	if type == "mute" then
     if is_muted(msg.chat_id_,user) then else
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '>کاربر ['..user..'] به دلیل به حداقل رسیدن دریافت اخطار به حالت سکوت انتقال داده شد.','md')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Muted Because of Max Warns!`\nکاربر به دلیل دریافت اخطار بیش از حد میوت شد.','md')
       end
   db:sadd(SUDO..'mutes'..msg.chat_id_,user)
 	end
@@ -388,18 +416,18 @@ bot.sendMessage(msg.chat_id_, msg.id_, 1, '>کاربر ['..user..'] به دلی�
 function trigger_anti_spam(msg,type)
   if type == "kick" then
     kick(msg,msg.chat_id_,msg.sender_user_id_)
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> کاربر</code> [<b>'..msg.sender_user_id_..'</b>] <code>کاربر به دلیل ارسال پیام مکرر(اسپم) از گروه اخراج شد.</code>', 1,'html')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..msg.sender_user_id_..'*] `Kicked For Spamming!`\nکاربر به دلیل ارسال پیام مکرر اخراج شد.', 1,'md')
     end
   if type == "ban" then
     if is_banned(msg.chat_id_,msg.sender_user_id_) then else
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> کاربر</code> [<b>'..msg.sender_user_id_..'</b>] <code>کاربر به دلیل ارسال پیام مکرر(اسپم) از گروه بن شد.</code>', 1,'html')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..msg.sender_user_id_..'*] `Banned For Spamming!`\nکاربر به دلیل ارسال پیام مکرر از گروه بن شد.', 1,'md')
      end
 bot.changeChatMemberStatus(msg.chat_id_, msg.sender_user_id_, "Kicked")
   db:sadd(SUDO..'banned'..msg.chat_id_,msg.sender_user_id_)
   end
 	if type == "mute" then
     if is_muted(msg.chat_id_,msg.sender_user_id_) then else
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> کاربر</code> [<b>'..msg.sender_user_id_..'</b>] <code>کاربر به دلیل ارسال پیام مکرر(اسپم) به حالت سکوت انتقال داده شد.</code>', 1,'html')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..msg.sender_user_id_..'*] `Muted For Spamming!`\nکاربر به دلیل ارسال پیام مکرر میوت شد', 1,'md')
     end
   db:sadd(SUDO..'mutes'..msg.chat_id_,msg.sender_user_id_)
 	end
@@ -573,6 +601,8 @@ if exp_dat == 0 and is_owner(msg) and not is_sudo(msg) and not is_sudoers(msg) t
 db:del('bot:charge:'..msg.chat_id_)
 bot.changeChatMemberStatus(msg.chat_id_, 249464384, "Left")
 local texter = 'شارژ گروه به پایان رسید.⚠️\nربات لغو نصب شد.\nبرای خرید دوباره ربات بر روی لینک زیر بزنید\nhttps://t.me/SpheroNews/730\n> @SpheroNews'
+db:srem('bot:gps', msg.chat_id_)
+bot.sendMessage(Chief, msg.id_, 1,'شارژ گروهی با اطلاعات زیر به پایان رسید.\nName : ', 1, 'md')
 bot.sendMessage(msg.chat_id_,0,1,texter,0,'md')
 end
  
