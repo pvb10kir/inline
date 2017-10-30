@@ -77,7 +77,7 @@ function is_bot(msg)
   ------------------------------------------------------------
 function is_owner(msg) 
  local hash = db:sismember(SUDO..'owners:'..msg.chat_id_,msg.sender_user_id_)
-if hash or is_sudo(msg) or is_sudoers(msg) or master(msg) then
+if hash or is_sudo(msg) or is_sudoers(msg) or is_master(msg) then
 return true
 else
 return false
@@ -86,7 +86,7 @@ end
 ------------------------------------------------------------
 function is_mod(msg) 
 local hash = db:sismember(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
-if hash or is_sudo(msg) or is_owner(msg) or is_sudoers(msg) or master(msg) then
+if hash or is_sudo(msg) or is_owner(msg) or is_sudoers(msg) or is_master(msg) then
 return true
 else
 return false
