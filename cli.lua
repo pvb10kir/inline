@@ -1148,7 +1148,7 @@ end
         if text == 'masterdem' and is_sudo(msg) then
         function sudo_reply(extra, result, success)
         db:srem(SUDO..'masters:',result.sender_user_id_)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست مستر ادمین های ربات حذف گردید .</code>', 1, 'html')
         end
         if tonumber(msg.reply_to_message_id_) == 0 then
         else
@@ -1160,9 +1160,9 @@ end
          db:srem(SUDO..'masters:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست مستر ادمین های ربات حذف گردید .</code>', 1, 'html')
       end
---bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام دوست عزیز به نظر میرسد که در کانال ربات عضو نیستید پس از شما تقاضا میشود که در کانال جوین شوید\nبرای جوین شدن لینک زیر را کلیک کنید\nhttps://telegram.me/joinchat/DWQPej_1dbViXxXb9dfF1g', 1, 'html')
- -- print('Not valid: Channel not found')
---end
+if text == 'mastertest' and is_master(msg) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1,'> <code>Yeah!</code> <b>You are My Master Admin✅</b>', 1, 'html')
+end
 ---------------------reload -------------------------
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua') 
