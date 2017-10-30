@@ -1012,7 +1012,7 @@ end
 if text == 'setrank (%d+)' and is_sudo(msg) then
       local user = text:match('^setrank (%d+)')
           function sudo_reply(extra, result, success)
-      if text and text:match('^setrank (%d+)') and is_sudo(msg) and if user == 'sudo' then
+      if text and text:match('^setrank (%d+)') and is_sudo(msg) and user == 'sudo' then
         db:sadd(SUDO..'helpsudo:',result.sender_user_id_)
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '> User *[ '..user..' ] *Added to Sudo List!', 1, 'md')
         end
