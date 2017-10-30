@@ -1018,11 +1018,6 @@ if text:match("^(setrank) (%a+)")  then
     db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '> User *[ '..user..' ] *Added to Sudo List!', 1, 'md')
         end
-    if matches[2] == 'master' then
-    db:sadd(SUDO..'masters:',result.sender_user_id_)
-    db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
-     bot.sendMessage(msg.chat_id_, msg.id_, 1, '> User *[ '..user..' ] *Added to Master Admins List!', 1, 'md')
-    end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
