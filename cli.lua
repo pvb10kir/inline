@@ -184,7 +184,7 @@ end
 -----------------------------------------------------------------------------------------------
 function priv(chat,user)
   local ohash = db:sismember(SUDO..'owners:'..chat,user)
-  local ahash = db:sismember(SUDO..'admins:',..chat,user)
+  local ahash = db:sismember(SUDO..'admins:'..chat,user)
   local mhash = db:sismember(SUDO..'mods:'..chat,user)
   local shash = db:sismember(SUDO..'helpsudo:',user)
   local mahash = db:sismember(SUDO..'masters:',user)
