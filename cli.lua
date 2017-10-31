@@ -1060,8 +1060,9 @@ dofile('./cli.lua')
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
 end
 if text:match('^infotest') and is_mod(msg) then
-warns = db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_)
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '➖Total Warns : '..warns..'\n> @SpheroNews', 1, 'md')
+local maxwarn = tonumber(db:hget("warn:settings:"..result.chat_id_ ,"warnmax") or 3)
+local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '➖Total Warns : '..warns..' Of '..maxwarn..'\n> @SpheroNews', 1, 'md')
 end
 --------------- text -----------------------------------  
 	        if is_sudoers(msg) then
