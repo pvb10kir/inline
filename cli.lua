@@ -1059,6 +1059,10 @@ text = io.popen("git pull "):read('*all')
 dofile('./cli.lua') 
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
 end
+if text:match('^infotest') and is_mod(msg) then
+local warns = db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_)
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '➖Total Warns : '..warns..'\n> @SpheroNews', 1, 'md')
+end
 --------------- text -----------------------------------  
 	        if is_sudoers(msg) then
 -----------ban all ------------------
