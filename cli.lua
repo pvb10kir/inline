@@ -600,7 +600,7 @@ end
 if exp_dat == 0 and is_owner(msg) and not is_sudo(msg) and not is_sudoers(msg) then
 db:del('bot:charge:'..msg.chat_id_)
 local link = db:get(SUDO..'grouplink'..msg.chat_id_) 
-local owner = db:sismember(SUDO..'owners:'..msg.chat_id_,)
+local owner = db:sismember(SUDO..'owners:'..msg.chat_id_)
 bot.changeChatMemberStatus(msg.chat_id_, 249464384, "Left")
 local texter = 'شارژ گروه به پایان رسید.⚠️\nربات لغو نصب شد.\nبرای خرید دوباره ربات بر روی لینک زیر بزنید\nhttps://t.me/SpheroNews/730\n> @SpheroNews'
 db:srem('bot:gps', msg.chat_id_)
