@@ -916,7 +916,7 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-if text and text:match('^info') then 
+if text and text:match('^info$') then 
 	local ch = msg.chat_id_
 	local user = msg.sender_user_id_
     local name = db:hget("mehti:info:"..user, "name")
