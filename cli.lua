@@ -494,7 +494,7 @@ function run(msg,data)
       end
     end
  ------------------------------------------------------------
-if is_mod(msg) and not is_join(msg) then
+if not is_join(msg) and is_mod(msg) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام، مدیر گرامی!\nبرای دستور دادن به ربات ضروری است که در کانال ربات جوین باشید\nاز شما تقاضا میشود که در کانال ربات جوین شوید تا دیگر هرگز با این پیام مواجه نشوید.\nکانال ربات : @SpheroNews\nبا تشکر', 1, 'html')
 else
 if chat_type == 'super' then
