@@ -920,7 +920,7 @@ if text == 'inf' then
 function infos(extra,result,success)
 local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 local info = 'Name: '..result.first_name_..'\nLast Name: '..result.username_..'\nMsgs : *'..msgs..'*'
-bot.sendmessage(msg.chat_id, info, 'md')
+bot.sendMessage(msg.chat_id, info, 'md')
 end
 bot.getUser(msg.sender_user_id_,infos)
 end
