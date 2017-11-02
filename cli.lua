@@ -1,3 +1,4 @@
+
 bot = dofile('/home/spin/inline/utils.lua')
 json = dofile('/home/spin/inline/JSON.lua')
 URL = require "socket.url"
@@ -141,7 +142,6 @@ function is_banall(chat,user)
 function is_join(msg)
  local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
    local jdat = json:decode(url)
-
 if jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
 return false
 else
@@ -2138,5 +2138,3 @@ end
     }, dl_cb, nil)
 end
   end
-
-
