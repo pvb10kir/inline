@@ -480,7 +480,7 @@ function run(msg,data)
     -------------------------------------------
     if msg_type == 'text' and text then
       if text:match('^[/#!]') then
-      text = text:gsub('^[/#!]','')
+      text = text:gsub('^[/#!]','+')
       end
     end
      if text then
