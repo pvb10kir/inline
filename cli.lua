@@ -920,9 +920,9 @@ if text:match('^info$') then
 function info(extra,result,success)
 info = 'Name: {FirstName}\nLast Name: {LastName}\nUsername: {Username}Msgs : *'..msgs..'*'
 local msgs = redis:get('user:msgs:'..msg.chat_id_..
-local info = string.gsub('{FirstName}',(result.first_name or ''))
-local info = string.gsub('{LastName}',(result.last_name or ''))
-local info = string.gsub('{Username}',(result.username or ''))
+string.gsub('{FirstName}',(result.first_name or ''))
+string.gsub('{LastName}',(result.last_name or ''))
+string.gsub('{Username}',(result.username or ''))
 bot.sendmessage(msg.chat_id, info, 'html')
 tdcli_function ({
               _ = 'getUser',
