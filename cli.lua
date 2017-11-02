@@ -919,7 +919,7 @@ end
 if text:match('^info$') then
 function info(extra,result,success)
 info = 'Name: {FirstName}\nLast Name: {LastName}\nUsername: {Username}Msgs : *'..msgs..'*'
-local msgs = redis:get('user:msgs:'..msg.chat_id_..
+db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 string.gsub('{FirstName}',(result.first_name or ''))
 string.gsub('{LastName}',(result.last_name or ''))
 string.gsub('{Username}',(result.username or ''))
