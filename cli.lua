@@ -949,7 +949,7 @@ local user = msg.sender_user_id_
 local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
 local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
-local info = '_➖Name :_ *'..result.first_name_..'*\n_➖Last Name :_ *'..lastname..'*\n_➖Username :_ *'..username..'*\n_➖User ID :_ *'..user..'*\n_➖Rank :_ *'..t..'*\n_➖Total Messages :_ *'..usermsg..'*\n_➖Total Warns :_ *'..warns..'* of *'..maxwarn..'*\n> @SpheroNews'
+local info = '*➖Name :* `'..result.first_name_..'`\n*➖Last Name :* `'..lastname..'`\n*➖Username :* '..username..'\n*➖User ID :* `'..user..'`\n*➖Rank :* `'..t..'`\n*➖Total Messages :* `'..usermsg..'`\n*➖Total Warns :* `'..warns..'` *of* `'..maxwarn..'`\nJoin > @SpheroNews'
 bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'md')
   end
 bot.getUser(msg.sender_user_id_,info)
