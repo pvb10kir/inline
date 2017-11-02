@@ -22,15 +22,6 @@ function dl_cb(arg, data)
   --vardump(arg)
 end
 
-  function is_sudo(msg)
-  local var = false
-  for k,v in pairs(sudo_users) do
-    if msg.sender_user_id_ == v then
-      var = true
-    end
-  end
-  return var
-end
 ---------------------setrank Function-------------------------------
 function setrank(msg, user, value)
     hash = db:hset('bot:setrank', msg.sender_user_id_, value)
@@ -51,6 +42,14 @@ return false
 end
 end
 ---------------------Sudoers---------------------------------
+function is_sudo(msg) 
+local hash = db:sismember(SUDO..'helpsudo:',msg.sender_user_id_)
+if hash or is_chief(msg) then
+return true
+else
+return false
+end
+end
 function is_sudoers(msg) 
 local hash = db:sismember(SUDO..'helpsudo:',msg.sender_user_id_)
 if hash or is_chief(msg) then
@@ -62,7 +61,7 @@ end
 ------------------------------Admins-------------------------------
 function is_admin(msg) 
 local hash = db:sismember(SUDO..'admins:',msg.sender_user_id_)
-if hash or is_sudoers(msg) or is_master(msg) or is_chief(msg) then
+if hash or is_sudo(msg) or is_master(msg) or is_chief(msg) then
 return true
 else
 return false
@@ -71,7 +70,7 @@ end
 ------------------------------Master Admin-----------------------------
 function is_master(msg) 
   local hash = db:sismember(SUDO..'masters:',msg.sender_user_id_)
-if hash or is_sudoers(msg) or is_chief(msg) then
+if hash or is_sudo(msg) or is_chief(msg) then
 return true
 else
 return false
@@ -98,7 +97,7 @@ end
 -------------------------------Owner-------------------------------
 function is_owner(msg) 
  local hash = db:sismember(SUDO..'owners:'..msg.chat_id_,msg.sender_user_id_)
-if hash or is_sudo(msg) or is_sudoers(msg) or is_master(msg) then
+if hash or is_sudo(msg) or is_chief(msg) or is_master(msg) or is_admin(msg) then
 return true
 else
 return false
@@ -107,7 +106,7 @@ end
 ------------------------------Moderator------------------------------
 function is_mod(msg) 
 local hash = db:sismember(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
-if hash or is_sudo(msg) or is_owner(msg) or is_sudoers(msg) or is_master(msg) then
+if hash or is_sudo(msg) or is_owner(msg) or is_chief(msg) or is_master(msg) or is_admin(msg) then
 return true
 else
 return false
@@ -500,7 +499,7 @@ bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام، مدیر گرامی!\nبر
 else
 if chat_type == 'super' then
 --------------------------gp add -------------------------
-if text == 'install' and is_sudoers(msg) then
+if text == 'install' and is_master(msg) then
 if db:sismember('bot:gps', msg.chat_id_) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group is Already In Added! | قبلا اضافه شده است!</code>\nربات از قبل در این گروه فعال است.\n> @SpheroNews', 1, 'html')
 else
@@ -510,7 +509,7 @@ end
 	end
 end
 --------------------------rem add -------------------------
-if text == 'uninstall' and is_sudoers(msg) then
+if text == 'uninstall' and is_master(msg) then
 if not db:sismember('bot:gps', msg.chat_id_) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group is Not Added! | از قبل ادد نشده است.!</code>\nربات قبلا در این گروه ادد نشده است.\n> @SpheroNews', 1, 'html')
 else			
@@ -595,19 +594,29 @@ local exp = tonumber(db:get('bot:charge:'..msg.chat_id_))
       end
 			exp_dat = (math.floor((tonumber(exp) - tonumber(now)) / 86400) + 1)      
 end
-if exp_dat == 1 and is_owner(msg) and not is_sudo(msg) and not is_sudoers(msg) then 
+if exp_dat == 1 and is_owner(msg) and not is_sudo(msg) and not is_master(msg) and is_admin(msg) and is_chief(msg) then 
 local texter = 'شارژ گروه شما تا 1 روز دیگر به پایان میرسد⚠️\nبهتر است برای شارژ گروه خود اقدام کنید✌️\nتعرفه خرید ربات: https://t.me/SpheroNews/730\n> @SpheroNews'
 bot.sendMessage(msg.chat_id_,0,1,texter,0,'md')
 end
 
-if exp_dat == 0 and is_owner(msg) and not is_sudo(msg) and not is_sudoers(msg) then
+if exp_dat == 0 and is_owner(msg) and not is_sudo(msg) and not is_master(msg) and is_admin(msg) and is_chief(msg) then
 db:del('bot:charge:'..msg.chat_id_)
 local link = db:get(SUDO..'grouplink'..msg.chat_id_) 
 local owner = db:sismember(SUDO..'owners:'..msg.chat_id_)
 bot.changeChatMemberStatus(msg.chat_id_, 249464384, "Left")
 local texter = 'شارژ گروه به پایان رسید.⚠️\nربات لغو نصب شد.\nبرای خرید دوباره ربات بر روی لینک زیر بزنید\nhttps://t.me/SpheroNews/730\n> @SpheroNews'
 db:srem('bot:gps', msg.chat_id_)
-bot.sendMessage(Chief, msg.id_, 1,'شارژ گروهی با اطلاعات زیر به پایان رسید.\n*Link : *'..link..' \n*Owner :* '..owner..'\n@SpheroNews', 1, 'md')
+bot.sendMessage(Chief, msg.id_, 1,'شارژ گروهی با اطلاعات زیر به پایان رسید.\n*Gp Name : *'..chat.title_..'\n*Link : *'..link..' \n*Owner :* '..owner..'\n@SpheroNews', 1, 'md')
+bot.sendMessage(msg.chat_id_,0,1,texter,0,'md')
+end
+ if text == 'leave' and is_master(msg) then
+db:del('bot:charge:'..msg.chat_id_)
+local link = db:get(SUDO..'grouplink'..msg.chat_id_) 
+local owner = db:sismember(SUDO..'owners:'..msg.chat_id_)
+bot.changeChatMemberStatus(msg.chat_id_, BOTS, "Left")
+local texter = 'ربات به دستور ادمین از گروه خارج میشود.\n> @SpheroNews'
+bot.sendMessage(Chief, msg.id_, 1,'ربات از گروهی با اطلاعات زیر لفت داد\n*Gp Name* : '..chat.title_..'\n*Link : *'..link..' \n*Owner :* '..owner..'\n@SpheroNews', 1, 'md')
+db:srem('bot:gps', msg.chat_id_)
 bot.sendMessage(msg.chat_id_,0,1,texter,0,'md')
 end
  
