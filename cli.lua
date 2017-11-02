@@ -916,12 +916,43 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-if text:match('^info') then
-function infos(extra,result,success)
-local info = 'Name: '..result.first_name_..'\nUsername: '..result.username_..'\n'
+  if text:match('^info') then 
+function info(extra,result,success)
+       if is_sudo(msg) then
+    t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
+      elseif is_owner(msg) then
+    t = 'Group Owner(⭐️⭐️⭐️)'
+      elseif is_mod(msg) then
+    t = 'Group Moderator(⭐️⭐️)'
+      elseif is_master(msg) then
+    t = 'Bot Master Admin(⭐️⭐️⭐️⭐️⭐️)'
+    elseif is_admin(msg) then
+    t = 'Bot Admin(⭐️⭐️⭐️⭐️)'
+    elseif is_chief(msg) then
+    t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
+    elseif is_vip(msg) then
+    t = 'Vip User(💫)'
+    else
+    t = 'Member⭐️'
+    end
+if result.username_ then
+              username = '@'..result.username_
+            else
+                username = '----'
+              end
+            if result.last_name_ then
+              lastname = result.last_name_
+            else
+              lastname = '----'
+            end
+local user = msg.sender_user_id_
+local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
+local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
+local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
+local info = '_➖Name :_ *'..result.first_name_..'*\n_➖Last Name :_ *'..lastname..'*\n_➖Username :_ *'..username..'*\n_➖User ID :_ *'..user..'*\n_➖Rank :_ *'..t..'*\n_➖Total Messages :_ *'..usermsg..'*\n_➖Total Warns :_ *'..warns..'* of *'..maxwarn..'*\n> @SpheroNews'
 bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'md')
-end
-bot.getUser(msg.sender_user_id_,infos)
+  end
+bot.getUser(msg.sender_user_id_,info)
 end
   -------------------id+pro------------------------#MehTi
   		 if text == 'id' then  
