@@ -921,10 +921,7 @@ function infos(extra,result,success)
 local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 local info = 'Name: '..result.first_name_..'\nLast Name: '..result.last_name_..'\nMsgs : *'..msgs..'*'
 bot.sendmessage(msg.chat_id, info, 'md')
-tdcli_function ({
-              _ = 'getUser',
-              user_id = msg.sender_user_id
-            }, infos, nil)
+bot.getUser(msg.sender_user_id_,infos)
   end
 end
   -------------------id+pro------------------------#MehTi
