@@ -928,7 +928,7 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-  if text:match('^info') then 
+  if text:match('^info') or text:match('^me') then 
 function info(extra,result,success)
        if is_chief(msg) then
     t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
@@ -2040,10 +2040,6 @@ db:set(SUDO..'pinned'..msg.chat_id_,msg.reply_to_message_id_)
           bot.sendMessage(msg.chat_id_, msg.id_, 1,'<b>Your Random Number:</b>\n [<code>'..number[math.random(#number)]..'</code>]', 1, 'html')
       end
     if text and msg_type == 'text' and not is_muted(msg.chat_id_,msg.sender_user_id_) then
-       if text == "me" then
-         local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '➖➖➖➖➖➖➖➖\n<b>⚜️Your UserID</b> 👉 <code>'..msg.sender_user_id_..'</code>\n<b>⚜️Your Msg Send</b> 👉 <code>'..msgs..'</code>\n➖➖➖➖➖➖➖➖\n👉 @BanG_TeaM', 1, 'html')
-      end
 end
 end
   -- help 
