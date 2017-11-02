@@ -918,7 +918,7 @@ end
   -------------------info------------------------#MehTi
   if text:match('^info') then 
 function info(extra,result,success)
-       if is_sudo(msg) then
+       if is_sudoers(msg) then
     t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
       elseif is_owner(msg) then
     t = 'Group Owner(⭐️⭐️⭐️)'
