@@ -526,7 +526,7 @@ db:set(SUDO..'grouplink'..msg.chat_id_, link)
 bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>> لینک جدید با موفقیت ذخیر شد.</code>\nربات در گروه شما فعال شد!\n > @SpheroNews', 1, 'html')
 end
 ----------------------start prozhect ----------------------
-if chackgp(msg) and not is_sudoers(msg) then 
+if chackgp(msg) and not text:match('install') then 
 local chcklink = db:get(SUDO..'grouplink'..msg.chat_id_) 
 if not chcklink and is_owner(msg) then 
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> صاحب گرامی گروه!</code>\nاز شما تقاضا میشود که لینک گروه خود را با دستور زیر ثبت کنید تا ربات در گروه شما فعال شود.\n/glink [لینک گروه]\n> @SpheroNews', 1, 'html')
@@ -916,20 +916,7 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-if text:match('^info$') then
-function infos(extra,result,success)
-local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
-info = 'Name: {FirstName}\nLast Name: {LastName}\nUsername: {Username}\nMsgs : *'..msgs..'*'
-string.gsub('{FirstName}',(result.first_name or ''))
-string.gsub('{LastName}',(result.last_name or ''))
-string.gsub('{Username}',(result.username or ''))
-bot.sendmessage(msg.chat_id, info, 'html')
-tdcli_function ({
-              _ = 'getUser',
-              user_id = msg.sender_user_id
-            }, infos, nil)
-  end
-	end
+
   -------------------id+pro------------------------#MehTi
   		 if text == 'id' then  
 local function getpro(extra, result, success)
@@ -2018,7 +2005,6 @@ help = [[متن راهنمای مالک ربات ثبت نشده است.]]
   elseif is_owner(msg) then
     help = [[
 	<code>>راهنمای مالکین گروه(اصلی-فرعی)</code>
-
 *<b>[/#!]settings</b> --<code>دریافت تنظیمات گروه</code>
 *<b>[/#!]setrules</b> --<code>تنظیم قوانین گروه</code>
 *<b>[/#!]modset</b> @username|reply|user-id --<code>تنظیم مالک فرعی جدید برای گروه با یوزرنیم|ریپلی|شناسه -فرد</code>
@@ -2114,4 +2100,3 @@ end
     }, dl_cb, nil)
 end
   end
-
