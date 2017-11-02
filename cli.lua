@@ -936,7 +936,7 @@ function info(extra,result,success)
     t = 'Member⭐️'
     end
 local user = msg.sender_user_id_
-local info = _➖Name :_ *{firstname}*\n_➖Last Name :_ *{lastname}*\n_➖Username :_ *{username}*\n_➖User ID :_ *'..user..'*\n_➖Rank :_ *'..t..'*\n_➖Total Messages :_ *'..usermsg..'*\n_➖Total Warns :_ *'..warns..'* of *'..maxwarn..'*\n> @SpheroNews
+local info = '_➖Name :_ *{firstname}*\n_➖Last Name :_ *{lastname}*\n_➖Username :_ *{username}*\n_➖User ID :_ *'..user..'*\n_➖Rank :_ *'..t..'*\n_➖Total Messages :_ *'..usermsg..'*\n_➖Total Warns :_ *'..warns..'* of *'..maxwarn..'*\n> @SpheroNews'
 local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
 local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
