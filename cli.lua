@@ -615,7 +615,7 @@ db:del('bot:charge:'..msg.chat_id_)
 local link = db:get(SUDO..'grouplink'..msg.chat_id_) 
 local texter = 'ربات به دستور ادمین از گروه خارج میشود.\n> @SpheroNews'
 db:srem('bot:gps', msg.chat_id_)
-bot.sendMessage('255317894', msg.id_, 1,'ربات از گروهی با اطلاعات زیر لفت داد\n'..link..'\n'..data.title_..'\n@SpheroNews', 1, 'md')
+bot.sendMessage('255317894', msg.id_, 1,'ربات از گروهی با اطلاعات زیر لفت داد\n\n*Link : *'..link..'\n*GroupName :*'..data.title_..'\n> @SpheroNews', 1, 'md')
 bot.changeChatMemberStatus(msg.chat_id_, BOTS, "Left")
 end
  bot.getChat(msg.chat_id_,getchat) 
@@ -961,7 +961,7 @@ local user = msg.sender_user_id_
 local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
 local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
-local info = '*➖Name :* `'..result.first_name_..'`\n*➖Last Name :* `'..lastname..'`\n*➖Username :* '..username..'\n*➖User ID :* `'..user..'`\n*➖Rank :* `'..t..'`\n*➖Total Messages :* `'..usermsg..'`\n*➖Total Warns :* `'..warns..'` *of* `'..maxwarn..'`\nJoin > @SpheroNews'
+local info = '*➖Name :* `'..result.first_name_..'`\n*➖Last Name :* `'..lastname..'`\n*➖Username :* '..username..'\n*➖User ID :* `'..user..'`\n*➖Rank :* `'..t..'`\n*➖Total Messages :* `'..usermsg..'`\n*➖Total Warns :* `'..warns..'` *of* `'..maxwarn..'`\n➖Join > @SpheroNews'
 bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'md')
   end
 bot.getUser(msg.sender_user_id_,info)
