@@ -494,9 +494,6 @@ function run(msg,data)
       end
     end
  ------------------------------------------------------------
-if not is_join(msg) and is_mod(msg) then
-bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام، مدیر گرامی!\nبرای دستور دادن به ربات ضروری است که در کانال ربات جوین باشید\nاز شما تقاضا میشود که در کانال ربات جوین شوید تا دیگر هرگز با این پیام مواجه نشوید.\nکانال ربات : @SpheroNews\nبا تشکر', 1, 'html')
-else
 if chat_type == 'super' then
 --------------------------gp add -------------------------
 if text == 'install' and is_master(msg) then
@@ -507,7 +504,6 @@ db:sadd('bot:gps', msg.chat_id_)
 bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> Group Added! | انجام شد</code>\nربات با موفقیت در گروه نصب شد.\nلذا برای فعال شدن ربات در گروه باید لینک گروه را ارسال کنید\nنمونه:\n/glink https://t.me/joinchat/DzfXhkKXqCI2KiGTRhhfAw\n> @SpheroNews', 1, 'html')
 end
 	end
-end
 --------------------------rem add -------------------------
 if text == 'uninstall' and is_master(msg) then
 if not db:sismember('bot:gps', msg.chat_id_) then
@@ -522,10 +518,14 @@ bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>> RemoVed! | انجام شد</c
 end
 	end
 --------------------------set link -----------------------
+if not is_join(msg) and is_mod(msg) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام، مدیر گرامی!\nبرای دستور دادن به ربات ضروری است که در کانال ربات جوین باشید\nاز شما تقاضا میشود که در کانال ربات جوین شوید تا دیگر هرگز با این پیام مواجه نشوید.\nکانال ربات : @SpheroNews\nبا تشکر', 1, 'html')
+else
 if text and text:match('^glink (.*)') and is_owner(msg) then
 local link = text:match('glink (.*)')
 db:set(SUDO..'grouplink'..msg.chat_id_, link)
 bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>> لینک جدید با موفقیت ذخیر شد.</code>\nربات در گروه شما فعال شد!\n > @SpheroNews', 1, 'html')
+end
 end
 ----------------------start prozhect ----------------------
 if chackgp(msg) and not text:match('install') then 
