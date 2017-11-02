@@ -916,11 +916,10 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-if text == 'info' then
+if text:match('^info') then
 function infos(extra,result,success)
-local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
-local info = 'Name: '..result.first_name_..'\nLast Name: '..result.username_..'\nMsgs : *'..msgs..'*'
-bot.sendMessage(msg.chat_id, info, 'md')
+local info = 'Name: '..result.first_name_..'\nUsername: '..result.username_..'\n'
+bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'md')
 end
 bot.getUser(msg.sender_user_id_,infos)
 end
