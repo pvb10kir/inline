@@ -919,10 +919,10 @@ end
 function infos(extra,result,success)
 if text == 'inf' then
 local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
-local info = 'Name: '..result.first_name_..'\nLast Name: '..result.last_name_..'\nMsgs : *'..msgs..'*'
+local info = 'Name: '..result.first_name_..'\nLast Name: '..result.username_..'\nMsgs : *'..msgs..'*'
 bot.sendmessage(msg.chat_id, info, 'md')
+end
 bot.getUser(msg.sender_user_id_,infos)
-  end
 end
   -------------------id+pro------------------------#MehTi
   		 if text == 'id' then  
