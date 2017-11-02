@@ -957,8 +957,8 @@ local user = msg.sender_user_id_
 local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
 local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
-local info = '*➖Name :* `'..result.first_name_..'`\n*➖Last Name :* `'..lastname..'`\n*➖Username :* '..username..'\n*➖User ID :* `'..user..'`\n*➖Rank :* `'..t..'`\n*➖Total Messages :* `'..usermsg..'`\n*➖Total Warns :* `'..warns..'` *of* `'..maxwarn..'`\n*➖Join* > @SpheroNews'
-bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'md')
+local info = '<b>➖Name :</b> <code>'..result.first_name_..'</code>\n<b>➖Last Name :</b> <code>'..lastname..'</code>\n<b>➖Username :</b> '..username..'\n<b>➖User ID :</b> <code>'..user..'</code>\n<b>➖Rank :</b> <code>'..t..'</code>\n<b>➖Total Messages :</b> <code>'..usermsg..'</code>\n<b>➖Total Warns :</b> <code>'..warns..'</code> <b>of</b> <code>'..maxwarn..'</code>\n<b>➖Join</b> > @SpheroNews'
+bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'html')
   end
 bot.getUser(msg.sender_user_id_,info)
 end
