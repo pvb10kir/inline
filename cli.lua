@@ -612,10 +612,9 @@ end
  if text == 'leave' and is_master(msg) then
 db:del('bot:charge:'..msg.chat_id_)
 local link = db:get(SUDO..'grouplink'..msg.chat_id_) 
-local owner = db:sismember(SUDO..'owners:'..msg.chat_id_)
 bot.changeChatMemberStatus(msg.chat_id_, BOTS, "Left")
 local texter = 'ربات به دستور ادمین از گروه خارج میشود.\n> @SpheroNews'
-bot.sendMessage(SUDO, msg.id_, 1,'ربات از گروهی با اطلاعات زیر لفت داد\n*Gp Name* : '..chat.title_..'\n*Link : *'..link..' \n*Owner :* '..owner..'\n@SpheroNews', 1, 'md')
+bot.sendMessage(SUDO, msg.id_, 1,'ربات از گروهی با اطلاعات زیر لفت داد\n*Gp Name* : '..chat.title_..'\n*Link : *'..link..'\n@SpheroNews', 1, 'md')
 db:srem('bot:gps', msg.chat_id_)
 bot.sendMessage(msg.chat_id_,0,1,texter,0,'md')
 end
