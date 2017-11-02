@@ -916,40 +916,20 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
+if text:match('^info$') then
 function info(extra,result,success)
-  if text:match('^info') then 
-       if is_sudo(msg) then
-    t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
-      elseif is_owner(msg) then
-    t = 'Group Owner(⭐️⭐️⭐️)'
-      elseif is_mod(msg) then
-    t = 'Group Moderator(⭐️⭐️)'
-      elseif is_master(msg) then
-    t = 'Bot Master Admin(⭐️⭐️⭐️⭐️⭐️)'
-    elseif is_admin(msg) then
-    t = 'Bot Admin(⭐️⭐️⭐️⭐️)'
-    elseif is_chief(msg) then
-    t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
-    elseif is_vip(msg) then
-    t = 'Vip User(💫)'
-    else
-    t = 'Member⭐️'
-    end
-local user = msg.sender_user_id_
-local info = '_➖Name :_ *{firstname}*\n_➖Last Name :_ *{lastname}*\n_➖Username :_ *{username}*\n_➖User ID :_ *'..user..'*\n_➖Rank :_ *'..t..'*\n_➖Total Messages :_ *'..usermsg..'*\n_➖Total Warns :_ *'..warns..'* of *'..maxwarn..'*\n> @SpheroNews'
-local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
-local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
-local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
-local info =  string.gsub('{firstName}',(result.first_name or ''))
-local info =  string.gsub('{lastName}',(result.last_name or ''))
-local info =  string.gsub('{username}',(result.username or ''))
-bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'md')
+info = 'Name: {FirstName}\nLast Name: {LastName}\nUsername: {Username}Msgs : *'..msgs..'*'
+local msgs = redis:get('user:msgs:'..msg.chat_id_..
+local info =  string.gsub('{FirstName}',(result.first_name or ''))
+local info =  string.gsub('{LastName}',(result.last_name or ''))
+local info =  string.gsub('{Username}',(result.username or ''))
+bot.sendmessage(msg.chat_id, info, 'html')
 tdcli_function ({
               _ = 'getUser',
               user_id = msg.sender_user_id
             }, info, nil)
   end
-  end
+	end
   -------------------id+pro------------------------#MehTi
   		 if text == 'id' then  
 local function getpro(extra, result, success)
