@@ -62,7 +62,7 @@ end
 ------------------------------Admins-------------------------------
 function is_admin(msg) 
 local hash = db:sismember(SUDO..'admins:',msg.sender_user_id_)
-if hash or is_sudo(msg) or is_master(msg) or is_chief(msg) then
+if hash or is_sudoers(msg) or is_master(msg) or is_chief(msg) then
 return true
 else
 return false
@@ -87,7 +87,7 @@ function is_bot(msg)
   end
   -----------------------------Chief Rank-------------------------------
 function is_chief(msg)
-  if tonumber(BOTS) == 255317894 then
+  if tonumber(Chief) == 255317894 then
     return true
     else
     return false
