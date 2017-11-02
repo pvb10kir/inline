@@ -916,67 +916,40 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-if text and text:match('^info$') then 
-	local ch = msg.chat_id_
-	local user = msg.sender_user_id_
-    local name = db:hget("mehti:info:"..user, "name")
-	if not name then 
-    name = '----'
-	end 
-	local lastname = db:hget('mehti:info'..user, 'lname') 
-	if not lastname then 
-	lastname = '----'
-	end 
-	local sex = db:hget('mehti:info'..user, 'sex')
-	local bio = db:hget('mehti:info'..user, 'bio')
-	local hiphop = db:hget("mehti:info"..user, "hiphop")
-	local cstm = db:hget('mehti:info'..user, 'cstm')
-	local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
-	local url , res = http.request('http://irapi.ir/time')
-    if res ~= 200 then
-	return "No connection"
-    end
-	local jdat = json:decode(url)
-	
-	 if is_sudo(msg) then
-	  t = 'FullSudo'
-      elseif is_sudoers(msg) then
-	  t = 'HelpSudo'
+function info(extra,result,success)
+  if text:match('^info') then 
+       if is_sudo(msg) then
+    t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
       elseif is_owner(msg) then
-	  t = 'Group Owner'
+    t = 'Group Owner(⭐️⭐️⭐️)'
       elseif is_mod(msg) then
-	  t = 'Moderator'
-      else
-	  t = 'Member'
-	  end
-	
-	
-	if cstm and sex and hiphop and bio then 
-	  local text = '🔅Name : '..name..'\n🔅Last Name : '..lastname..'\n🔅User ID : '..user..'\n🔅Gp ID : '..ch..'\n🔅Your Msg Sender : '..usermsg..'\n🔅Rank : '..t..'\n➖➖custom info➖➖\n🔅Sex : '..sex..'\n🔅Bio : '..bio..'\n🔅Age : '..hiphop..'\n➖➖Time and Date➖➖\n⌚️Time : '..jdat.FAtime..'\n🗓Date : '..jdat.FAdate..''
- bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
-	  elseif cstm and sex and hiphop and not bio then 
-	  	  local text = '🔅Name : '..name..'\n🔅Last Name : '..lastname..'\n🔅User ID : '..user..'\n🔅Gp ID : '..ch..'\n🔅Your Msg Sender : '..usermsg..'\n🔅Rank : '..t..'\n➖➖custom info➖➖\n🔅Sex : '..sex..'\n🔅Age : '..hiphop..'\n➖➖Time and Date➖➖\n⌚️Time : '..jdat.FAtime..'\n🗓Date : '..jdat.FAdate..''
- bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
-	  elseif cstm and hiphop and bio and not sex then 
-	  	  local text = '🔅Name : '..name..'\n🔅Last Name : '..lastname..'\n🔅User ID : '..user..'\n🔅Gp ID : '..ch..'\n🔅Your Msg Sender : '..usermsg..'\n🔅Rank : '..t..'\n➖➖custom info➖➖\n🔅Bio : '..bio..'\n🔅Age : '..hiphop..'\n➖➖Time and Date➖➖\n⌚️Time : '..jdat.FAtime..'\n🗓Date : '..jdat.FAdate..''
- bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
-	  elseif cstm and sex and bio and not hiphop then 
-	  	  local text = '🔅Name : '..name..'\n🔅Last Name : '..lastname..'\n🔅User ID : '..user..'\n🔅Gp ID : '..ch..'\n🔅Your Msg Sender : '..usermsg..'\n🔅Rank : '..t..'\n➖➖custom info➖➖\n🔅Sex : '..sex..'\n🔅Bio : '..bio..'\n➖➖Time and Date➖➖\n⌚️Time : '..jdat.FAtime..'\n🗓Date : '..jdat.FAdate..''
- bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
-	  elseif cstm and sex and not hiphop and not bio then 
-	  	  local text = '🔅Name : '..name..'\n🔅Last Name : '..lastname..'\n🔅User ID : '..user..'\n🔅Gp ID : '..ch..'\n🔅Your Msg Sender : '..usermsg..'\n🔅Rank : '..t..'\n➖➖custom info➖➖\n🔅Sex : '..sex..'\n➖➖Time and Date➖➖\n⌚️Time : '..jdat.FAtime..'\n🗓Date : '..jdat.FAdate..''
- bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
-	  elseif cstm and not sex and hiphop and not bio then
-	      local text = '🔅Name : '..name..'\n🔅Last Name : '..lastname..'\n🔅User ID : '..user..'\n🔅Gp ID : '..ch..'\n🔅Your Msg Sender : '..usermsg..'\n🔅Rank : '..t..'\n➖➖custom info➖➖\n🔅Age : '..hiphop..'\n➖➖Time and Date➖➖\n⌚️Time : '..jdat.FAtime..'\n🗓Date : '..jdat.FAdate..''
- bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
-	  elseif cstm and not sex and not hiphop and bio then
-	      local text = '🔅Name : '..name..'\n🔅Last Name : '..lastname..'\n🔅User ID : '..user..'\n🔅Gp ID : '..ch..'\n🔅Your Msg Sender : '..usermsg..'\n🔅Rank : '..t..'\n➖➖custom info➖➖\n🔅Bio : '..bio..'\n➖➖Time and Date➖➖\n⌚️Time : '..jdat.FAtime..'\n🗓Date : '..jdat.FAdate..''
- bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
-	 else 
-	 local text = '🔅Name : '..name..'\n🔅Last Name : '..lastname..'\n🔅User ID : '..user..'\n🔅Gp ID : '..ch..'\n🔅Your Msg Sender : '..usermsg..'\n🔅Rank : '..t..'\n➖➖Time and Date➖➖\n⌚️Time : '..jdat.FAtime..'\n🗓Date : '..jdat.FAdate..''
-     bot.sendMessage(msg.chat_id_, msg.id_, 1, text,0)
-	end 
-	end 
+    t = 'Group Moderator(⭐️⭐️)'
+      elseif is_master(msg) then
+    t = 'Bot Master Admin(⭐️⭐️⭐️⭐️⭐️)'
+    elseif is_admin(msg) then
+    t = 'Bot Admin(⭐️⭐️⭐️⭐️)'
+    elseif is_chief(msg) then
+    t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
+    elseif is_vip(msg) then
+    t = 'Vip User(💫)'
+    else
+    t = 'Member⭐️'
+    end
+local user = msg.sender_user_id_
+local info = _➖Name :_ *{firstname}*\n_➖Last Name :_ *{lastname}*\n_➖Username :_ *{username}*\n_➖User ID :_ *'..user..'*\n_➖Rank :_ *'..t..'*\n_➖Total Messages :_ *'..usermsg..'*\n_➖Total Warns :_ *'..warns..'* of *'..maxwarn..'*\n> @SpheroNews
+local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
+local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
+local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
+local info =  string.gsub('{firstName}',(result.first_name or ''))
+local info =  string.gsub('{lastName}',(result.last_name or ''))
+local info =  string.gsub('{username}',(result.username or ''))
+bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'md')
+tdcli_function ({
+              _ = 'getUser',
+              user_id = msg.sender_user_id
+            }, info, nil)
+  end
+  end
   -------------------id+pro------------------------#MehTi
   		 if text == 'id' then  
 local function getpro(extra, result, success)
