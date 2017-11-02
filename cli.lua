@@ -918,18 +918,18 @@ end
   -------------------info------------------------#MehTi
   if text:match('^info') then 
 function info(extra,result,success)
-       if is_sudoers(msg) then
+       if is_chief(msg) then
+    t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
+      elseif is_sudoers(msg) then
     t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
-      elseif is_owner(msg) then
-    t = 'Group Owner(⭐️⭐️⭐️)'
-      elseif is_mod(msg) then
-    t = 'Group Moderator(⭐️⭐️)'
       elseif is_master(msg) then
     t = 'Bot Master Admin(⭐️⭐️⭐️⭐️⭐️)'
-    elseif is_admin(msg) then
-    t = 'Bot Admin(⭐️⭐️⭐️⭐️)'
-    elseif is_chief(msg) then
-    t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
+      elseif is_admin(msg) then
+    t = 'Bot Admin(⭐️⭐️⭐️⭐️⭐️)'
+    elseif is_owner(msg) then
+    t = 'Group Owner(⭐️⭐️⭐️)'
+    elseif is_mod(msg) then
+    t = 'Group Moderator(⭐️⭐️)'
     elseif is_vip(msg) then
     t = 'Vip User(💫)'
     else
