@@ -86,7 +86,7 @@ function is_bot(msg)
   end
   -----------------------------Chief Rank-------------------------------
 function is_chief(msg)
-  if tonumber(SUDO) == 255317894 then
+  if tonumber(Chief) == 255317894 then
     return true
     else
     return false
@@ -104,7 +104,7 @@ end
 ------------------------------Moderator------------------------------
 function is_mod(msg) 
 local hash = db:sismember(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
-if hash or is_chief or is_owner(msg) or is_sudoers(msg) or is_master(msg) then
+if hash or is_sudo(msg) or is_owner(msg) or is_sudoers(msg) or is_master(msg) then
 return true
 else
 return false
@@ -141,7 +141,7 @@ function is_banall(chat,user)
 function is_join(msg)
  local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
    local jdat = json:decode(url)
-if jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
+if jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok and is_mod(msg) then
 return false
 else
 return true
@@ -480,7 +480,7 @@ function run(msg,data)
     -------------------------------------------
     if msg_type == 'text' and text then
       if text:match('^[/#!]') then
-      text = text:gsub('^[/#!]','+')
+      text = text:gsub('^[/#!]','')
       end
     end
      if text then
@@ -492,7 +492,7 @@ function run(msg,data)
       end
     end
  ------------------------------------------------------------
-if not is_join(msg) and text:match('^[!/#]') then
+if not is_join(msg) and is_mod(msg) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام، مدیر گرامی!\nبرای دستور دادن به ربات ضروری است که در کانال ربات جوین باشید\nاز شما تقاضا میشود که در کانال ربات جوین شوید تا دیگر هرگز با این پیام مواجه نشوید.\nکانال ربات : @SpheroNews\nبا تشکر', 1, 'html')
 else
 if chat_type == 'super' then
@@ -918,7 +918,7 @@ end
   -------------------info------------------------#MehTi
   if text:match('^info') then 
 function info(extra,result,success)
-      if is_chief(msg) then
+       if is_chief(msg) then
     t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
       elseif is_sudoers(msg) then
     t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
@@ -2137,3 +2137,5 @@ end
     }, dl_cb, nil)
 end
   end
+
+
