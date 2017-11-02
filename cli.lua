@@ -916,7 +916,7 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-if text:match('^info') then
+if text == 'info' then
 function infos(extra,result,success)
 local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 local info = 'Name: {FirstName}\nLast Name: {LastName}\nUsername: {Username}\nMsgs : *'..msgs..'*'
