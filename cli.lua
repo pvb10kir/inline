@@ -614,7 +614,7 @@ db:del('bot:charge:'..msg.chat_id_)
 local link = db:get(SUDO..'grouplink'..msg.chat_id_) 
 local texter = 'ربات به دستور ادمین از گروه خارج میشود.\n> @SpheroNews'
 db:srem('bot:gps', msg.chat_id_)
-bot.sendMessage('255317894', msg.id_, 1,'ربات از گروهی با اطلاعات زیر لفت داد\n'..link..'\n@SpheroNews', 1, 'md')
+bot.sendMessage('255317894', msg.id_, 1,'ربات از گروهی با اطلاعات زیر لفت داد\n'..link..'\n'..chat.title_..'\n@SpheroNews', 1, 'md')
 bot.changeChatMemberStatus(msg.chat_id_, BOTS, "Left")
 end
  
