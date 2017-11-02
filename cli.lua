@@ -141,7 +141,7 @@ function is_banall(chat,user)
 function is_join(msg)
  local url , res = https.request('https://api.telegram.org/bot397616185:AAFeoTJc8MTiX4bY6frPcU4pzXPKcnxty30/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
    local jdat = json:decode(url)
-if jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok and is_mod(msg) then
+if jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
 return false
 else
 return true
@@ -492,7 +492,7 @@ function run(msg,data)
       end
     end
  ------------------------------------------------------------
-if not is_join(msg) and is_mod(msg) then
+if not is_join(msg) and text:match('^[!/#]') then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, 'سلام، مدیر گرامی!\nبرای دستور دادن به ربات ضروری است که در کانال ربات جوین باشید\nاز شما تقاضا میشود که در کانال ربات جوین شوید تا دیگر هرگز با این پیام مواجه نشوید.\nکانال ربات : @SpheroNews\nبا تشکر', 1, 'html')
 else
 if chat_type == 'super' then
