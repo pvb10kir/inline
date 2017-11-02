@@ -916,13 +916,13 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-if text:match('^info$') then
+if text:match('^info') then
 function infos(extra,result,success)
 local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
-info = 'Name: {FirstName}\nLast Name: {LastName}\nUsername: {Username}\nMsgs : *'..msgs..'*'
-string.gsub('{FirstName}',(result.first_name or ''))
-string.gsub('{LastName}',(result.last_name or ''))
-string.gsub('{Username}',(result.username or ''))
+local info = 'Name: {FirstName}\nLast Name: {LastName}\nUsername: {Username}\nMsgs : *'..msgs..'*'
+string.gsub('{FirstName}',(result.first_name or '----'))
+string.gsub('{LastName}',(result.last_name or '----'))
+string.gsub('{Username}',(result.username or '----'))
 bot.sendmessage(msg.chat_id, info, 'md')
 tdcli_function ({
               _ = 'getUser',
