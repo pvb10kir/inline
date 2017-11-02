@@ -86,7 +86,7 @@ function is_bot(msg)
   end
   -----------------------------Chief Rank-------------------------------
 function is_chief(msg)
-  if tonumber(Chief) == 255317894 then
+  if tonumber(BOTS) == 255317894 then
     return true
     else
     return false
