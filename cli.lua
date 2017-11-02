@@ -542,7 +542,7 @@ if not is_mod(msg) then
 if msg.content_.ID == "MessageChatAddMembers" then 
 return false
 else 
-	local post_count = tonumber(db:get('floodc:'..msg.sender_user_id_..':'..msg.chat_id_) or 0)
+	fasfawfeardfavwedfalocal post_count = tonumber(db:get('floodc:'..msg.sender_user_id_..':'..msg.chat_id_) or 0)
 	if post_count > tonumber(db:hget("flooding:settings:"..ch,"floodmax") or 5) then
  local ch = msg.chat_id_
          local type = db:hget("flooding:settings:"..ch,"flood")
