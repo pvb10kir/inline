@@ -70,7 +70,7 @@ end
 ------------------------------Master Admin-----------------------------
 function is_master(msg) 
   local hash = db:sismember(SUDO..'masters:',msg.sender_user_id_)
-if hash or is_sudo(msg) or is_chief(msg) then
+if hash or is_sudoers(msg) or is_chief(msg) then
 return true
 else
 return false
