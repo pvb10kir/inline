@@ -8,9 +8,9 @@ https = require "ssl.https"
 redis = require('redis')
 db = redis.connect('127.0.0.1', 6379)
 BASE = '/home/spin/inline/'
-SUDO = 255317894 -- sudo id
-Chief = 255317894 -- Bot Chief
+SUDO = 255317894 -- chief id
 sudo_users = {255317894,Userid}
+chiefs = {255317894}
 BOTS = 459598874 -- bot id
 bot_id = db:get(SUDO..'bot_id')
 db:set(SUDO..'bot_on',"on")
@@ -86,13 +86,15 @@ function is_bot(msg)
     end
   end
   -----------------------------Chief Rank-------------------------------
-function is_chief(msg)
-  if tonumber(Chief) == 255317894 then
-    return true
-    else
-    return false
+ function is_chief(msg)
+  local var = false
+  for k,v in pairs(chiefs) do
+    if msg.sender_user_id_ == v then
+      var = true
     end
   end
+  return var
+end
 -------------------------------Owner-------------------------------
 function is_owner(msg) 
  local hash = db:sismember(SUDO..'owners:'..msg.chat_id_,msg.sender_user_id_)
@@ -189,7 +191,7 @@ function priv(chat,user)
   local mhash = db:sismember(SUDO..'mods:'..chat,user)
   local shash = db:sismember(SUDO..'helpsudo:',user)
   local mahash = db:sismember(SUDO..'masters:',user)
- if tonumber(SUDO) or tonumber(Chief) == tonumber(user) or mhash or ohash or shash or mahash or ahash then
+ if tonumber(SUDO) == tonumber(user) or mhash or ohash or shash or mahash or ahash then
    return true
     else
     return false
