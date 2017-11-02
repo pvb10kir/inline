@@ -924,7 +924,7 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-  if text:match('^info') then 
+  if text:match('^me') then 
 function info(extra,result,success)
        if is_chief(msg) then
     t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
