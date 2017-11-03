@@ -965,7 +965,7 @@ end
 if db:get("id:"..msg.chat_id_..":"..msg.sender_user_id_) then
 	local ttl = db:ttl("id:"..msg.chat_id_..":"..msg.sender_user_id_)
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, 'شما به تازگی از این دستور استفاده کرده اید\n*'..ttl..'* ثانیه دیگر امتحان کنید.', 'md')
-  		end 
+  		else
 	if text == 'id' then  
 if is_chief(msg) then
     t = 'Chief (High Rank)'
@@ -987,6 +987,7 @@ if is_chief(msg) then
 	db:setex("id:"..msg.chat_id_..":"..msg.sender_user_id_, 20, true)
       bot.sendMessage(msg.chat_id_, msg.id_, 1, '*-Your ID* > `'..msg.sender_user_id_..'`\n*-Group ID* > `'..msg.chat_id_..'`\n*-Rank* > `'..t..'`\n> @SpheroNews', 1, 'md')
    end
+	end
 -----------------  set sudoers -------------------- #MehTi
 	          if text == 'setsudo' and is_sudo(msg) then
           function sudo_reply(extra, result, success)
