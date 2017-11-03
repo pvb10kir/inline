@@ -963,7 +963,7 @@ bot.getUser(msg.sender_user_id_,info)
 end
   -------------------id+pro------------------------#MehTi
 if db:get("id:"..msg.chat_id_..":"..msg.sender_user_id_) then
-	local ttl = redis:ttl("id:"..msg.chat_id_..":"..msg.sender_user_id_)
+	local ttl = db:ttl("id:"..msg.chat_id_..":"..msg.sender_user_id_)
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, 'شما به تازگی از این دستور استفاده کرده اید\n*'..ttl..'* ثانیه دیگر امتحان کنید.', 'md')
   		end 
 	if text == 'id' then  
