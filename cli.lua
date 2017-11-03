@@ -962,24 +962,29 @@ bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'html')
 bot.getUser(msg.sender_user_id_,info)
 end
   -------------------id+pro------------------------#MehTi
-  		 if text == 'id' then  
+if db:get("id:"..msg.chat_id_..":"..msg.sender_user_id_) then
+	local ttl = redis:ttl("id:"..msg.chat_id_..":"..msg.sender_user_id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, 'شما به تازگی از این دستور استفاده کرده اید.\n*..ttl..'* ثانیه دیگر امتحان کنید.', 1, 'md')
+  		end 
+	if text == 'id' then  
 if is_chief(msg) then
-    t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
+    t = 'Chief (High Rank)'
       elseif is_sudoers(msg) then
-    t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
+    t = 'Bot Sudo'
       elseif is_master(msg) then
-    t = 'Bot Master Admin(⭐️⭐️⭐️⭐️⭐️)'
+    t = 'Master Admin'
       elseif is_admin(msg) then
-    t = 'Bot Admin(⭐️⭐️⭐️⭐️⭐️)'
+    t = 'Bot Admin'
     elseif is_owner(msg) then
-    t = 'Group Owner(⭐️⭐️⭐️)'
+    t = 'Group Owner'
     elseif is_mod(msg) then
-    t = 'Group Moderator(⭐️⭐️)'
+    t = 'Group Moderator'
     elseif is_vip(msg) then
     t = 'Vip User(💫)'
     else
     t = 'Member⭐️'
     end
+	redis:setex("id:"..msg.chat_id_..":"..msg.sender_user_id_, 20, true)
       bot.sendMessage(msg.chat_id_, msg.id_, 1, '*-Your ID* > `'..msg.sender_user_id_..'`\n*-Group ID* > `'..msg.chat_id_..'`\n*-Rank* > `'..t..'`\n> @SpheroNews', 1, 'md')
    end
 -----------------  set sudoers -------------------- #MehTi
