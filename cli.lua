@@ -140,7 +140,7 @@ function is_banall(chat,user)
   end
   ------------------------------------------------------------
 function is_join(msg)
- local url , res = https.request('https://api.telegram.org/bot397616185:AAFSfVoCr-4WEtj6QDerAR9ImGoOEVIUp50/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
+ local url , res = https.request('https://api.telegram.org/bot496403990:AAGK6T4AAG2cN9u-h9B1Tm1ElSaN_FujQjI/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
    local jdat = json:decode(url)
 if jdat.result.status == "left" or jdat.result.status == "kicked" or not jdat.ok then
 return false
@@ -1383,7 +1383,7 @@ end
             end
           tdcli_function({
       ID = "GetInlineQueryResults",
-      bot_user_id_ = 397616185,
+      bot_user_id_ = 496403990,
       chat_id_ = msg.chat_id_,
       user_location_ = {
         ID = "Location",
