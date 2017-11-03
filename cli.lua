@@ -77,7 +77,7 @@ end
 end
 -----------------------------Robot-------------------------------
 function is_bot(msg)
-  if tonumber(BOTS) == 330376543 then
+  if tonumber(BOTS) == 459598874 then
     return true
     else
     return false
