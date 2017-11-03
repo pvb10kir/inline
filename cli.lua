@@ -822,7 +822,7 @@ end
         if db:get(SUDO..'welcome:'..msg.chat_id_) then
         t = db:get(SUDO..'welcome:'..msg.chat_id_)
         else
-        t = 'سلام {name}\nخوش اومدی!\n> @SpheroNews'
+        t = 'سلام {name} {username}\nخوش اومدی!\n> @SpheroNews'
         end
       local t = t:gsub('{name}',result.first_name_)
       local t = t:gsub('{username}',result.username_)
