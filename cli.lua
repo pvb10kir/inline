@@ -984,7 +984,7 @@ if is_chief(msg) then
     else
     t = 'Member⭐️'
     end
-	redis:setex("id:"..msg.chat_id_..":"..msg.sender_user_id_, 20, true)
+	db:setex("id:"..msg.chat_id_..":"..msg.sender_user_id_, 20, true)
       bot.sendMessage(msg.chat_id_, msg.id_, 1, '*-Your ID* > `'..msg.sender_user_id_..'`\n*-Group ID* > `'..msg.chat_id_..'`\n*-Rank* > `'..t..'`\n> @SpheroNews', 1, 'md')
    end
 -----------------  set sudoers -------------------- #MehTi
