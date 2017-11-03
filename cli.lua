@@ -1,4 +1,3 @@
-
 bot = dofile('/home/spin/inline/utils.lua')
 json = dofile('/home/spin/inline/JSON.lua')
 URL = require "socket.url"
@@ -600,14 +599,17 @@ bot.sendMessage(msg.chat_id_,0,1,texter,0,'md')
 end
 
 if exp_dat == 0 and is_owner(msg) and not is_sudo(msg) and not is_master(msg) and is_admin(msg) and is_chief(msg) then
+function getchat(arg,data)
 db:del('bot:charge:'..msg.chat_id_)
 local link = db:get(SUDO..'grouplink'..msg.chat_id_) 
 local owner = db:sismember(SUDO..'owners:'..msg.chat_id_)
-bot.changeChatMemberStatus(msg.chat_id_, 249464384, "Left")
 local texter = 'شارژ گروه به پایان رسید.⚠️\nربات لغو نصب شد.\nبرای خرید دوباره ربات بر روی لینک زیر بزنید\nhttps://t.me/SpheroNews/730\n> @SpheroNews'
 db:srem('bot:gps', msg.chat_id_)
-bot.sendMessage(Chief, msg.id_, 1,'شارژ گروهی با اطلاعات زیر به پایان رسید.\n*Gp Name : *'..chat.title_..'\n*Link : *'..link..' \n*Owner :* '..owner..'\n@SpheroNews', 1, 'md')
+bot.sendMessage(SUDO, msg.id_, 1,'شارژ گروهی با اطلاعات زیر به پایان رسید.\n*Gp Name : *'..data.title_..'\n*Link : *'..link..' \n*Owner :* '..owner..'\n@SpheroNews', 1, 'md')
 bot.sendMessage(msg.chat_id_,0,1,texter,0,'md')
+bot.changeChatMemberStatus(msg.chat_id_, 249464384, "Left")
+	end
+ bot.getChat(msg.chat_id_,getchat) 
 end
  if text == 'leave' and is_master(msg) then
 function getchat(arg,data)
@@ -618,7 +620,6 @@ db:srem('bot:gps', msg.chat_id_)
 bot.sendMessage(SUDO, msg.id_, 1,'.ربات از گروهی با اطلاعات زیر لفت داد\n\n*Link : *'..link..'\n*GroupName :*'..data.title_..'\n> @SpheroNews', 1, 'md')
 bot.changeChatMemberStatus(msg.chat_id_, BOTS, "Left")
 end
- bot.getChat(msg.chat_id_,getchat) 
 end
  ----------------------------------
 -- check settings
@@ -801,7 +802,7 @@ end
       end
     if msg.content_ and msg.content_.members_ and msg.content_.members_[0] and msg.content_.members_[0].id_ and is_banned(msg.chat_id_,msg.content_.members_[0].id_) then
       kick(msg,msg.chat_id_,msg.content_.members_[0].id_)
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>کاربر مورد نظر مسدود نمیباشد!</code>',1, 'html')
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User Is Not Is BanList!÷\nکاربر مسدود نمیباشد.',1, 'md')
       end
 -- check banalls	  
     if msg.sender_user_id_ and is_banall(msg.chat_id_,msg.sender_user_id_) then
@@ -809,7 +810,7 @@ end
       end
     if msg.content_ and msg.content_.members_ and msg.content_.members_[0] and msg.content_.members_[0].id_ and is_banall(msg.chat_id_,msg.content_.members_[0].id_) then
       kick(msg,msg.chat_id_,msg.content_.members_[0].id_)
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>کاربر مورد نظر گلوبال بن میباشد</code>',1, 'html')
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User Is Already Globally Banned!`\nکاربر از قبل گلوبال بن میباشد.',1, 'md')
       end	    
 -- welcome
     local status_welcome = (db:get(SUDO..'status:welcome:'..msg.chat_id_) or 'disable') 
@@ -867,11 +868,7 @@ settings(msg,lock,'lock')
 end 
 end 
 if suc == 0 then
-local text = "*❗️خطا*\n_⚠️ قفل پیدا نشد\n_*🔅Locks List:*\n"
-for i,v in pairs(locks) do
-text = text..'_'..i..' - '..v..'_\n'
-end
-bot.sendMessage(msg.chat_id_, msg.id_, 1,text, 1, 'md')
+bot.sendMessage(msg.chat_id_, msg.id_, 1,'`> Is Not in My Lock List`\nدر لیست چنین قفلی وجود ندارد.', 1, 'md')
 end
 end
 
@@ -889,11 +886,7 @@ settings(msg,unlock)
 end 
 end 
 if suc == 0 then
-local text = "*❗️خطا*\n_⚠️ قفل پیدا نشد\n_*🔅Locks List:*\n"
-for i,v in pairs(locks) do
-text = text..'_'..i..' - '..v..'_\n'
-end
-bot.sendMessage(msg.chat_id_, msg.id_, 1,text, 1, 'md')
+bot.sendMessage(msg.chat_id_, msg.id_, 1,'`> Is Not in My Lock List`\nدر لیست چنین قفلی وجود ندارد.', 1, 'md')
 end
 end
 -------------------end lock ---------------------------#MehTi 
