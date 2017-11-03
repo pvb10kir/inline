@@ -425,6 +425,7 @@ bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..msg.sender_user_id_..'*
      end
 bot.changeChatMemberStatus(msg.chat_id_, msg.sender_user_id_, "Kicked")
   db:sadd(SUDO..'banned'..msg.chat_id_,msg.sender_user_id_)
+ 
   end
 	if type == "mute" then
     if is_muted(msg.chat_id_,msg.sender_user_id_) then else
@@ -802,7 +803,7 @@ end
       end
     if msg.content_ and msg.content_.members_ and msg.content_.members_[0] and msg.content_.members_[0].id_ and is_banned(msg.chat_id_,msg.content_.members_[0].id_) then
       kick(msg,msg.chat_id_,msg.content_.members_[0].id_)
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User Is Not Is BanList!÷\nکاربر مسدود نمیباشد.',1, 'md')
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User Is Not Is BanList!`\nکاربر مسدود نمیباشد.',1, 'md')
       end
 -- check banalls	  
     if msg.sender_user_id_ and is_banall(msg.chat_id_,msg.sender_user_id_) then
@@ -824,6 +825,7 @@ end
         t = 'سلام {name}\nخوش اومدی!\n> @SpheroNews'
         end
       local t = t:gsub('{name}',result.first_name_)
+      local t = t:gsub('{username}',result.username_)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, t,0)
           end
         bot.getUser(msg.sender_user_id_,wlc)
