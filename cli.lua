@@ -964,7 +964,7 @@ end
   -------------------id+pro------------------------#MehTi
 if db:get("id:"..msg.chat_id_..":"..msg.sender_user_id_) then
 	local ttl = redis:ttl("id:"..msg.chat_id_..":"..msg.sender_user_id_)
-	bot.sendMessage(msg.chat_id_, msg.id_, 1, 'شما به تازگی از این دستور استفاده کرده اید.\n*..ttl..'* ثانیه دیگر امتحان کنید.', 1', 'md')
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, 'شما به تازگی از این دستور استفاده کرده اید\n*'..ttl..'* ثانیه دیگر امتحان کنید.', 'md')
   		end 
 	if text == 'id' then  
 if is_chief(msg) then
