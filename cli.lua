@@ -906,16 +906,16 @@ end
 	   local ch = msg.chat_id_
       if text == 'flood kick' then
       db:hset("flooding:settings:"..ch ,"flood",'kick') 
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل پیام مکرر فعال شد.!</code> \n<code>وضعیت</code> > <i>وضعیت : اخراج کاربر)</i>',1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Flood Has Been Locked!`\n*Status :*`Kick`',1, 'md')
       elseif text == 'flood ban' then
         db:hset("flooding:settings:"..ch ,"flood",'ban') 
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل پیام مکرر فعال شد.!</code> \n<code>وضعیت</code> > <i>وضعیت : مسدود کردن کاربر</i>',1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Flood Has Been Locked!`\n*Status :*`Ban`',1, 'md')
         elseif text == 'flood mute' then
         db:hset("flooding:settings:"..ch ,"flood",'mute') 
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>قفل پیام مکرر فعال شد.!</code> \n<code>وضعیت</code> > <i>وضعیت : سکوت کاربر</i>',1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Flood Has Been Locked!`\n*Status :*`Mute`',1, 'md')
         elseif text == 'unlock flood' then
         db:hdel("flooding:settings:"..ch ,"flood") 
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, ' <code>قفل پیام مکرر فعال شد.!</code> ',1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Flood Has Been Unlocked!`',1, 'md')
             end
           end
        
@@ -963,33 +963,25 @@ bot.getUser(msg.sender_user_id_,info)
 end
   -------------------id+pro------------------------#MehTi
   		 if text == 'id' then  
-local function getpro(extra, result, success)
-local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
- if is_sudo(msg) then
-	  t = 'Creator[⭐️⭐️⭐️⭐️⭐️'
+if is_chief(msg) then
+    t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
       elseif is_sudoers(msg) then
-	  t = 'Sudo'
-      elseif is_owner(msg) then
-	  t = 'Owner'
-      elseif is_mod(msg) then
-	  rk = 'Mod'
-      else
-	  rk = 'Member'
-	  end
-ch = '@BanG_TeaM'
-   if result.photos_[0] then
-       bot.sendPhoto(msg.chat_id_, msg.id_, 0, 1, nil, result.photos_[0].sizes_[1].photo_.persistent_id_,'👥 Supergroup ID: '..msg.chat_id_:gsub('-100','')..'\n👤 Your ID: '..msg.sender_user_id_..'\n🏅Your Rank: '..t..'\n➰User Msg Send :'..msgs..'\n💯Channel :'..ch)
-   else
-      bot.sendMessage(msg.chat_id_, msg.id_, 1, "You Have'nt Profile Photo!!\n\n👥 *Supergroup ID:* `"..msg.chat_id_.."`\n*👤 Your ID:* `"..msg.sender_user_id_.."`\n*🗣 Number of your Msgs: *`"..msgs.."`", 1, 'md')
+    t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
+      elseif is_master(msg) then
+    t = 'Bot Master Admin(⭐️⭐️⭐️⭐️⭐️)'
+      elseif is_admin(msg) then
+    t = 'Bot Admin(⭐️⭐️⭐️⭐️⭐️)'
+    elseif is_owner(msg) then
+    t = 'Group Owner(⭐️⭐️⭐️)'
+    elseif is_mod(msg) then
+    t = 'Group Moderator(⭐️⭐️)'
+    elseif is_vip(msg) then
+    t = 'Vip User(💫)'
+    else
+    t = 'Member⭐️'
+    end
+      bot.sendMessage(msg.chat_id_, msg.id_, 1, '*-Your ID* > `'..msg.sender_user_id_..'`\n*-Group ID* > `'..msg.chat_id_..'`\n*-Rank* > `'..t..'`\n> @SpheroNews', 1, 'md')
    end
-	end
-   tdcli_function ({
-    ID = "GetUserProfilePhotos",
-    user_id_ = msg.sender_user_id_,
-    offset_ = 0,
-    limit_ = 1
-  }, getpro, nil)
-end
 -----------------  set sudoers -------------------- #MehTi
 	          if text == 'setsudo' and is_sudo(msg) then
           function sudo_reply(extra, result, success)
