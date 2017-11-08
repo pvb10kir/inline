@@ -989,70 +989,52 @@ if is_chief(msg) then
    end
 	end
 -----------------  set sudoers -------------------- #MehTi
-	          if text == 'setsudo' and is_sudo(msg) then
+	          if text == 'addsudo' and is_chief(msg) then
           function sudo_reply(extra, result, success)
         db:sadd(SUDO..'helpsudo:',result.sender_user_id_)
 		db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
         local user = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست سودو های ربات افزوده گردید.</code>', 1, 'html')
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Has Been Added To SudoList`', 1, 'md')
         end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
           end
         end
-        if text and is_sudo(msg) and text:match('^setsudo (%d+)') then
-          local user = text:match('setsudo (%d+)')
+        if text and is_sudo(msg) and text:match('^addsudo (%d+)') then
+          local user = text:match('addsudo (%d+)')
           db:sadd(SUDO..'helpsudo:',user)
 		  db:srem(SUDO..'owners:'..msg.chat_id_,user)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست سودو های ربات افزوده گردید.</code>', 1, 'html')
-      end
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Has Been Added To SudoList`', 1, 'md')
+			end
 --------------- dem sudoers -----------------------#MehTi 
-        if text == 'demsudo' and is_sudo(msg) then
+        if text == 'remsudo' and is_chief(msg) then
         function sudo_reply(extra, result, success)
         db:srem(SUDO..'helpsudo:',result.sender_user_id_)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.sender_user_id_..'*] `RemoVed From SudoList`', 1, 'md')
         end
         if tonumber(msg.reply_to_message_id_) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)  
           end
         end
-        if text and text:match('^demsudo (%d+)') and is_sudo(msg) then
-          local user = text:match('demsudo (%d+)')
+        if text and text:match('^remsudo (%d+)') and is_sudo(msg) then
+          local user = text:match('remsudo (%d+)')
          db:srem(SUDO..'helpsudo:',user)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست سودوهای ربات حذف گردید .</code>', 1, 'html')
-      end
-if text == 'setrank (%d+)' and is_sudo(msg) then
-      local user = text:match('^setrank (%d+)')
-          function sudo_reply(extra, result, success)
-      if text and text:match('^setrank (%d+)') and is_sudo(msg) and user == 'sudo' then
-        db:sadd(SUDO..'helpsudo:',result.sender_user_id_)
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '> User *[ '..user..' ] *Added to Sudo List!', 1, 'md')
-        end
-        if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
-        else
-           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
-          end
-        end
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `RemoVed From SudoList`', 1, 'md')
+       end
+	if text:match('^update') and is_sudo(msg) then
+	text = io.popen("git pull "):read('*all')
+	  dofile('./cli.lua') 
+	 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
 	end
-if text:match('^update') and is_sudo(msg) then
-text = io.popen("git pull "):read('*all')
-dofile('./cli.lua') 
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
-end
-if text:match('^infotest') and is_mod(msg) then
-local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
-local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '➖Total Warns : '..warns..' Of '..maxwarn..'\n> @SpheroNews', 1, 'md')
-end
 --------------- text -----------------------------------  
-	        if is_sudoers(msg) then
+	        if is_master(msg) then
 -----------ban all ------------------
-        if text == 'sikall' then
+        if text == 'banall+' then
 		if msg.reply_to_message_id_ == 0 then
         local user = msg.sender_user_id_
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, "*wtf? reply kn gole man:)*", 1, 'md')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, "`روی فرد مورد نظر ریپلی کنید و سپس دستور را دوباره بفرستید.`", 1, 'md')
         else
         function banreply(extra, result, success)
         banall(msg,msg.chat_id_,result.sender_user_id_)
@@ -1060,26 +1042,26 @@ end
 		  end
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),banreply)
         end
-		      if text and text:match('^banall (%d+)') then
-        banall(msg,msg.chat_id_,text:match('^banall (%d+)'))
+		      if text and text:match('^banall+ (%d+)') then
+        banall(msg,msg.chat_id_,text:match('^banall+ (%d+)'))
         end
-      if text and text:match('^banall @(.*)') then
-        local username = text:match('banall @(.*)')
+      if text and text:match('^banall+ @(.*)') then
+        local username = text:match('banall+ @(.*)')
         function banusername(extra,result,success)
           if result.id_ then
             banall(msg,msg.chat_id_,result.id_)
             else 
-            text = '<code>کاربر مورد نظر یافت نشد!</code>'
-            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            text = '`> User Not Found!`'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
             end
           end
         bot.resolve_username(username,banusername)
         end
 ----------------------unbanall-----------------------------
-        if text == 'unbanall' then
+        if text == 'banall-' then
 		if msg.reply_to_message_id_ == 0 then
         local user = msg.sender_user_id_
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, "*wtf? reply kn gole man:)*", 1, 'md')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, "`روی فرد مورد نظر ریپلی کنید و سپس دستور را دوباره بفرستید.`", 1, 'md')
 		else
         function unbanreply(extra, result, success)
         unbanall(msg,msg.chat_id_,result.sender_user_id_)
@@ -1087,84 +1069,82 @@ end
 		  end
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),unbanreply)
         end	
-      if text and text:match('^unbanall (%d+)') then
+      if text and text:match('^banall- (%d+)') then
         unbanall(msg,msg.chat_id_,text:match('unbanall (%d+)'))
         end
-      if text and text:match('^unbanall @(.*)') then
-        local username = text:match('unbanall @(.*)')
+      if text and text:match('^banall- @(.*)') then
+        local username = text:match('banall- @(.*)')
         function unbanusername(extra,result,success)
           if result.id_ then
             unbanall(msg,msg.chat_id_,result.id_)
             else 
-            text = '<code>کاربر مورد نظر یافت نشد!</code>'
-            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            text = '`> User Not Found!`'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
             end
           end
         bot.resolve_username(username,unbanusername)
         end
 ----------------------------------------------------------		
-        if text == 'leave' then
-            bot.changeChatMemberStatus(msg.chat_id_, 249464384, "Left")
-          end
-        if text == 'ownerset' then
+        if text == 'addowner' then
           function prom_reply(extra, result, success)
         db:sadd(SUDO..'owners:'..msg.chat_id_,result.sender_user_id_)
 		db:srem(SUDO..'helpsudo:',result.sender_user_id_)
         local user = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مالکین گروه افزوده گردید.</code>', 1, 'html')
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To OwnerList`', 1, 'md')
         end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
           end
         end
-        if text and text:match('^ownerset (%d+)') then
-          local user = text:match('ownerset (%d+)')
+        if text and text:match('^addowner (%d+)') then
+          local user = text:match('addowner (%d+)')
           db:sadd(SUDO..'owners:'..msg.chat_id_,user)
 		  db:srem(SUDO..'helpsudo:',user)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مالکین گروه افزوده گردید.</code>', 1, 'html')
-      end
-        if text == 'ownerdem' then
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To OwnerList`', 1, 'md')
+				end
+        if text == 'remowner' then
         function prom_reply(extra, result, success)
         db:srem(SUDO..'owners:'..msg.chat_id_,result.sender_user_id_)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست مالکین گروه حذف گردید و توانایی مدیریت گروه از کاربر گفته شد.</code>', 1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.sender_user_id_..'*] `RemoVed From OwnerList`', 1, 'md')
         end
         if tonumber(msg.reply_to_message_id_) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)  
           end
         end
-        if text and text:match('^ownerdem (%d+)') then
-          local user = text:match('ownerdem (%d+)')
+        if text and text:match('^remowner (%d+)') then
+          local user = text:match('remowner (%d+)')
          db:srem(SUDO..'owners:'..msg.chat_id_,user)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست مالکین گروه حذف گردید و توانایی مدیریت گروه از کاربر گفته شد.</code>', 1, 'html')
-      end
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `RemoVed From OwnerList`', 
+			end
         end
-      if text == 'delete owners' or text == 'delete ownerlist' then
+	----------------------Clean List------------------------
+      if text == 'clean ownerlist' then
         db:del(SUDO..'owners:'..msg.chat_id_)
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>به لیست ادمین های ربات افزوده گردید.</code>', 1, 'html')
+          bot.sendMessage(msg.chat_id_, msg.id_, 1,'`> OwnerList CleaneD!`', 1, 'html')
         end
       --------------------------master--------------------------
-	          if text == 'masterset' and is_sudo(msg) then
+	          if text == 'addmaster' and is_sudo(msg) then
           function sudo_reply(extra, result, success)
         db:sadd(SUDO..'masters:',result.sender_user_id_)
 		db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
         local user = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مستر ادمین های ربات افزوده گردید.</code>', 1, 'html')
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To Bot Master Admins`', 1, 'md')
         end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
           end
         end
-        if text and is_sudo(msg) and text:match('^masterset (%d+)') then
-          local user = text:match('masterset (%d+)')
+        if text and is_sudo(msg) and text:match('^addmaster (%d+)') then
+          local user = text:match('addmaster (%d+)')
           db:sadd(SUDO..'masters:',user)
 		  db:srem(SUDO..'owners:'..msg.chat_id_,user)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مستر ادمین های ربات افزوده گردید.</code>', 1, 'html')
+                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To Bot Master Admins`', 1, 'md')
       end
 --------------- dem sudoers -----------------------#MehTi 
-        if text == 'masterdem' and is_sudo(msg) then
+        if text == 'remmaster' and is_sudo(msg) then
         function sudo_reply(extra, result, success)
         db:srem(SUDO..'masters:',result.sender_user_id_)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست مستر ادمین های ربات حذف گردید .</code>', 1, 'html')
@@ -1174,8 +1154,8 @@ end
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)  
           end
         end
-        if text and text:match('^masterdem (%d+)') and is_sudo(msg) then
-          local user = text:match('masterdem (%d+)')
+        if text and text:match('^remmaster (%d+)') and is_sudo(msg) then
+          local user = text:match('remmaster (%d+)')
          db:srem(SUDO..'masters:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست مستر ادمین های ربات حذف گردید .</code>', 1, 'html')
       end
