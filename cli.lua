@@ -1167,12 +1167,7 @@ end
        dofile('./cli.lua') 
  bot.sendMessage(msg.chat_id_, msg.id_, 1,'》 <code>BanG TG Cli</code> <b>Reloaded  ✅</b>', 1, 'html')
             end
-
-	   if text == 'reload inline' and is_sudo(msg) then
-       dofile('./api.lua') 
- bot.sendMessage(msg.chat_id_, msg.id_, 1,'》 <code>BanG TG iNLiNE</code> <b>Reloaded  ✅</b>', 1, 'html')
-            end
-	    if text == 'bang' and is_sudoers(msg) then
+	    if text == 'stats' and is_admin(msg) then
     local gps = db:scard("botgp")
 	local users = db:scard("usersbot")
     local allmgs = db:get("allmsg")
