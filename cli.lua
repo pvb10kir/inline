@@ -1116,8 +1116,9 @@ if is_chief(msg) then
         if text and text:match('^remowner (%d+)') then
           local user = text:match('remowner (%d+)')
          db:srem(SUDO..'owners:'..msg.chat_id_,user)
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `RemoVed From OwnerList`', 
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `RemoVed From OwnerList`', 1, 'md') 
 			end
+				end
 	----------------------Clean List------------------------
       if text == 'clean ownerlist' then
         db:del(SUDO..'owners:'..msg.chat_id_)
