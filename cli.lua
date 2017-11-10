@@ -1070,7 +1070,7 @@ if is_chief(msg) then
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),unbanreply)
         end	
       if text and text:match('^banall- (%d+)') then
-        unbanall(msg,msg.chat_id_,text:match('unbanall (%d+)'))
+        unbanall(msg,msg.chat_id_,text:match('banall- (%d+)'))
         end
       if text and text:match('^banall- @(.*)') then
         local username = text:match('banall- @(.*)')
