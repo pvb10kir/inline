@@ -1085,24 +1085,24 @@ if is_chief(msg) then
         bot.resolve_username(username,unbanusername)
         end
 ----------------------------------------------------------		
-        if text == 'addowner' then
+       if text == 'ownerset' then
           function prom_reply(extra, result, success)
         db:sadd(SUDO..'owners:'..msg.chat_id_,result.sender_user_id_)
-		db:srem(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
+		db:srem(SUDO..'helpsudo:',result.sender_user_id_)
         local user = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To OwnerList`', 1, 'md')
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مالکین گروه افزوده گردید.</code>', 1, 'html')
         end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
           end
         end
-        if text and text:match('^addowner (%d+)$') then
-          local user = text:match('^addowner (%d+)$')
+        if text and text:match('^ownerset (%d+)') then
+          local user = text:match('ownerset (%d+)')
           db:sadd(SUDO..'owners:'..msg.chat_id_,user)
-		  db:srem(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To OwnerList`', 1, 'md')
-				end
+		  db:srem(SUDO..'helpsudo:',user)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مالکین گروه افزوده گردید.</code>', 1, 'html')
+end
         if text == 'remowner' then
         function prom_reply(extra, result, success)
         db:srem(SUDO..'owners:'..msg.chat_id_,result.sender_user_id_)
