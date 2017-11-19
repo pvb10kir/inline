@@ -1164,10 +1164,11 @@ if text == 'mastertest' and is_master(msg) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1,'> <code>Yeah!</code> <b>You are My Master Admin✅</b>', 1, 'html')
 end
 ---------------------reload -------------------------
-	   if text == 'reload' and is_sudo(msg) then
-       dofile('./cli.lua') 
- bot.sendMessage(msg.chat_id_, msg.id_, 1,'》 <code>BanG TG Cli</code> <b>Reloaded  ✅</b>', 1, 'html')
-            end
+	if text:match('^update') and is_sudo(msg) then
+	text = io.popen("git pull "):read('*all')
+	  dofile('./cli.lua') 
+	 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
+	end
 	    if text == 'stats' and is_admin(msg) then
     local gps = db:scard("botgp")
 	local users = db:scard("usersbot")
