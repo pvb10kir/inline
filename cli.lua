@@ -1001,8 +1001,8 @@ if is_chief(msg) then
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
           end
         end
-        if text and is_sudo(msg) and text:match('^addsudo (%d+)') then
-          local user = text:match('addsudo (%d+)')
+        if text and is_sudo(msg) and text:match('^addsudo @(%d+)') then
+          local user = text:match('addsudo @(%d+)')
           db:sadd(SUDO..'helpsudo:',user)
 		  db:srem(SUDO..'owners:'..msg.chat_id_,user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Has Been Added To SudoList`', 1, 'md')
