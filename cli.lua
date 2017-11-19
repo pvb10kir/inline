@@ -51,7 +51,7 @@ end
 end
 function is_sudoers(msg) 
 local hash = db:sismember(SUDO..'helpsudo:',msg.sender_user_id_)
-if hash or is_chief(msg) then
+if hash or is_chief(msg) or is_mod then
 return true
 else
 return false
