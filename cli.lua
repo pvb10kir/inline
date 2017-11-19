@@ -989,45 +989,46 @@ if is_chief(msg) then
    end
 	end
 -----------------  set sudoers -------------------- #MehTi
-	          if text == 'addsudo' and is_chief(msg) then
-          function sudo_reply(extra, result, success)
-        db:sadd(SUDO..'helpsudo:',result.sender_user_id_)
-		db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
+	 if text == 'addsudo' then
+        function prom_reply(extra, result, success)
+         db:sadd(SUDO..'sudo:',msg.sender_user_id_)
         local user = result.sender_user_id_
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Has Been Added To SudoList`', 1, 'md')
         end
-        if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
+        if tonumber(msg.reply_to_message_id_) == 0 then
         else
-           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)  
           end
         end
-        if text and is_sudo(msg) and text:match('^addsudo @(.*)') then
-          local user = text:match('addsudo @(.*)')
-          db:sadd(SUDO..'helpsudo:',user)
-		  db:srem(SUDO..'owners:'..msg.chat_id_,user)
+        if text:match('^addsudo @(.*)') then
+        local username = text:match('^addsudo @(.*)')
+        function promreply(extra,result,success)
+          if result.id_ then
+        db:sadd(SUDO..'sudo:',msg.sender_user_id_)
+        text ='`> User` [*'..result.id_..'*] `Has Been Added To SudoList`' 
+            else 
+            text = '`> User Not Found!`'
+		end
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
+          end
+        bot.resolve_username(username,promreply)
+        end
+        if text and text:match('^addsudo (%d+)') then
+          local user = text:match('addsudo (%d+)')
+          db:sadd(SUDO..'sudo:',msg.sender_user_id_)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Has Been Added To SudoList`', 1, 'md')
-			end
---------------- dem sudoers -----------------------#MehTi 
-        if text == 'remsudo' and is_chief(msg) then
-        function sudo_reply(extra, result, success)
-        db:srem(SUDO..'helpsudo:',result.sender_user_id_)
+      end
+        if text == 'remsudo' then
+        function prom_reply(extra, result, success)
+        db:srem(SUDO..'sudo:',msg.sender_user_id_)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.sender_user_id_..'*] `RemoVed From SudoList`', 1, 'md')
         end
         if tonumber(msg.reply_to_message_id_) == 0 then
         else
-           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)  
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)  
           end
         end
-        if text and text:match('^remsudo (%d+)') and is_sudo(msg) then
-          local user = text:match('remsudo (%d+)')
-         db:srem(SUDO..'helpsudo:',user)
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `RemoVed From SudoList`', 1, 'md')
-       end
-	if text:match('^update') and is_sudo(msg) then
-	text = io.popen("git pull "):read('*all')
-	  dofile('./cli.lua') 
-	 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
-	end
+--------------- dem sudoers -----------------------#MehTi 
 --------------- text -----------------------------------  
 	        if is_master(msg) then
 -----------ban all ------------------
