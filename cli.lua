@@ -1043,10 +1043,10 @@ if is_chief(msg) then
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),banreply)
         end
 		      if text and text:match('^banall(+) (%d+)') then
-        banall(msg,msg.chat_id_,text:match('^banall(+) (%d+)'))
+        banall(msg,msg.chat_id_,text:match('^banall+ (%d+)'))
         end
       if text and text:match('^banall(+) @(.*)') then
-        local username = text:match('banall(+) @(.*)')
+        local username = text:match('banall+ @(.*)')
         function banusername(extra,result,success)
           if result.id_ then
             banall(msg,msg.chat_id_,result.id_)
