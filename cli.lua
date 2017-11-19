@@ -1097,8 +1097,8 @@ if is_chief(msg) then
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
           end
         end
-        if text and text:match('^addowner (%d+)') then
-          local user = text:match('addowner (%d+)')
+        if text and text:match('^addowner (%d+)$') then
+          local user = text:match('^addowner (%d+)$')
           db:sadd(SUDO..'owners:'..msg.chat_id_,user)
 		  db:srem(SUDO..'helpsudo:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To OwnerList`', 1, 'md')
