@@ -1088,7 +1088,7 @@ if is_chief(msg) then
         if text == 'addowner' then
           function prom_reply(extra, result, success)
         db:sadd(SUDO..'owners:'..msg.chat_id_,result.sender_user_id_)
-		db:srem(SUDO..'helpsudo:',result.sender_user_id_)
+		db:srem(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
         local user = result.sender_user_id_
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To OwnerList`', 1, 'md')
         end
@@ -1100,7 +1100,7 @@ if is_chief(msg) then
         if text and text:match('^addowner (%d+)$') then
           local user = text:match('^addowner (%d+)$')
           db:sadd(SUDO..'owners:'..msg.chat_id_,user)
-		  db:srem(SUDO..'helpsudo:',user)
+		  db:srem(SUDO..'mods:'..msg.chat_id_,msg.sender_user_id_)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To OwnerList`', 1, 'md')
 				end
         if text == 'remowner' then
