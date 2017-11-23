@@ -1177,8 +1177,8 @@ end
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از مقام مدیریت گروه عزل گردید.</code>', 1, 'html')
       end
   end
-      end
-	  
+	end
+			end
 ---------------------reload -------------------------
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua') 
