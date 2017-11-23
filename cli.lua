@@ -1125,43 +1125,60 @@ end
           bot.sendMessage(msg.chat_id_, msg.id_, 1,'`> OwnerList CleaneD!`', 1, 'html')
         end
       --------------------------master--------------------------
-	          if text == 'addmaster' and is_sudo(msg) then
-          function sudo_reply(extra, result, success)
-        db:sadd(SUDO..'masters:',result.sender_user_id_)
-		db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
-        local user = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To Bot Master Admins`', 1, 'md')
-        end
-        if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
-        else
-           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)
+ if text:match('^addmaster @(.*)') then
+        local username = text:match('^addmaster @(.*)')
+        function promreply(extra,result,success)
+          if result.id_ then
+        db:sadd(SUDO..'masters:',msg.sender_user_id_)
+        text ='<code>>کاربر</code> [<code>'..result.id_..'</code>] <code>به مقام مدیریت گروه ارتقاء یافت.</code>' 
+            else 
+            text = '<code>کاربر مورد نظر یافت نشد</code>'
+            end
+           bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
           end
+        bot.resolve_username(username,promreply)
         end
-        if text and is_sudo(msg) and text:match('^addmaster (%d+)') then
+        if text and text:match('^addmaster (%d+)') then
           local user = text:match('addmaster (%d+)')
-          db:sadd(SUDO..'masters:',user)
-		  db:srem(SUDO..'owners:'..msg.chat_id_,user)
-                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..user..'*] `Added To Bot Master Admins`', 1, 'md')
+          db:sadd(SUDO..'masters:',msg.sender_user_id_)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به مقام مدیریت گروه ارتقاء یافت.</code>', 1, 'html')
       end
---------------- dem sudoers -----------------------#MehTi 
-        if text == 'remmaster' and is_sudo(msg) then
-        function sudo_reply(extra, result, success)
-        db:srem(SUDO..'masters:',result.sender_user_id_)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست مستر ادمین های ربات حذف گردید .</code>', 1, 'html')
+        if text == 'remmaster' then
+        function prom_reply(extra, result, success)
+        db:srem(SUDO..'masters:',msg.sender_user_id_)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از مقام مدیریت گروه عزل گردید.</code>', 1, 'html')
         end
         if tonumber(msg.reply_to_message_id_) == 0 then
         else
-           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),sudo_reply)  
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)  
           end
         end
-        if text and text:match('^remmaster (%d+)') and is_sudo(msg) then
-          local user = text:match('remmaster (%d+)')
-         db:srem(SUDO..'masters:',user)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از لیست مستر ادمین های ربات حذف گردید .</code>', 1, 'html')
+        if text:match('^remmaster @(.*)') then
+        local username = text:match('^remmaster @(.*)')
+        function demreply(extra,result,success)
+          if result.id_ then
+        db:srem(SUDO..'masters:',msg.sender_user_id_)
+        text = '<code>>کاربر</code> [<b>'..result.id_..'</b>] <code>از مقام مدیریت گروه عزل گردید.</code>'
+            else 
+            text = '<code>کاربر مورد نظر یافت نشد</code>'
+            end
+           bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+          end
+        bot.resolve_username(username,demreply)
+        end
+        if text and text:match('^addmaster (%d+)') then
+          local user = text:match('addmaster (%d+)')
+          db:sadd(SUDO..'masters:',msg.sender_user_id_)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به مقام مدیریت گروه ارتقاء یافت.</code>', 1, 'html')
       end
-if text == 'mastertest' and is_master(msg) then
-bot.sendMessage(msg.chat_id_, msg.id_, 1,'> <code>Yeah!</code> <b>You are My Master Admin✅</b>', 1, 'html')
-end
+        if text and text:match('^remmaster (%d+)') then
+          local user = text:match('remmaster (%d+)')
+         db:srem(SUDO..'masters:',msg.sender_user_id_)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>از مقام مدیریت گروه عزل گردید.</code>', 1, 'html')
+      end
+  end
+      end
+	  
 ---------------------reload -------------------------
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua') 
