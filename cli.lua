@@ -1035,10 +1035,6 @@ if is_chief(msg) then
 		local user = msg.sender_user_id_
 			if db:sismember(SUDO..'banalled',user) then
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
-	end
-		if msg.reply_to_message_id_ == 0 then
-        local user = msg.sender_user_id_
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, "`روی فرد مورد نظر ریپلی کنید و سپس دستور را دوباره بفرستید.`", 1, 'md')
         else
         function banreply(extra, result, success)
         banall(msg,msg.chat_id_,result.sender_user_id_)
