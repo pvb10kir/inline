@@ -222,7 +222,11 @@ function ban(msg,chat,user)
   end
 ---------------------------ban all -------------------------------
 function banall(msg,chat,user)
-  if tonumber(user) == tonumber(bot_id) then
+local user = msg.sender_user_id_
+			if db:sismember(SUDO..'banalled',user) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
+ end
+		if tonumber(user) == tonumber(bot_id) then
     return false
     end
   if priv(chat,user) then
