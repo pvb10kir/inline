@@ -1055,7 +1055,6 @@ end
 bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
 if db:sismember(SUDO..'banalled',user) then
 bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
-end
             end
           end
      bot.resolve_username(username,banusername)
