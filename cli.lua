@@ -222,9 +222,6 @@ function ban(msg,chat,user)
   end
 ---------------------------ban all -------------------------------
 function banall(msg,chat,user)
-			if db:sismember(SUDO..'banalled',user) then
-bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
- end
 		if tonumber(user) == tonumber(bot_id) then
     return false
     end
@@ -1032,36 +1029,39 @@ if is_chief(msg) then
 	 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
 	end
 --------------- text -----------------------------------  
-	        if is_sudoers(msg) then
+	        if is_master(msg) then
 -----------ban all ------------------
-        if text == 'banall+' then
-		local user = msg.sender_user_id_
-			if db:sismember(SUDO..'banalled',user) then
-	bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
-        else
+    if text == 'superban' then
+    local user = msg.sender_user_id_
         function banreply(extra, result, success)
         banall(msg,msg.chat_id_,result.sender_user_id_)
           end
-		  end
+      end
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),banreply)
         end
-		     if text and text:match('^banall (%d+)') then
-        banall(msg,msg.chat_id_,text:match('^banall (%d+)'))
+         if text and text:match('^superban (%d+)') then
+        banall(msg,msg.chat_id_,text:match('^superban (%d+)'))
+if db:sismember(SUDO..'banalled',user) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
+end
         end
-      if text and text:match('^banall @(.*)') then
-        local username = text:match('banall @(.*)')
+      if text and text:match('^superban @(.*)') then
+        local username = text:match('superban @(.*)')
         function banusername(extra,result,success)
           if result.id_ then
             banall(msg,msg.chat_id_,result.id_)
             else 
             text = '> User Not Found!'
-            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
+if db:sismember(SUDO..'banalled',user) then
+bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
+end
             end
           end
-        bot.resolve_username(username,banusername)
+     bot.resolve_username(username,banusername)
         end
 ----------------------unbanall-----------------------------
-        if text == 'banall-' then
+        if text == 'delsuperban' then
 		if msg.reply_to_message_id_ == 0 then
         local user = msg.sender_user_id_
         bot.sendMessage(msg.chat_id_, msg.id_, 1, "`روی فرد مورد نظر ریپلی کنید و سپس دستور را دوباره بفرستید.`", 1, 'md')
@@ -1072,11 +1072,11 @@ if is_chief(msg) then
 		  end
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),unbanreply)
         end	
-      if text and text:match('^unbanall (%d+)') then
-        unbanall(msg,msg.chat_id_,text:match('unbanall (%d+)'))
+      if text and text:match('^delsuperban (%d+)') then
+        unbanall(msg,msg.chat_id_,text:match('delsuperban (%d+)'))
         end
-      if text and text:match('^unbanall @(.*)') then
-        local username = text:match('unbanall @(.*)')
+      if text and text:match('^delsuperban @(.*)') then
+        local username = text:match('delsuperban @(.*)')
         function unbanusername(extra,result,success)
           if result.id_ then
             unbanall(msg,msg.chat_id_,result.id_)
@@ -1088,7 +1088,7 @@ if is_chief(msg) then
         bot.resolve_username(username,unbanusername)
         end
 ----------------------------------------------------------		
-       if text == 'ownerset' then
+       if text == 'addowner' then
           function prom_reply(extra, result, success)
         db:sadd(SUDO..'owners:'..msg.chat_id_,result.sender_user_id_)
 		db:srem(SUDO..'helpsudo:',result.sender_user_id_)
@@ -1100,8 +1100,8 @@ if is_chief(msg) then
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
           end
         end
-        if text and text:match('^ownerset (%d+)$') then
-          local user = text:match('^ownerset (%d+)$')
+        if text and text:match('^addowner (%d+)$') then
+          local user = text:match('^addowner (%d+)$')
           db:sadd(SUDO..'owners:'..msg.chat_id_,user)
 		  db:srem(SUDO..'helpsudo:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مالکین گروه افزوده گردید.</code>', 1, 'html')
