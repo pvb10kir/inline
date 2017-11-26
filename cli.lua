@@ -262,7 +262,7 @@ function unban(msg,chat,user)
     return false
     end
    db:srem(SUDO..'banalled',user)
-  local t = '`> User` [*'..user..'*] `Globally Unbaned!`'
+  local t = '`> User` [*'..user..'*] `Globally Unbanned!`'
   bot.sendMessage(msg.chat_id_, msg.id_, 1, t,1, 'md')
   end
   ------------------------------------------------------------
@@ -1041,9 +1041,6 @@ if is_chief(msg) then
         end
          if text and text:match('^superban (%d+)') then
         banall(msg,msg.chat_id_,text:match('^superban (%d+)'))
-if db:sismember(SUDO..'banalled',user) then
-bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
-end
         end
       if text and text:match('^superban @(.*)') then
         local username = text:match('superban @(.*)')
@@ -1053,9 +1050,6 @@ end
             else 
             text = '> User Not Found!'
 bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
-if db:sismember(SUDO..'banalled',user) then
-bot.sendMessage(msg.chat_id_, msg.id_, 1, "`> Already in` *BanAll* `List.`", 1, 'md')
-            end
           end
      bot.resolve_username(username,banusername)
         end
