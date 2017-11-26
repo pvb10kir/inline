@@ -1032,7 +1032,7 @@ if is_chief(msg) then
 	 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Cli And Api Bot Reload And Updated!`\n*Git Pull Result:*\n_'..text..'_', 1, 'md')
 	end
 --------------- text -----------------------------------  
-	        if is_master(msg) then
+	        if is_sudoers(msg) then
 -----------ban all ------------------
         if text == 'banall+' then
 		local user = msg.sender_user_id_
