@@ -1100,8 +1100,8 @@ if is_chief(msg) then
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
           end
         end
-        if text and text:match('^ownerset (%d+)') then
-          local user = text:match('ownerset (%d+)')
+        if text and text:match('^ownerset @(.*)') then
+          local user = text:match('ownerset @(.*)')
           db:sadd(SUDO..'owners:'..msg.chat_id_,user)
 		  db:srem(SUDO..'helpsudo:',user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مالکین گروه افزوده گردید.</code>', 1, 'html')
