@@ -994,7 +994,7 @@ if is_chief(msg) then
         db:sadd(SUDO..'sudo:',result.sender_user_id_)
 		db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
         local user = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Has Been Added To SudoList`', 1, 'md')
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Added To SudoList`', 1, 'md')
         end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
@@ -1005,14 +1005,14 @@ if is_chief(msg) then
           local user = text:match('addsudo (%d+)')
           db:sadd(SUDO..'sudo:',user)
 		  db:srem(SUDO..'owners:'..msg.chat_id_,user)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Has Been Added To SudoList`', 1, 'md')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Added To SudoList`', 1, 'md')
 			end
 		if text and text:match('^addsudo @(.*)') then
         local username = text:match('addsudo @(.*)')
         function addsudo(extra,result,success)
           if result.id_ then
            db:sadd(SUDO..'sudo:',result.id_)
-	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Has Been Added To SudoList`', 1, 'md')
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Added To SudoList`', 1, 'md')
             else 
             text = '<code>> User Not Found!</code>'
             bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
@@ -1038,16 +1038,16 @@ if is_chief(msg) then
        end
 			if text and text:match('^remsudo @(.*)') then
         local username = text:match('remsudo @(.*)')
-        function addsudo(extra,result,success)
+        function remsudo(extra,result,success)
           if result.id_ then
            db:srem(SUDO..'sudo:',result.id_)
-	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Has Been RemoVed From SudoList`', 1, 'md')
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `RemoVed From SudoList`', 1, 'md')
             else 
             text = '<code>> User Not Found!</code>'
             bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
             end
           end
-        bot.resolve_username(username,addsudo)
+        bot.resolve_username(username,remsudo)
         end
 	------------------------------------------------------------
 	if text:match('^update') and is_sudo(msg) then
@@ -1115,9 +1115,8 @@ end
        if text == 'addowner' then
           function prom_reply(extra, result, success)
         db:sadd(SUDO..'owners:'..msg.chat_id_,result.sender_user_id_)
-		db:srem(SUDO..'helpsudo:',result.sender_user_id_)
         local user = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مالکین گروه افزوده گردید.</code>', 1, 'html')
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Added To OwnerList`', 1, 'md')
         end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
@@ -1127,9 +1126,21 @@ end
         if text and text:match('^addowner (%d+)$') then
           local user = text:match('^addowner (%d+)$')
           db:sadd(SUDO..'owners:'..msg.chat_id_,user)
-		  db:srem(SUDO..'helpsudo:',user)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..user..'</b>] <code>به لیست مالکین گروه افزوده گردید.</code>', 1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Added To OwnerList`', 1, 'md')
 end
+	if text and text:match('^addowner @(.*)') then
+        local username = text:match('addowner @(.*)')
+        function addowner(extra,result,success)
+          if result.id_ then
+         db:sadd(SUDO..'owners:'..msg.chat_id_,result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Added To OwnerList`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,addowner)
+        end	
         if text == 'remowner' then
         function prom_reply(extra, result, success)
         db:srem(SUDO..'owners:'..msg.chat_id_,result.sender_user_id_)
@@ -1146,43 +1157,201 @@ end
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `RemoVed From OwnerList`', 1, 'md') 
 			end
 				end
+		if text and text:match('^remowner @(.*)') then
+        local username = text:match('remowner @(.*)')
+        function remowner(extra,result,success)
+          if result.id_ then
+         db:srem(SUDO..'owners:'..msg.chat_id_,result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `RemoVed From OwnerList`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,remowner)
+        end	
 	----------------------Clean List------------------------
       if text == 'clean ownerlist' then
         db:del(SUDO..'owners:'..msg.chat_id_)
           bot.sendMessage(msg.chat_id_, msg.id_, 1,'`> OwnerList CleaneD!`', 1, 'html')
         end
       --------------------------master--------------------------
- if text == 'masterset' then
+ if text == 'addmaster' then
           function prom_reply(extra, result, success)
         db:sadd(SUDO..'masters:'..result.sender_user_id_)
         local master = result.sender_user_id_
-         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>به لیست ادمین های ربات افزوده گردید.</code>', 1, 'html')
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..master..'*] `Added To MasterList`', 1, 'md')
         end
         if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
           end
         end
-        if text and text:match('^masterset (%d+)') then
-          local master = text:match('masterset (%d+)')
+        if text and text:match('^addmaster (%d+)') then
+          local master = text:match('addmaster (%d+)')
           db:sadd(SUDO..'masters:'..master)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>به لیست ادمین های ربات افزوده گردید.</code>', 1, 'html')
-      end
-        if text == 'masterdem' then
-        function prom_reply(extra, result, success)
-        db:srem(SUDO..'masters:'..result.sender_user_id_)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..result.sender_user_id_..'</b>] <code>از لیست ادمین های ربات حذف گردید.</code>', 1, 'html')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..master..'*] `Added To MasterList`', 1, 'md')
+	end
+		if text and text:match('^addmaster @(.*)') then
+        local username = text:match('addmaster @(.*)')
+        function addmaster(extra,result,success)
+          if result.id_ then
+         db:sadd(SUDO..'masters:'..result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Added To MasterList`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,addmaster)
         end
+        if text == 'remmaster' then
+        function prom_reply(extra, result, success)
+	local master = result.sender_user_id_
+        db:srem(SUDO..'masters:'..result.sender_user_id_)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..master..'*] `RemoVed From MasterList`', 1, 'md')
+		end
         if tonumber(msg.reply_to_message_id_) == 0 then
         else
            bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)  
           end
-        if text and text:match('^masterdem (%d+)') then
-          local master = text:match('masterdem (%d+)')
+        if text and text:match('^remmaster (%d+)') then
+          local master = text:match('remmaster (%d+)')
          db:srem(SUDO..'masters:'..master)
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>>کاربر</code> [<b>'..master..'</b>] <code>از لیست ادمین های ربات حذف گردید.</code>', 1, 'html')
-      end	 
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..master..'*] `RemoVed From MasterList`', 1, 'md')
+		end	 
 end
+	if text and text:match('^remmaster @(.*)') then
+        local username = text:match('remmaster @(.*)')
+        function remmaster(extra,result,success)
+          if result.id_ then
+         db:srem(SUDO..'masters:'..result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `RemoVed From MasterList`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,remmaster)
+        end
+---------------------vip users-------------------------
+if text == 'addvip' then
+          function prom_reply(extra, result, success)
+        db:sadd(SUDO..'vips:'..result.sender_user_id_)
+        local vip = result.sender_user_id_
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..vip..'*] `Added To VipUsers`', 1, 'md')
+        end
+        if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
+        else
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
+          end
+        end
+        if text and text:match('^addvip (%d+)') then
+          local vip = text:match('addvip (%d+)')
+          db:sadd(SUDO..'vips:'..vip)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..vip..'*] `Added To VipUsers`', 1, 'md')
+	end
+		if text and text:match('^addvip @(.*)') then
+        local username = text:match('addvip @(.*)')
+        function addvip(extra,result,success)
+          if result.id_ then
+         db:sadd(SUDO..'vips:'..result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Added To VipUsers`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,addvip)
+        end
+        if text == 'remvip' then
+        function prom_reply(extra, result, success)
+	local vip = result.sender_user_id_
+        db:srem(SUDO..'vips:'..vip)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..vip..'*] `RemoVed From VipUsers`', 1, 'md')
+		end
+        if tonumber(msg.reply_to_message_id_) == 0 then
+        else
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)  
+          end
+        if text and text:match('^remvip (%d+)') then
+          local vip = text:match('remvip (%d+)')
+         db:srem(SUDO..'vips:'..vip)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..vip..'*] `RemoVed From VipUsers`', 1, 'md')
+		end	 
+end
+	if text and text:match('^remvip @(.*)') then
+        local username = text:match('remvip @(.*)')
+        function remvip(extra,result,success)
+          if result.id_ then
+         db:srem(SUDO..'vips:'..result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `RemoVed From VipUsers`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,remvip)
+        end
+---------------------admins-------------------------
+if text == 'addadmin' then
+          function prom_reply(extra, result, success)
+        db:sadd(SUDO..'admins:'..result.sender_user_id_)
+        local admin = result.sender_user_id_
+         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..admin..'*] `Added To AdminsList`', 1, 'md')
+        end
+        if tonumber(tonumber(msg.reply_to_message_id_)) == 0 then
+        else
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)
+          end
+        end
+        if text and text:match('^addadmin (%d+)') then
+          local admin = text:match('addadmin (%d+)')
+          db:sadd(SUDO..'admins:'..admin)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..admin..'*] `Added To AdminsList`', 1, 'md')
+	end
+		if text and text:match('^addadmin @(.*)') then
+        local username = text:match('addadmin @(.*)')
+        function addadmin(extra,result,success)
+          if result.id_ then
+         db:sadd(SUDO..'admins:'..result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Added To AdminsList`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,addadmin)
+        end
+        if text == 'remadmin' then
+        function prom_reply(extra, result, success)
+	local admin = result.sender_user_id_
+        db:srem(SUDO..'admins:'..admin)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..admin..'*] `RemoVed From AdminsList`', 1, 'md')
+		end
+        if tonumber(msg.reply_to_message_id_) == 0 then
+        else
+           bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),prom_reply)  
+          end
+        if text and text:match('^remadmin (%d+)') then
+          local admin = text:match('remadmin (%d+)')
+         db:srem(SUDO..'admins:'..admin)
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..admin..'*] `RemoVed From AdminsList`', 1, 'md')
+		end	 
+end
+	if text and text:match('^remadmin @(.*)') then
+        local username = text:match('remadmin @(.*)')
+        function remadmin(extra,result,success)
+          if result.id_ then
+         db:srem(SUDO..'admins:'..result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `RemoVed From AdminsList`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,remadmin)
+        end
 ---------------------reload -------------------------
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua') 
