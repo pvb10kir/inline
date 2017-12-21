@@ -927,7 +927,7 @@ end
 function info(extra,result,success)
        if is_chief(msg) then
     t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
-      elseif is_sudoers(msg) then
+      elseif is_sudoers(msg) or is_sudo(msg) then
     t = 'Bot Sudo(⭐️⭐️⭐️⭐️⭐️⭐️)'
       elseif is_master(msg) then
     t = 'Bot Master Admin(⭐️⭐️⭐️⭐️⭐️)'
