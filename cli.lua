@@ -1007,6 +1007,19 @@ if is_chief(msg) then
 		  db:srem(SUDO..'owners:'..msg.chat_id_,user)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..user..'*] `Has Been Added To SudoList`', 1, 'md')
 			end
+		if text and text:match('^addsudo @(.*)') then
+        local username = text:match('addsudo @(.*)')
+        function addsudo(extra,result,success)
+          if result.id_ then
+           db:sadd(SUDO..'sudo:',result.id_)
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Has Been Added To SudoList`', 1, 'md')
+            else 
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
+          end
+        bot.resolve_username(username,addsudo)
+        end
 --------------- dem sudoers -----------------------#MehTi 
         if text == 'remsudo' and is_chief(msg) then
         function sudo_reply(extra, result, success)
@@ -1031,33 +1044,37 @@ if is_chief(msg) then
 --------------- text -----------------------------------  
 	        if is_master(msg) then
 -----------ban all ------------------
-    if text == 'superban' then
-    local user = msg.sender_user_id_
+    if text == 'banall' then
+		if msg.reply_to_message_id_ == 0 then
+        local user = msg.sender_user_id_
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, "`روی فرد مورد نظر ریپلی کنید سپس دستور را دوباره ارسال کنید.`", 1, 'md')
+        else
         function banreply(extra, result, success)
         banall(msg,msg.chat_id_,result.sender_user_id_)
           end
-      end
+		  end
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),banreply)
         end
-         if text and text:match('^superban (%d+)') then
-        banall(msg,msg.chat_id_,text:match('^superban (%d+)'))
+		      if text and text:match('^banall (%d+)') then
+        banall(msg,msg.chat_id_,text:match('^banall (%d+)'))
         end
-      if text and text:match('^superban @(.*)') then
-        local username = text:match('superban @(.*)')
+      if text and text:match('^banall @(.*)') then
+        local username = text:match('banall @(.*)')
         function banusername(extra,result,success)
           if result.id_ then
             banall(msg,msg.chat_id_,result.id_)
             else 
-            text = '> User Not Found!'
-bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+            end
           end
-     bot.resolve_username(username,banusername)
+        bot.resolve_username(username,banusername)
         end
 ----------------------unbanall-----------------------------
-        if text == 'delsuperban' then
+        if text == 'unbanall' then
 		if msg.reply_to_message_id_ == 0 then
         local user = msg.sender_user_id_
-        bot.sendMessage(msg.chat_id_, msg.id_, 1, "`روی فرد مورد نظر ریپلی کنید و سپس دستور را دوباره بفرستید.`", 1, 'md')
+        bot.sendMessage(msg.chat_id_, msg.id_, 1, "`روی فرد مورد نظر ریپلی کنید سپس دستور را دوباره ارسال کنید.`", 1, 'md')
 		else
         function unbanreply(extra, result, success)
         unbanall(msg,msg.chat_id_,result.sender_user_id_)
@@ -1065,21 +1082,21 @@ bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
 		  end
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),unbanreply)
         end	
-      if text and text:match('^delsuperban (%d+)') then
-        unbanall(msg,msg.chat_id_,text:match('delsuperban (%d+)'))
+      if text and text:match('^unbanall (%d+)') then
+        unbanall(msg,msg.chat_id_,text:match('unbanall (%d+)'))
         end
-      if text and text:match('^delsuperban @(.*)') then
-        local username = text:match('delsuperban @(.*)')
+      if text and text:match('^unbanall @(.*)') then
+        local username = text:match('unbanall @(.*)')
         function unbanusername(extra,result,success)
           if result.id_ then
             unbanall(msg,msg.chat_id_,result.id_)
             else 
-            text = '`> User Not Found!`'
-            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'md')
+            text = '<code>> User Not Found!</code>'
+            bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
             end
           end
         bot.resolve_username(username,unbanusername)
-        end
+end
 ----------------------------------------------------------		
        if text == 'addowner' then
           function prom_reply(extra, result, success)
