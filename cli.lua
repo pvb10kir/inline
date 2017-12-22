@@ -2003,6 +2003,9 @@ end
             end
 -----------------------------------------------------------			
 if text == 'autoc' then
+if not limit or limit > 200 then
+limit = 200
+end  
 local function autoc(extra,result,success)
 local mods = result.members
 for i=0 , #mods do
@@ -2010,7 +2013,7 @@ db:sadd(bot..'mods:'..msg.chat_id,mods[i].user_id)
 end
 bot.sendMessage(msg.chat_id,msg.id,"`All Group Admins Become Moderator!` | تمام ادمین های گروه مدیر ربات شدند.`\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
-bot.getChannelMembers(msg.chat_id,'Administrators',0,autoc)
+bot.getChannelMembers(msg.chat_id,'Administrators',0,limit,autoc)
 end
 -------------------Charge Groups -------------#MehTi
 
