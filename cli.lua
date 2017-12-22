@@ -1178,8 +1178,7 @@ end
       --------------------------master--------------------------
  if text == 'addmaster' then
           function prom_reply(extra, result, success)
-        db:sadd(SUDO..'masters:'..result.sender_user_id_)
-	db:srem(SUDO..'owners:'..result.chat_id_,result.sender_user_id_)
+        db:sadd(SUDO..'masters:',result.sender_user_id_)
         local master = result.sender_user_id_
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..master..'*] `Added To MasterList`', 1, 'md')
         end
