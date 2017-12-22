@@ -1507,14 +1507,6 @@ end
               channel_get_bots(msg.chat_id_,g_bots)
                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> All Bots RemoVed From Group!`', 1, 'md')
             end
-            if txt[2] == 'modlist' or txts[2] == 'لیست مدیران گروه' then
-              if database:get('lang:gp:'..msg.chat_id_) then
-                send(msg.chat_id_, msg.id_, 1, '> Mod list has been cleared ', 1, 'md')
-              else
-                send(msg.chat_id_, msg.id_, 1, '> لیست مدیران گروه پاکسازی شد !', 1, 'md')
-              end
-              database:del('bot:momod:'..msg.chat_id_)
-            end
             if txt[2] == 'modlist' then
 		db:del(SUDO..'mods:'..msg.chat_id_)
                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Modlist CleaneD!`', 1, 'md')
@@ -1535,6 +1527,18 @@ end
               db:del(SUDO..'mutes'..msg.chat_id_)
                  bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Mutelist CleaneD!`', 1, 'md')
             end
+	   if txt[2] == 'adminlist' then
+              db:del(SUDO..'admins')
+                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Adminlist CleaneD!`', 1, 'md')
+		end
+	   if txt[2] == 'masterlist' then
+              db:del(SUDO..'masters')
+                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Masterlist CleaneD!`', 1, 'md')
+		end
+	   if txt[2] == 'sudolist' then
+		db:del(SUDO..'sudo')
+                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Sudolist CleaneD!`', 1, 'md')
+              end
           end
         end
 ---on bot --------
@@ -1684,61 +1688,7 @@ end
           bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
           end
           end
-    if text == 'bans' or text == 'banlist' then
-          local list = db:smembers(SUDO..'banned'..msg.chat_id_)
-          local t = '<code>>لیست افراد مسدود شده از گروه:</code> \n\n'
-          for k,v in pairs(list) do
-          t = t..k.." - <code>"..v.."</code>\n" 
-          end
-          t = t..'\n<code>>برای مشاهده کاربر از دستور زیر استفاده کنید </code>\n<code>/whois [آیدی کاربر]</code>\n مثال :\n <code>/whois 159887854</code>'
-          if #list == 0 then
-          t = '<code>>لیست افراد مسدود شده از گروه خالی میباشد.</code>'
-          end
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
-      end
-      if text == 'delete bans' or text == 'delete banlist' then
-        db:del(SUDO..'banned'..msg.chat_id_)
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>لیست کاربران مسدود شده از گروه با موفقیت بازنشانی گردید.</code>', 1, 'html')
-        end
-		
--------------------------------------
-		
-   if text == 'banalls' or text == 'gbanlist' then
-          local list = db:smembers(SUDO..'banalled')
-          local t = '<code>>لیست افراد مسدود شده از گروه:</code> \n\n'
-          for k,v in pairs(list) do
-          t = t..k.." - <code>"..v.."</code>\n" 
-          end
-          t = t..'\n<code>>برای مشاهده کاربر از دستور زیر استفاده کنید </code>\n<code>/whois [آیدی کاربر]</code>\n مثال :\n <code>/whois 159887854</code>'
-          if #list == 0 then
-          t = '<code>>لیست افراد مسدود شده از گروه خالی میباشد.</code>'
-          end
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
-      end
-      if text == 'delete banalls' or text == 'delete gbanlist' then
-        db:del(SUDO..'banalled')
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>لیست کاربران مسدود شده از گروه با موفقیت بازنشانی گردید.</code>', 1, 'html')
-        end	
-		
--------------------------------------
-		
-		
-        if text == 'mutes' or text == 'silentlist' then
-          local list = db:smembers(SUDO..'mutes'..msg.chat_id_)
-          local t = '<code>لیست کاربران حالت سکوت</code> \n\n'
-          for k,v in pairs(list) do
-          t = t..k.." - <code>"..v.."</code>\n" 
-          end
-          t = t..'\n<code>>برای مشاهده کاربر از دستور زیر استفاده کنید </code> \n<code>/whois [آیدی کاربر]</code>\n مثال :\n <code>/whois 159887854</code>'
-          if #list == 0 then
-          t = 'لیست افراد میوت شده خالی است !'
-          end
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
-      end      
-      if text == 'delete mutesss' or text == 'delete silentlist' then
-        db:del(SUDO..'mutes'..msg.chat_id_)
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>لیست افراد کاربران لیست سکوت با موفقیت حذف گردید..</code>', 1, 'html')
-        end
+-------------------------------------------------------------------------
       if text == 'kick' and tonumber(msg.reply_to_message_id_) > 0 then
         function kick_by_reply(extra, result, success)
         kick(msg,msg.chat_id_,result.sender_user_id_)
@@ -1919,75 +1869,6 @@ end
 		end 
         bot.getMessage(msg.chat_id_, tonumber(msg.reply_to_message_id_),swarn_by_reply)
 	end 
-	-----------info settings -------------
-        --setname 
-			  local user = msg.sender_user_id_
-      if text and text:match('^setpname (.*)$') then
-	  db:hset("mehti:info:"..user ,"name" ,text:match('setpname (.*)'))
-	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------set lastname -------------
-      elseif text and text:match('^setlname (.*)$') then
-	  local lname = text:match('^setlname (.*)$')
-	  db:hset("mehti:info"..user ,"lname" ,lname)
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------set sex -------------
-      elseif text and text:match('^setsex (.*)$') then
-	  local sex = text:match('^setsex (.*)$')
-	  db:hset("mehti:info"..user,"sex" ,sex)
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------set bio ------------- 
-      elseif text and text:match('^setbio (.*)$') then	
-	  local bio = text:match('^setbio (.*)$')
-	  db:hset("mehti:info"..user,"bio" ,bio)
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------set hiphop ----------
-	  elseif text and text:match('^setage (%d+)$') then	
-	  local hp = text:match('^setage (%d+)$')
-	  db:hset("mehti:info"..user, "hiphop",hp)
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------del name -------------
-	  elseif text and text:match('^del name$') then
-	  db:hdel("mehti:info:"..user, "name")
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------del lastname -------------
-	  elseif text and text:match('^del lname$') then
-	  db:hdel('mehti:info'..user, 'lname')
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------del sex -------------
-	  elseif text and text:match('^del sex$') then
-	  db:hdel('mehti:info'..user, 'sex')
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------del bio -------------
-	  elseif text and text:match('^del bio$') then
-	  db:hdel('mehti:info'..user, 'bio')
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------del hh -------------
-	  elseif text and text:match('^del age$') then
-	  db:hdel('mehti:info'..user, 'hiphop')
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  -----------cstm------------
-	  elseif text and text:match('^set cstm$') then
-	  text = 12 
-	  db:hset("mehti:info"..user,"cstm" ,text)
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  
-	  	  elseif text and text:match('^del cstm$') then
-	  db:hdel("mehti:info"..user,"cstm")
-	  	  text = "ok"
-	  bot.sendMessage(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-	  end
-		
 -----------del msg sudo -------------
         
       if  text and text:match('^del (%d+)$') then
@@ -2013,37 +1894,30 @@ end
         delete_msg(msg.chat_id_,{[0] = tonumber(msg.reply_to_message_id_),msg.id_})
     end
         end
-	
-    if text == 'managers' or text == 'mods' then
+-----------------------------------------------
+    if text == 'mods' or text == 'modlist' then
           local list = db:smembers(SUDO..'mods:'..msg.chat_id_)
-          local t = '<code>>لیست مدیران گروه:</code> \n\n'
+          local t = '`> Modlist | لیست مدیران گروه`\n\n'
           for k,v in pairs(list) do
-          t = t..k.." - <code>"..v.."</code>\n" 
+          t = t..k.." - `"..v.."`\n" 
           end
-          t = t..'\n<code>>برای مشاهده کاربر از دستور زیر استفاده کنید </code> \n<code>/whois [آیدی کاربر]</code>\n مثال :\n <code>/whois 159887854</code>'
+          t = t..'\n> @SpheroNews'
           if #list == 0 then
-          t = '<code>>مدیریت برای این گروه ثبت نشده است.</code>'
+          t = '`> This Group Does Not Have Moderator! | این گروه فاقد مدیر است.`'
           end
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
+          bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'md')
       end
-      if text == 'delete mods' or text == 'delete managers' then
-        db:del(SUDO..'mods:'..msg.chat_id_)
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>لیست مدیران گروه با موفقیت بازنشانی شد</code>', 1, 'html')
-        end
       if text and text:match('^filter +(.*)') then
         local w = text:match('^filter +(.*)')
          db:sadd(SUDO..'filters:'..msg.chat_id_,w)
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'" '..w..' "  <code>>به لیست کلمات فیلتر شده اضاف گردید!</code>', 1, 'html')
+          bot.sendMessage(msg.chat_id_, msg.id_, 1,'`> Word` [*'..w..'*] `Added To FilterList`', 1, 'md')
        end
       if text and text:match('^unfilter +(.*)') then
         local w = text:match('^unfilter +(.*)')
          db:srem(SUDO..'filters:'..msg.chat_id_,w)
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'" '..w..' "  <code>>از لیست کلمات فیلتر شده پاک شد!</code>', 1, 'html')
+          bot.sendMessage(msg.chat_id_, msg.id_, 1,'`> Word` [*'..w..'*] `RemoVed From FilterList`', 1, 'md')
        end
-      if text == 'delete filterlist' then
-        db:del(SUDO..'filters:'..msg.chat_id_)
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>تمامی کلمات فیلتر شده با موفقیت حذف گردیدند.</code>', 1, 'html')
-        end
+----------------------------------------------
       if text == 'admins' or text == 'adminlist' then
         local function cb(extra,result,success)
         local list = result.members_
@@ -2057,6 +1931,7 @@ end
           end
        bot.channel_get_admins(msg.chat_id_,cb)
       end
+------------------------------------------
       if text == 'filterlist' then
           local list = db:smembers(SUDO..'filters:'..msg.chat_id_)
           local t = '<code>>لیست کلمات فیلتر شده در گروه:</code> \n\n'
@@ -2068,6 +1943,44 @@ end
           end
           bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
       end
+    if text == 'bans' or text == 'banlist' then
+          local list = db:smembers(SUDO..'banned'..msg.chat_id_)
+          local t = '<code>>لیست افراد مسدود شده از گروه:</code> \n\n'
+          for k,v in pairs(list) do
+          t = t..k.." - <code>"..v.."</code>\n" 
+          end
+          t = t..'\n<code>>برای مشاهده کاربر از دستور زیر استفاده کنید </code>\n<code>/whois [آیدی کاربر]</code>\n مثال :\n <code>/whois 159887854</code>'
+          if #list == 0 then
+          t = '<code>>لیست افراد مسدود شده از گروه خالی میباشد.</code>'
+          end
+          bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
+      end	
+-------------------------------------		
+   if text == 'banalls' or text == 'gbanlist' then
+          local list = db:smembers(SUDO..'banalled')
+          local t = '<code>>لیست افراد مسدود شده از گروه:</code> \n\n'
+          for k,v in pairs(list) do
+          t = t..k.." - <code>"..v.."</code>\n" 
+          end
+          t = t..'\n<code>>برای مشاهده کاربر از دستور زیر استفاده کنید </code>\n<code>/whois [آیدی کاربر]</code>\n مثال :\n <code>/whois 159887854</code>'
+          if #list == 0 then
+          t = '<code>>لیست افراد مسدود شده از گروه خالی میباشد.</code>'
+          end
+          bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
+      end
+		
+        if text == 'mutes' or text == 'silentlist' then
+          local list = db:smembers(SUDO..'mutes'..msg.chat_id_)
+          local t = '<code>لیست کاربران حالت سکوت</code> \n\n'
+          for k,v in pairs(list) do
+          t = t..k.." - <code>"..v.."</code>\n" 
+          end
+          t = t..'\n<code>>برای مشاهده کاربر از دستور زیر استفاده کنید </code> \n<code>/whois [آیدی کاربر]</code>\n مثال :\n <code>/whois 159887854</code>'
+          if #list == 0 then
+          t = 'لیست افراد میوت شده خالی است !'
+          end
+          bot.sendMessage(msg.chat_id_, msg.id_, 1,t, 1, 'html')
+      end      
     local msgs = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
     if msg_type == 'text' then
         if text then
@@ -2088,9 +2001,17 @@ end
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '<code>شناسه-گروه</code>: {<b>'..msg.chat_id_..'</b>}', 1, 'html')
           end
             end
-			
-			
-	
+-----------------------------------------------------------			
+if text == 'autoc' then
+local function autoc(extra,result,success)
+local mods = result.members
+for i=0 , #mods do
+db:sadd(bot..'mods:'..msg.chat_id,mods[i].user_id)
+end
+bot.sendMessage(msg.chat_id,msg.id,"`All Group Admins Become Moderator!` | تمام ادمین های گروه مدیر ربات شدند.`\n------------------------\n*Send* /mods *For See Admins!*", "md")
+end
+bot.getChannelMembers(msg.chat_id,'Administrators',0,autoc)
+end
 -------------------Charge Groups -------------#MehTi
 
         if text and text:match('charge (%d+)') and is_sudoers(msg) then
