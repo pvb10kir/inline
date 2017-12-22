@@ -2028,7 +2028,7 @@ db:sadd(bot..'mods:'..msg.chat_id,mods[i].user_id)
 end
 bot.sendMessage(msg.chat_id,msg.id,"`All Group Admins Become Moderator!` | تمام ادمین های گروه مدیر ربات شدند.`\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
-getChannelMembers(msg.chat_id,'Administrators',0,limit,autoc)
+bot.getChannelMembers(msg.chat_id,'Administrators',0,limit,autoc)
 end
 -------------------Charge Groups -------------#MehTi
 
