@@ -161,6 +161,21 @@ local function getChannelMembers(channel_id, filter, offset, limit, cb, cmd)
     limit_ = limit
   }, cb or dl_cb, cmd)
 end
+--------------------------------------------------------------
+local function getChatId(chat_id)
+  local chat = {}
+  local chat_id = tostring(chat_id)
+
+  if chat_id:match('^-100') then
+    local channel_id = chat_id:gsub('-100', '')
+    chat = {ID = channel_id, type = 'channel'}
+  else
+    local group_id = chat_id:gsub('-', '')
+    chat = {ID = group_id, type = 'group'}
+  end
+
+  return chat
+end
   ------------------------------------------------------------
 function is_join(msg)
  local url , res = https.request('https://api.telegram.org/bot496403990:AAGK6T4AAG2cN9u-h9B1Tm1ElSaN_FujQjI/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
