@@ -138,6 +138,21 @@ function is_banall(chat,user)
     return false
     end
   end
+--------------------------------------------------------------
+local function getChatId(chat_id)
+  local chat = {}
+  local chat_id = tostring(chat_id)
+
+  if chat_id:match('^-100') then
+    local channel_id = chat_id:gsub('-100', '')
+    chat = {ID = channel_id, type = 'channel'}
+  else
+    local group_id = chat_id:gsub('-', '')
+    chat = {ID = group_id, type = 'group'}
+  end
+
+  return chat
+end
 ------------------------------------------------------------
 function channel_get_bots(channel,cb)
   local function callback_admins(extra,result,success)
@@ -160,21 +175,6 @@ local function getChannelMembers(channel_id, filter, offset, limit, cb, cmd)
     offset_ = offset or 0,
     limit_ = limit
   }, cb or dl_cb, cmd)
-end
---------------------------------------------------------------
-local function getChatId(chat_id)
-  local chat = {}
-  local chat_id = tostring(chat_id)
-
-  if chat_id:match('^-100') then
-    local channel_id = chat_id:gsub('-100', '')
-    chat = {ID = channel_id, type = 'channel'}
-  else
-    local group_id = chat_id:gsub('-', '')
-    chat = {ID = group_id, type = 'group'}
-  end
-
-  return chat
 end
   ------------------------------------------------------------
 function is_join(msg)
