@@ -1189,14 +1189,14 @@ end
         end
         if text and text:match('^addmaster (%d+)') then
           local master = text:match('addmaster (%d+)')
-          db:sadd(SUDO..'masters:'..master)
+          db:sadd(SUDO..'masters:',master)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..master..'*] `Added To MasterList`', 1, 'md')
 	end
 		if text and text:match('^addmaster @(.*)') then
         local username = text:match('addmaster @(.*)')
         function addmaster(extra,result,success)
           if result.id_ then
-         db:sadd(SUDO..'masters:'..result.id_)
+         db:sadd(SUDO..'masters:',result.id_)
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Added To MasterList`', 1, 'md')
             else 
             text = '<code>> User Not Found!</code>'
