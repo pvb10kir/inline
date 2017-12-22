@@ -2034,7 +2034,7 @@ end
 -----------------------------------------------------------			
 if text == 'autoc' then
 local function autoc(extra,result,success)
-local mods = result.members_
+local mods = result.members
 for i=0 , #mods do
 db:sadd(SUDO..'mods:'..msg.chat_id,mods[i].user_id)
 end
