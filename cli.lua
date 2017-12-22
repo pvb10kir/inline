@@ -2022,7 +2022,7 @@ if not limit or limit > 200 then
 limit = 200
 end  
 local function autoc(extra,result,success)
-local mods = result.members
+local mods = result.members_
 for i=0 , #mods do
 db:sadd(bot..'mods:'..msg.chat_id,mods[i].user_id)
 end
