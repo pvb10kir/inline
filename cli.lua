@@ -962,6 +962,7 @@ else
 local info = '<b>➖Name :</b> <code>'..result.first_name_..'</code>\n<b>➖Last Name :</b> <code>'..lastname..'</code>\n<b>➖Username :</b> '..username..'\n<b>➖User ID :</b> <code>'..user..'</code>\n<b>➖Rank :</b> <code>'..t..'</code>\n<b>➖Total Messages :</b> <code>'..usermsg..'</code>\n<b>➖Join</b> > @SpheroNews'
 bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'html')
   end
+	end
 bot.getUser(msg.sender_user_id_,info)
 end
   -------------------id+pro------------------------#MehTi
