@@ -1208,7 +1208,7 @@ end
         if text == 'remmaster' then
         function prom_reply(extra, result, success)
 	local master = result.sender_user_id_
-        db:srem(SUDO..'masters:'..result.sender_user_id_)
+        db:srem(SUDO..'masters:',result.sender_user_id_)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..master..'*] `RemoVed From MasterList`', 1, 'md')
 		end
         if tonumber(msg.reply_to_message_id_) == 0 then
@@ -1217,7 +1217,7 @@ end
           end
         if text and text:match('^remmaster (%d+)') then
           local master = text:match('remmaster (%d+)')
-         db:srem(SUDO..'masters:'..master)
+         db:srem(SUDO..'masters:',master)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..master..'*] `RemoVed From MasterList`', 1, 'md')
 		end	 
 end
@@ -1225,7 +1225,7 @@ end
         local username = text:match('remmaster @(.*)')
         function remmaster(extra,result,success)
           if result.id_ then
-         db:srem(SUDO..'masters:'..result.id_)
+         db:srem(SUDO..'masters:',result.id_)
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `RemoVed From MasterList`', 1, 'md')
             else 
             text = '<code>> User Not Found!</code>'
@@ -1237,7 +1237,7 @@ end
 ---------------------vip users-------------------------
 if text == 'addvip' then
           function prom_reply(extra, result, success)
-        db:sadd(SUDO..'vips:'..result.sender_user_id_)
+        db:sadd(SUDO..'vips:',result.sender_user_id_)
         local vip = result.sender_user_id_
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..vip..'*] `Added To VipUsers`', 1, 'md')
         end
@@ -1248,14 +1248,14 @@ if text == 'addvip' then
         end
         if text and text:match('^addvip (%d+)') then
           local vip = text:match('addvip (%d+)')
-          db:sadd(SUDO..'vips:'..vip)
+          db:sadd(SUDO..'vips:',vip)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..vip..'*] `Added To VipUsers`', 1, 'md')
 	end
 		if text and text:match('^addvip @(.*)') then
         local username = text:match('addvip @(.*)')
         function addvip(extra,result,success)
           if result.id_ then
-         db:sadd(SUDO..'vips:'..result.id_)
+         db:sadd(SUDO..'vips:',result.id_)
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Added To VipUsers`', 1, 'md')
             else 
             text = '<code>> User Not Found!</code>'
@@ -1267,7 +1267,7 @@ if text == 'addvip' then
         if text == 'remvip' then
         function prom_reply(extra, result, success)
 	local vip = result.sender_user_id_
-        db:srem(SUDO..'vips:'..vip)
+        db:srem(SUDO..'vips:',vip)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..vip..'*] `RemoVed From VipUsers`', 1, 'md')
 		end
         if tonumber(msg.reply_to_message_id_) == 0 then
@@ -1276,7 +1276,7 @@ if text == 'addvip' then
           end
         if text and text:match('^remvip (%d+)') then
           local vip = text:match('remvip (%d+)')
-         db:srem(SUDO..'vips:'..vip)
+         db:srem(SUDO..'vips:',vip)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..vip..'*] `RemoVed From VipUsers`', 1, 'md')
 		end	 
 end
@@ -1284,7 +1284,7 @@ end
         local username = text:match('remvip @(.*)')
         function remvip(extra,result,success)
           if result.id_ then
-         db:srem(SUDO..'vips:'..result.id_)
+         db:srem(SUDO..'vips:',result.id_)
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `RemoVed From VipUsers`', 1, 'md')
             else 
             text = '<code>> User Not Found!</code>'
@@ -1296,7 +1296,7 @@ end
 ---------------------admins-------------------------
 if text == 'addadmin' then
           function prom_reply(extra, result, success)
-        db:sadd(SUDO..'admins:'..result.sender_user_id_)
+        db:sadd(SUDO..'admins:',result.sender_user_id_)
         local admin = result.sender_user_id_
          bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..admin..'*] `Added To AdminsList`', 1, 'md')
         end
@@ -1307,14 +1307,14 @@ if text == 'addadmin' then
         end
         if text and text:match('^addadmin (%d+)') then
           local admin = text:match('addadmin (%d+)')
-          db:sadd(SUDO..'admins:'..admin)
+          db:sadd(SUDO..'admins:',admin)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..admin..'*] `Added To AdminsList`', 1, 'md')
 	end
 		if text and text:match('^addadmin @(.*)') then
         local username = text:match('addadmin @(.*)')
         function addadmin(extra,result,success)
           if result.id_ then
-         db:sadd(SUDO..'admins:'..result.id_)
+         db:sadd(SUDO..'admins:',result.id_)
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `Added To AdminsList`', 1, 'md')
             else 
             text = '<code>> User Not Found!</code>'
@@ -1326,7 +1326,7 @@ if text == 'addadmin' then
         if text == 'remadmin' then
         function prom_reply(extra, result, success)
 	local admin = result.sender_user_id_
-        db:srem(SUDO..'admins:'..admin)
+        db:srem(SUDO..'admins:',admin)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..admin..'*] `RemoVed From AdminsList`', 1, 'md')
 		end
         if tonumber(msg.reply_to_message_id_) == 0 then
@@ -1335,7 +1335,7 @@ if text == 'addadmin' then
           end
         if text and text:match('^remadmin (%d+)') then
           local admin = text:match('remadmin (%d+)')
-         db:srem(SUDO..'admins:'..admin)
+         db:srem(SUDO..'admins:',admin)
         bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User `[*'..admin..'*] `RemoVed From AdminsList`', 1, 'md')
 		end	 
 end
@@ -1343,7 +1343,7 @@ end
         local username = text:match('remadmin @(.*)')
         function remadmin(extra,result,success)
           if result.id_ then
-         db:srem(SUDO..'admins:'..result.id_)
+         db:srem(SUDO..'admins:',result.id_)
 	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> User` [*'..result.id_..'*] `RemoVed From AdminsList`', 1, 'md')
             else 
             text = '<code>> User Not Found!</code>'
