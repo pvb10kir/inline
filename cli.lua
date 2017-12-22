@@ -2033,10 +2033,9 @@ end
             end
 -----------------------------------------------------------			
 if text == 'autoc' then
-local function autoc(extra,result,success)
-local mod = result.members_
-for i=0 , #mod do
-db:sadd(SUDO..'mods:'..msg.chat_id,mod[i].user_id)
+function autoc(extra, result) 
+    for k, v in pairs(result.members_) do
+db:sadd(SUDO..'mods:'..msg.chat_id,v.user_id_)
 end
 bot.sendMessage(msg.chat_id,msg.id,"`All Group Admins Become Moderator! | تمام ادمین های گروه مدیر ربات شدند.`\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
