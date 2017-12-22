@@ -146,6 +146,21 @@ function channel_get_bots(channel,cb)
   end
   bot.getChannelFull(channel,callback_admins)
 end
+------------------------------------------------------------
+function getChannelMembers(channel_id, offset, filter, limit)
+  if not limit or limit > 200 then
+    limit = 200
+  end
+  tdcli_function ({
+    ID = "GetChannelMembers",
+    channel_id_ = getChatId(channel_id).ID,
+    filter_ = {
+      ID = "ChannelMembers" .. filter
+    },
+    offset_ = offset,
+    limit_ = limit
+  }, dl_cb, nil)
+end
   ------------------------------------------------------------
 function is_join(msg)
  local url , res = https.request('https://api.telegram.org/bot496403990:AAGK6T4AAG2cN9u-h9B1Tm1ElSaN_FujQjI/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
