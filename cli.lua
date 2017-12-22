@@ -1171,11 +1171,6 @@ end
           end
         bot.resolve_username(username,remowner)
         end	
-	----------------------Clean List------------------------
-      if text == 'clean ownerlist' then
-        db:del(SUDO..'owners:'..msg.chat_id_)
-          bot.sendMessage(msg.chat_id_, msg.id_, 1,'`> OwnerList CleaneD!`', 1, 'html')
-        end
       --------------------------master--------------------------
  if text == 'addmaster' then
           function prom_reply(extra, result, success)
@@ -1480,7 +1475,52 @@ end
       end
   end
       end
-	  
+	----------------------Clean List------------------------
+	if is_mod(msg) then
+          if text:match("^[Cc]lean (.*)$") then
+            local txt = {string.match(text, "^([Cc]lean) (.*)$")}
+            if txt[2] == 'banlist' then
+              db:del(SUDO..'banned'..msg.chat_id_)
+                send(msg.chat_id_, msg.id_, 1, '`> Banlist CleaneD!`', 1, 'md')
+              end
+            if is_sudo(msg) then
+              if txt[2] == 'gbanlist' then
+                db:del(SUDO..'banalled')
+                  send(msg.chat_id_, msg.id_, 1, '`> GBanlist CleaneD!`', 1, 'md')
+              end
+            end
+            if txt[2] == 'bots' then
+	local function cb(extra,result,success)
+      local bots = result.members_
+      for i=0 , #bots do
+          kick(msg,msg.chat_id_,bots[i].user_id_)
+	send(msg.chat_id_, msg.id_, 1, '`> All Bots RemoVed From Group!`', 1, 'md')
+          end
+        end
+       bot.channel_get_bots(msg.chat_id_,cb)
+       end
+            if txt[2] == 'modlist' then
+		db:del(SUDO..'mods:'..msg.chat_id_)
+                bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Modlist CleaneD!`', 1, 'md')
+            end
+            if txt[2] == 'viplist' then
+		db:del(SUDO..'vips')
+                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Viplist CleaneD!`', 1, 'md')
+            end
+            if txt[2] == 'filterlist' then
+		db:del(SUDO..'filters:'..msg.chat_id_)
+                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Filterlist CleaneD!`', 1, 'md')
+              end
+            if txt[2] == 'ownerlist' then
+              db:del(SUDO..'owners:'..msg.chat_id_)
+                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Ownerlist CleaneD!`', 1, 'md')
+              end
+            if txt[2] == 'mutelist' then
+              db:del(SUDO..'mutes'..msg.chat_id_)
+                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Mutelist CleaneD!`', 1, 'md')
+            end
+          end
+        end
 ---on bot --------
 
              if db:get(SUDO..'bot_on') == "on" then
