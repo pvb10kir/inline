@@ -147,12 +147,19 @@ function channel_get_bots(channel,cb)
   bot.getChannelFull(channel,callback_admins)
 end
 ------------------------------------------------------------
-function channel_get_admins(channel,cb)
-  local function callback_admins(extra,result,success)
-    limit = result.member_count_
-    bot.getChannelMembers(channel, 0, 'Administrators', limit,cb)
+function getChannelMembers(channel_id, offset, filter, limit)
+  if not limit or limit > 200 then
+    limit = 200
   end
-  bot.getChannelFull(channel,callback_admins)
+  tdcli_function ({
+    ID = "GetChannelMembers",
+    channel_id_ = getChatId(channel_id).ID,
+    filter_ = {
+      ID = "ChannelMembers" .. filter
+    },
+    offset_ = offset,
+    limit_ = limit
+  }, dl_cb, nil)
 end
   ------------------------------------------------------------
 function is_join(msg)
@@ -2011,14 +2018,17 @@ end
             end
 -----------------------------------------------------------			
 if text == 'autoc' then  
+if not limit or limit > 200 then
+limit = 200
+end  
 local function autoc(extra,result,success)
 local mods = result.members_
 for i=0 , #mods do
-db:sadd(bot..'mods:'..msg.chat_id,mods[i].user_id)
+db:sadd(SUDO..'mods:'..msg.chat_id,mods[i].user_id)
 end
 bot.sendMessage(msg.chat_id,msg.id,"`All Group Admins Become Moderator!` | تمام ادمین های گروه مدیر ربات شدند.`\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
-bot.channel_get_admins(msg.chat_id_,cb)
+bot.getChannelMembers(msg.chat_id,'Administrators',0,limit,autoc)
 end
 -------------------Charge Groups -------------#MehTi
 
