@@ -2017,7 +2017,7 @@ end
           end
             end
 -----------------------------------------------------------			
-if text == 'autoc' then  
+if text == 'autoc' then
 local function autoc(extra,result,success)
 local mods = result.members_
 for i=0 , #mods do
@@ -2025,7 +2025,7 @@ db:sadd(SUDO..'mods:'..msg.chat_id,mods[i].user_id)
 end
 bot.sendMessage(msg.chat_id,msg.id,"All Group Admins Become Moderator! | تمام ادمین های گروه مدیر ربات شدند.`\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
-bot.getChannelMembers(msg.chat_id, 'Administrators', 0, 100, autoc, nil)
+getChannelMembers(msg.chat_id, 'Administrators', 0, 100, autoc, nil)
 end
 -------------------Charge Groups -------------#MehTi
 
