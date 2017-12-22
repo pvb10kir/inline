@@ -151,7 +151,6 @@ local function getChannelMembers(channel_id, filter, offset, limit, cb, cmd)
   if not limit or limit > 200 then
     limit = 200
   end
-
   tdcli_function ({
     ID = "GetChannelMembers",
     channel_id_ = getChatId(channel_id).ID,
@@ -2024,9 +2023,9 @@ local mods = result.members_
 for i=0 , #mods do
 db:sadd(SUDO..'mods:'..msg.chat_id,mods[i].user_id)
 end
-bot.sendMessage(msg.chat_id,msg.id,"`All Group Admins Become Moderator!` | تمام ادمین های گروه مدیر ربات شدند.`\n------------------------\n*Send* /mods *For See Admins!*", "md")
+bot.sendMessage(msg.chat_id,msg.id,"All Group Admins Become Moderator! | تمام ادمین های گروه مدیر ربات شدند.`\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
-bot.getChannelMembers(msg.chat_id, 'Administrators', 0, 100, promote_admin, nil)
+bot.getChannelMembers(msg.chat_id, 'Administrators', 0, 100, autoc, nil)
 end
 -------------------Charge Groups -------------#MehTi
 
