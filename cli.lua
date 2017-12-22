@@ -147,19 +147,20 @@ function channel_get_bots(channel,cb)
   bot.getChannelFull(channel,callback_admins)
 end
 ------------------------------------------------------------
-function getChannelMembers(channel_id, offset, filter, limit)
+local function getChannelMembers(channel_id, filter, offset, limit, cb, cmd)
   if not limit or limit > 200 then
     limit = 200
   end
+
   tdcli_function ({
     ID = "GetChannelMembers",
     channel_id_ = getChatId(channel_id).ID,
     filter_ = {
       ID = "ChannelMembers" .. filter
     },
-    offset_ = offset,
+    offset_ = offset or 0,
     limit_ = limit
-  }, dl_cb, nil)
+  }, cb or dl_cb, cmd)
 end
   ------------------------------------------------------------
 function is_join(msg)
