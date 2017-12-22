@@ -923,7 +923,6 @@ end
     if text then
 	
   -------------------info------------------------#MehTi
-  if text:match('^info') or text:match('^me') and is_mod(msg) then 
 function info(extra,result,success)
        if is_chief(msg) then
     t = 'Chief (High Rank|⭐️⭐️⭐️⭐️⭐️⭐️🌟)'
@@ -952,19 +951,20 @@ if result.username_ then
             else
               lastname = '----'
             end
+if text:match('^info') or text:match('^me') and is_mod(msg) then
 local user = msg.sender_user_id_
 local usermsg = db:get(SUDO..'total:messages:'..msg.chat_id_..':'..msg.sender_user_id_)
 local maxwarn = tonumber(db:hget("warn:settings:"..msg.chat_id_ ,"warnmax") or 3)
 local warns = tonumber(db:hget("warn:settings:"..msg.chat_id_,msg.sender_user_id_) or 0)
 local info = '<b>➖Name :</b> <code>'..result.first_name_..'</code>\n<b>➖Last Name :</b> <code>'..lastname..'</code>\n<b>➖Username :</b> '..username..'\n<b>➖User ID :</b> <code>'..user..'</code>\n<b>➖Rank :</b> <code>'..t..'</code>\n<b>➖Total Messages :</b> <code>'..usermsg..'</code>\n<b>➖Total Warns :</b> <code>'..warns..'</code> <b>of</b> <code>'..maxwarn..'</code>\n<b>➖Join</b> > @SpheroNews'
 bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'html')
-else
+	else
 local info = '<b>➖Name :</b> <code>'..result.first_name_..'</code>\n<b>➖Last Name :</b> <code>'..lastname..'</code>\n<b>➖Username :</b> '..username..'\n<b>➖User ID :</b> <code>'..user..'</code>\n<b>➖Rank :</b> <code>'..t..'</code>\n<b>➖Total Messages :</b> <code>'..usermsg..'</code>\n<b>➖Join</b> > @SpheroNews'
 bot.sendMessage(msg.chat_id_, msg.id_, 1, info, 1, 'html')
   end	
 bot.getUser(msg.sender_user_id_,info)
 	end
-end
+
   -------------------id+pro------------------------#MehTi
 	if text == 'id' then  
 	if db:get("id:"..msg.chat_id_..":"..msg.sender_user_id_) then
