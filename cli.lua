@@ -142,9 +142,9 @@ function is_banall(chat,user)
 function channel_get_bots(channel,cb)
   local function callback_admins(extra,result,success)
     limit = result.member_count_
-    getChannelMembers(channel, 0, 'Bots', limit,cb)
+    bot.getChannelMembers(channel, 0, 'Bots', limit,cb)
   end
-  getChannelFull(channel,callback_admins)
+  bot.getChannelFull(channel,callback_admins)
 end
   ------------------------------------------------------------
 function is_join(msg)
