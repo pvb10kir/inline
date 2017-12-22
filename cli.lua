@@ -138,6 +138,14 @@ function is_banall(chat,user)
     return false
     end
   end
+------------------------------------------------------------
+function channel_get_bots(channel,cb)
+  local function callback_admins(extra,result,success)
+    limit = result.member_count_
+    getChannelMembers(channel, 0, 'Bots', limit,cb)
+  end
+  getChannelFull(channel,callback_admins)
+end
   ------------------------------------------------------------
 function is_join(msg)
  local url , res = https.request('https://api.telegram.org/bot496403990:AAGK6T4AAG2cN9u-h9B1Tm1ElSaN_FujQjI/getchatmember?chat_id=-1001056433765&user_id='..msg.sender_user_id_..' ')
@@ -1490,15 +1498,23 @@ end
               end
             end
             if txt[2] == 'bots' then
-	local function cb(extra,result,success)
-      local bots = result.members_
-      for i=0 , #bots do
-          kick(msg,msg.chat_id_,bots[i].user_id_)
-          end
-	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> All Bots RemoVed From Group!`', 1, 'md')
-        end
-       bot.channel_get_bots(msg.chat_id_,cb)
-       end
+	local function g_bots(extra,result,success)
+                local bots = result.members_
+                for i=0 , #bots do
+                  chat_kick(msg.chat_id_, bots[i].user_id_)
+                end
+              end
+              channel_get_bots(msg.chat_id_,g_bots)
+                bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> All Bots RemoVed From Group!`', 1, 'md')
+            end
+            if txt[2] == 'modlist' or txts[2] == 'لیست مدیران گروه' then
+              if database:get('lang:gp:'..msg.chat_id_) then
+                send(msg.chat_id_, msg.id_, 1, '> Mod list has been cleared ', 1, 'md')
+              else
+                send(msg.chat_id_, msg.id_, 1, '> لیست مدیران گروه پاکسازی شد !', 1, 'md')
+              end
+              database:del('bot:momod:'..msg.chat_id_)
+            end
             if txt[2] == 'modlist' then
 		db:del(SUDO..'mods:'..msg.chat_id_)
                 bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> Modlist CleaneD!`', 1, 'md')
