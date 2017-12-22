@@ -1494,8 +1494,8 @@ end
       local bots = result.members_
       for i=0 , #bots do
           kick(msg,msg.chat_id_,bots[i].user_id_)
-	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> All Bots RemoVed From Group!`', 1, 'md')
           end
+	bot.sendMessage(msg.chat_id_, msg.id_, 1, '`> All Bots RemoVed From Group!`', 1, 'md')
         end
        bot.channel_get_bots(msg.chat_id_,cb)
        end
