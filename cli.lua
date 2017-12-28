@@ -1401,7 +1401,7 @@ end
 	end
 	  -----------------owner------------------------
       -- owner
-	  
+	  if is_owner(msg) then
           if text == 'remlink' then
             db:del(SUDO..'grouplink'..msg.chat_id_)
           bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>لینک تنظیم شده با موفقیت بازنشانی گردید.</code>', 1, 'html')
