@@ -1408,7 +1408,7 @@ end
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua')
  bot.sendMessage(msg.chat_id_, msg.id_, 1,'*50%*', 1, 'md')
-edit(msg.chat_id_, msg.id_, '*> Reloaded!✅*', 'md')
+bot.edit(msg.chat_id_, msg.id_, '*> Reloaded!✅*', 'md')
             end
 if text == 'stats' and is_admin(msg) then
 	local gps = db:scard("botgp")
