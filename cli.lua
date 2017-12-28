@@ -2044,7 +2044,6 @@ local function getChatId(chat_id)
   end
   return chat
 end
-
 if text == 'autoc' then
 local function autoc(extra, result)
  for k, v in pairs(result.members_) do
@@ -2055,7 +2054,7 @@ local function autoc(extra, result)
 bot.sendMessage(msg.chat_id_, msg.id_, "All Group Admins Become Moderator! | تمام ادمین های گروه مدیر ربات شدند.\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
 
-tdcli_function ({ID = "GetChannelMemberAdministrators", channel_id_ = getChatId(msg.chat_id_).ID, offset_ = 0, limit_ = 200}, autoc, nil)
+tdcli_function ({ID = "GetChannelMembersAdministrators", channel_id_ = getChatId(msg.chat_id_).ID, offset_ = 0, limit_ = 200}, autoc, nil)
 end
 -------------------Charge Groups -------------#MehTi
 
@@ -2068,7 +2067,7 @@ else
 		local buytime = tonumber(os.time())
 		local timeexpire = tonumber(buytime) + (tonumber(chare) * 86400)
     db:set('bot:charge:'..msg.chat_id_,timeexpire)
-bot.sendMessage(msg.chat_id_, msg.id_, 1, '*👉Done✅*\n_⚜️Group Charging_ 》 `'..chare..' Dey`', 1,'md')
+bot.sendMessage(msg.chat_id_, msg.id_, 1, '*👉Done✅*\n_⚜️Group Charging_ 》 `'..chare..' Day`', 1,'md')
 end 
 end 
 
