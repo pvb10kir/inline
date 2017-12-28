@@ -139,6 +139,24 @@ function is_banall(chat,user)
     end
   end
 --------------------------------------------------------------
+function edit(chat_id, message_id, reply_markup, text, disable_web_page_preview, parse_mode)
+  local TextParseMode = getParseMode(parse_mode)
+  tdcli_function ({
+    ID = "EditMessageText",
+    chat_id_ = chat_id,
+    message_id_ = message_id,
+    reply_markup_ = reply_markup,
+    input_message_content_ = {
+      ID = "InputMessageText",
+      text_ = text,
+      disable_web_page_preview_ = disable_web_page_preview,
+      clear_draft_ = 0,
+      entities_ = {},
+      parse_mode_ = TextParseMode,
+    },
+  }, dl_cb, nil)
+--------------------------------------------------------------
+end
 local function getChatId(chat_id)
   local chat = {}
   local chat_id = tostring(chat_id)
@@ -1388,7 +1406,8 @@ end
         end
 ---------------------reload -------------------------
 	   if text == 'reload' and is_sudo(msg) then
-       dofile('./cli.lua') 
+       dofile('./cli.lua')
+bot.edit(msg.chat_id_, msg.reply_to_message_id_, nil, '*50%*', 1, 'md')
  bot.sendMessage(msg.chat_id_, msg.id_, 1,'*> Reloaded!✅*', 1, 'md')
             end
 if text == 'stats' and is_admin(msg) then
@@ -1565,6 +1584,10 @@ if text == 'stats' and is_admin(msg) then
               end
           end
         end
+ 	if text:match("^edit (.*)$") and is_admin(msg) then
+	local editmsg = {string.match(text, "^(edit) (.*)$")} 
+		 bot.edit(msg.chat_id_, msg.reply_to_message_id_, nil, editmsg[2], 1, 'md')
+    end
 ---on bot --------
 
              if db:get(SUDO..'bot_on') == "on" then
