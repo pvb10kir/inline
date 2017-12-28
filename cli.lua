@@ -2054,7 +2054,7 @@ local function autoc(extra, result)
 bot.sendMessage(msg.chat_id_, msg.id_, "All Group Admins Become Moderator! | تمام ادمین های گروه مدیر ربات شدند.\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
 
-tdcli_function ({ID = "GetChannelMembersAdministrators", channel_id_ = getChatId(msg.chat_id_).ID, offset_ = 0, limit_ = 200}, autoc, nil)
+tdcli_function ({ID = "getChannelMembers", channel_id_ = getChatId(msg.chat_id_).ID, offset_ = 0, limit_ = 200}, autoc, nil)
 end
 -------------------Charge Groups -------------#MehTi
 
