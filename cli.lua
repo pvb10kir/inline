@@ -138,6 +138,19 @@ function is_banall(chat,user)
     return false
     end
   end
+------------------------------------------------------------
+local function getParseMode(parse_mode)
+  local P
+  if parse_mode then
+    local mode = parse_mode:lower()
+    if mode == 'markdown' or mode == 'md' then
+      P = {ID = "TextParseModeMarkdown"}
+    elseif mode == 'html' then
+      P = {ID = "TextParseModeHTML"}
+    end
+  end
+  return P
+end
 --------------------------------------------------------------
 function edit(chat_id, message_id, text, parse_mode)
   local TextParseMode = getParseMode(parse_mode)
@@ -1408,7 +1421,7 @@ end
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua')
  bot.sendMessage(msg.chat_id_, msg.id_, 1,'*50%*', 1, 'md')
-bot.edit(msg.chat_id_, msg.id_, '*> Reloaded!✅*', 'md')
+edit(msg.chat_id_, msg.id_, '*> Reloaded!✅*', 'md')
             end
 if text == 'stats' and is_admin(msg) then
 	local gps = db:scard("botgp")
