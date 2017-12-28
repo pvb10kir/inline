@@ -1389,28 +1389,19 @@ end
 ---------------------reload -------------------------
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua') 
- bot.sendMessage(msg.chat_id_, msg.id_, 1,'》 <code>BanG TG Cli</code> <b>Reloaded  ✅</b>', 1, 'html')
+ bot.sendMessage(msg.chat_id_, msg.id_, 1,'*> Reloaded!✅*', 1, 'md')
             end
 	    if text == 'stats' and is_admin(msg) then
     local gps = db:scard("botgp")
 	local users = db:scard("usersbot")
     local allmgs = db:get("allmsg")
+ local sudos = db:scard('sudo')
 
-					bot.sendMessage(msg.chat_id_, msg.id_, 1, '➖➖➖➖➖➖➖➖➖➖\n`⚜️BanG TG` *V 2*✅\n\n*🌐Github Link 👇*\n\n`https://github.com/BibakBangTeam/inline.git\n`\n➖➖➖➖➖➖➖➖➖➖\n_📊 BoT Stats 👇_\n\n*🌀 Super Groups 👉* `'..gps..'`\n*👤 Users 👉* `'..users..'`\n*📝 Message Received 👉* `'..allmgs..'`\n➖➖➖➖➖➖➖➖➖➖', 1, 'md')
+					bot.sendMessage(msg.chat_id_, msg.id_, 1, '*> Bot Stats!*\n\n`>> Super Groups :` *'..gps..'*\n`>> Users : `*'..users..'*\n`>> All Messages :` *'..allmgs..'*\n`>> Sudos :` *'..sudos..'*', 1, 'md')
 	end
 	  -----------------owner------------------------
       -- owner
 	  
-     if is_owner(msg) then
-        if text == 'delete bots' then
-      local function cb(extra,result,success)
-      local bots = result.members_
-      for i=0 , #bots do
-          kick(msg,msg.chat_id_,bots[i].user_id_)
-          end
-        end
-       bot.channel_get_bots(msg.chat_id_,cb)
-       end
           if text == 'remlink' then
             db:del(SUDO..'grouplink'..msg.chat_id_)
           bot.sendMessage(msg.chat_id_, msg.id_, 1,'<code>>لینک تنظیم شده با موفقیت بازنشانی گردید.</code>', 1, 'html')
