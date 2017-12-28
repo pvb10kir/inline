@@ -1391,13 +1391,16 @@ end
        dofile('./cli.lua') 
  bot.sendMessage(msg.chat_id_, msg.id_, 1,'*> Reloaded!✅*', 1, 'md')
             end
-	    if text == 'stats' and is_admin(msg) then
-    local gps = db:scard("botgp")
+if text == 'stats' and is_admin(msg) then
+	local gps = db:scard("botgp")
 	local users = db:scard("usersbot")
-    local allmgs = db:get("allmsg")
- local sudos = db:scard(SUDO..'sudo:')
-
-					bot.sendMessage(msg.chat_id_, msg.id_, 1, '*> Bot Stats!*\n\n`>> SuperGroups :` *'..gps..'*\n`>> Users : `*'..users..'*\n`>> All Messages :` *'..allmgs..'*\n`>> Sudos :` *'..sudos..'*', 1, 'md')
+	local allmgs = db:get("allmsg")
+	local sudos = db:scard(SUDO..'sudo:')
+	local admins = db:scard(SUDO..'admins:')
+	local vips = db:scard(SUDO..'vips:')
+	local masters = db:scard(SUDO..'masters:')
+	local gban =  db:scard(SUDO..'banalled')
+		bot.sendMessage(msg.chat_id_, msg.id_, 1, '*> Bot Stats!*\n\n`>> SuperGroups :` *'..gps..'*\n`>> Users : `*'..users..'*\n`>> All Messages :` *'..allmgs..'*\n`>> Sudos :` *'..sudos..'*\n`>> Master Admins :` *'..masters..'*\n`>> Admins :` *'..admins..'*\n`>> Vip Users :` *'..vips..'*\n`>> Global Bans :` *'..gban..'*\n> @SpheroNews', 1, 'md')
 	end
 	  -----------------owner------------------------
       -- owner
