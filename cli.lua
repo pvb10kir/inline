@@ -139,22 +139,22 @@ function is_banall(chat,user)
     end
   end
 --------------------------------------------------------------
-function edit(chat_id, message_id, reply_markup, text, disable_web_page_preview, parse_mode)
+function edit(chat_id, message_id, text, parse_mode)
   local TextParseMode = getParseMode(parse_mode)
   tdcli_function ({
     ID = "EditMessageText",
     chat_id_ = chat_id,
     message_id_ = message_id,
-    reply_markup_ = reply_markup,
+    reply_markup_ = nil,
     input_message_content_ = {
       ID = "InputMessageText",
       text_ = text,
-      disable_web_page_preview_ = disable_web_page_preview,
+      disable_web_page_preview_ = nil,
       clear_draft_ = 0,
       entities_ = {},
       parse_mode_ = TextParseMode,
     },
-  }, dl_cb, nil)
+}, dl_cb, nil)
 --------------------------------------------------------------
 end
 local function getChatId(chat_id)
@@ -1408,7 +1408,7 @@ end
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua')
  bot.sendMessage(msg.chat_id_, msg.id_, 1,'*50%*', 1, 'md')
-edit(msg.chat_id_, msg.id_, nil, '*> Reloaded!✅*', 1, 'md')
+edit(msg.chat_id_, msg.id_, '*> Reloaded!✅*', 'md')
             end
 if text == 'stats' and is_admin(msg) then
 	local gps = db:scard("botgp")
