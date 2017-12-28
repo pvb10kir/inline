@@ -1407,8 +1407,8 @@ end
 ---------------------reload -------------------------
 	   if text == 'reload' and is_sudo(msg) then
        dofile('./cli.lua')
-bot.edit(msg.chat_id_, msg.reply_to_message_id_, nil, '*50%*', 1, 'md')
  bot.sendMessage(msg.chat_id_, msg.id_, 1,'*> Reloaded!✅*', 1, 'md')
+bot.edit(msg.chat_id_, msg.reply_to_message_id_, nil, '*50%*', 1, 'md')
             end
 if text == 'stats' and is_admin(msg) then
 	local gps = db:scard("botgp")
@@ -1586,7 +1586,7 @@ if text == 'stats' and is_admin(msg) then
         end
  	if text:match("^edit (.*)$") and is_admin(msg) then
 	local editmsg = {string.match(text, "^(edit) (.*)$")} 
-		 bot.edit(msg.chat_id_, msg.reply_to_message_id_, nil, editmsg[2], 1, 'md')
+		 edit(msg.chat_id_, msg.reply_to_message_id_, nil, editmsg[2], 1, 'md')
     end
 ---on bot --------
 
