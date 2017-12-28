@@ -2032,29 +2032,18 @@ end
           end
             end
 -----------------------------------------------------------			
-local function getChatId(chat_id)
-  local chat = {}
-  local chat_id = tostring(chat_id)
-  if chat_id:match('^-100') then
-    local channel_id = chat_id:gsub('-100', '')
-    chat = {ID = channel_id, type = 'channel'}
-  else
-    local group_id = chat_id:gsub('-', '')
-    chat = {ID = group_id, type = 'group'}
-  end
-  return chat
-end
 if text == 'autoc' then
-local function autoc(extra, result)
- for k, v in pairs(result.members_) do
-
-  db:sadd(SUDO..'mods:'..msg.chat_id_, v.user_id_)
-
+if not limit or limit > 200 then
+limit = 200
+end
+local function GetMod(extra,result,success)
+local c = result.members
+for i=0 , #c do
+  db:sadd(SUDO..'mods:'..msg.chat_id,c[i].user_id)
  end
 bot.sendMessage(msg.chat_id_, msg.id_, "All Group Admins Become Moderator! | تمام ادمین های گروه مدیر ربات شدند.\n------------------------\n*Send* /mods *For See Admins!*", "md")
 end
-
-tdcli_function ({ID = "getChannelMembers", channel_id_ = getChatId(msg.chat_id_).ID, offset_ = 0, limit_ = 200}, autoc, nil)
+bot.getChannelMembers(msg.chat_id,'Administrators',0,limit,GetMod)
 end
 -------------------Charge Groups -------------#MehTi
 
